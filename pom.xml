@@ -11,6 +11,7 @@
 
     <modules>
         <module>thread</module>
+        <module>socket</module>
     </modules>
 
     <properties>
