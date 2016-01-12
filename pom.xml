@@ -18,25 +18,28 @@
         <!--test -->
         <junit.version>4.7</junit.version>
         <contiperf.version>2.2.0</contiperf.version>
-
         <!-- logback -->
         <logback.version>1.1.3</logback.version>
-
         <!-- util -->
         <lombok.version>1.12.6</lombok.version>
+        <!--mina socket-->
+        <mina.version>2.0.9</mina.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
-
-
+            <!-- mina框架 socket -->
+            <dependency>
+                <groupId>org.apache.mina</groupId>
+                <artifactId>mina-core</artifactId>
+                <version>${mina.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
-
             <!-- logging begin -->
             <dependency>
                 <groupId>ch.qos.logback</groupId>
@@ -44,8 +47,6 @@
                 <version>${logback.version}</version>
             </dependency>
             <!-- logging end -->
-
-
             <!-- Feed4JUnit带数据测试 -->
             <dependency>
                 <groupId>org.databene</groupId>
@@ -53,16 +54,62 @@
                 <version>${contiperf.version}</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
+
+    <!--利用profile属性可以实现不同环境下面打包的问题-->
+    <profiles>
+        <!--profiles属性学习 profilek可以定义在pom.xml中，和setting.xml中-->
+        <profile>
+            <id>study</id>
+            <!--profile的激活方式-->
+            <activation>
+                <!--使用activeByDefault设置激活-->
+                <activeByDefault>false</activeByDefault>
+                <!---->
+                <file></file>
+                <!--根据环境来激活-->
+                <jdk>[1.4,1.7)</jdk>
+                <!--根据操作系统来激活profile-->
+                <os>
+                    <name>Windows XP</name>
+                    <family>Windows</family>
+                    <arch>x86</arch>
+                    <version>5.1.2600</version>
+                </os>
+                <!--系统属性来激活profile-->
+                <property>
+                    <name>hello</name>
+                    <value>gaoguangjin</value>
+                </property>
+            </activation>
+        </profile>
+        <!--可以通过mvn:package -P testprofile 命令测试，效果是跳过单元测试和-DskipTests打包时候跳过单元测试一样-->
+        <profile>
+            <id>testprofile</id>
+            <!--自定义属性，可以在spring里面用${db-type}调用得到值-->
+            <properties>
+                <db-type>mysql</db-type>
+             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <developers>
         <developer>
