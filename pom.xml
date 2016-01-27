@@ -12,6 +12,7 @@
     <modules>
         <module>thread</module>
         <module>socket</module>
+        <module>lambda</module>
     </modules>
 
     <properties>
