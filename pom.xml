@@ -13,6 +13,7 @@
         <module>thread</module>
         <module>socket</module>
         <module>lambda</module>
+        <module>kafka</module>
     </modules>
 
     <properties>
@@ -25,11 +26,20 @@
         <lombok.version>1.12.6</lombok.version>
         <!--mina socket-->
         <mina.version>2.0.9</mina.version>
+        <!--kafka-->
+        <kafka.version>0.9.0.0</kafka.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+            <!--kafka-->
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka_2.10</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
+
             <!-- mina框架 socket -->
             <dependency>
                 <groupId>org.apache.mina</groupId>

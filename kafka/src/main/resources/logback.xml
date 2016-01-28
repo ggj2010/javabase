@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property name="LOG_PATH" value="../logs"></property>
+<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/log_error.log</File>
+        <encoder>
+            <pattern>[%level][%date]%logger[%line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+             <!--归档的日志文件的路径-->
+            <fileNamePattern>${LOG_PATH}/log-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!--设置日志文件大小-->
+                <maxFileSize>512MB</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+     <!-- 控制台输出  --> 
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} %L %M- %msg%n </pattern>
+        </encoder>
+    </appender>
+    
+     <!-- 控制台输出   
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">  
+       <Encoding>UTF-8</Encoding>     
+        <layout class="ch.qos.logback.classic.PatternLayout">     
+             格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符  
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n     
+            </pattern>     
+        </layout>     
+    </appender>  
+    -->   
+    
+    <!-- 指定某个包下面的日志级别，如果root设置的日志级别为info 而某个包设置的为debug，这样某个包也可以打印debug的日志了 -->
+	<logger name="com.ggj" level="INFO" />
+	
+	 <!-- 日志输出级别 DEBUG 和INFO  如果改成了INFO那么代码里面的log.debug()内容就打印不出来了，因为打印方法决定记录请求的级别-->  
+     <!-- TRACE < DEBUG < INFO < WARN < ERROR。  -->
+    <root level="INFO">
+        <appender-ref ref="logfile"/>
+        <appender-ref ref="stdout"/>
+    </root>
+</configuration>
+
+
+
+<!-- 
+    说明：
+    1、日志级别及文件
+        日志记录采用分级记录，级别与日志文件名相对应，不同级别的日志信息记录到不同的日志文件中
+        例如：error级别记录到log_error_xxx.log或log_error.log（该文件为当前记录的日志文件），而log_error_xxx.log为归档日志，
+        日志文件按日期记录，同一天内，若日志文件大小等于或大于2M，则按0、1、2...顺序分别命名
+        例如log-level-2013-12-21.0.log
+        其它级别的日志也是如此。
+    2、文件路径
+        若开发、测试用，在Eclipse中运行项目，则到Eclipse的安装路径查找logs文件夹，以相对路径../logs。
+        若部署到Tomcat下，则在Tomcat下的logs文件中
+    3、Appender
+        FILEERROR对应error级别，文件名以log-error-xxx.log形式命名
+        FILEWARN对应warn级别，文件名以log-warn-xxx.log形式命名
+        FILEINFO对应info级别，文件名以log-info-xxx.log形式命名
+        FILEDEBUG对应debug级别，文件名以log-debug-xxx.log形式命名
+        stdout将日志信息输出到控制上，为方便开发测试使用
+ -->
