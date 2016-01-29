@@ -28,17 +28,32 @@
         <mina.version>2.0.9</mina.version>
         <!--kafka-->
         <kafka.version>0.9.0.0</kafka.version>
+        <avro.version>1.7.7</avro.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
-            <!--kafka-->
+            <!--kafka  begin-->
             <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka_2.10</artifactId>
                 <version>${kafka.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro</artifactId>
+                <version>${avro.version}</version>
+            </dependency>
+
+            <!--kafka  end-->
 
             <!-- mina框架 socket -->
             <dependency>
