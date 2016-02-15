@@ -53,7 +53,7 @@ public class KafkaProducerTest {
             int number = 1;
             long startTime = System.currentTimeMillis();
             while (true) {
-                String messageStr = number + ": <==>";
+                String messageStr = number + "value";
                 ProducerRecord record = new ProducerRecord<Integer, String>(KafkaConsumerTest.TOPIC_ONE, number, messageStr);
                 //ProducerCallBack 为发送完回调的
                 producer.send(record, new ProducerCallBack(startTime, number, messageStr));

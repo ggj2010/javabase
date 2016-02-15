@@ -11,10 +11,10 @@ public class MainTest {
     public static void main(String[] args) {
 
         //第一步启动服务端，一次只能启动一个~
-        new KafkaProducerTest().sendMessage();
+//        new KafkaProducerTest().sendMessage();
 
 
         //第二步启动消费者
-       // new KafkaConsumerTest().start();
+        new KafkaConsumerTest().start();
     }
 }
