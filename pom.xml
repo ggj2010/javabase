@@ -14,6 +14,7 @@
         <module>socket</module>
         <module>lambda</module>
         <module>kafka</module>
+        <module>zookeeper</module>
     </modules>
 
     <properties>
@@ -29,6 +30,10 @@
         <!--kafka-->
         <kafka.version>0.9.0.0</kafka.version>
         <avro.version>1.7.7</avro.version>
+
+        <!--zookeeper-->
+        <zookeeper.version>3.4.7</zookeeper.version>
+        <zkclient.version>0.5</zkclient.version>
     </properties>
 
 
@@ -52,8 +57,42 @@
                 <artifactId>avro</artifactId>
                 <version>${avro.version}</version>
             </dependency>
-
             <!--kafka  end-->
+
+            <!--zookeeper-->
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-api</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>slf4j-log4j12</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- zclient -->
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${zkclient.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-api</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                        <exclusion>
+                            <artifactId>slf4j-log4j12</artifactId>
+                            <groupId>org.slf4j</groupId>
+                        </exclusion>
+                </exclusions>
+            </dependency>
+
 
             <!-- mina框架 socket -->
             <dependency>

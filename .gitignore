@@ -15,3 +15,8 @@ hs_err_pid*
 /thread/thread.iml
 /thread/target
 /.idea
+/thread/*.iml
+/kafka/*.iml
+/kafka/*.iml
+/kafka/target
+/kafka/*.iml
