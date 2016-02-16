@@ -34,11 +34,23 @@
         <!--zookeeper-->
         <zookeeper.version>3.4.7</zookeeper.version>
         <zkclient.version>0.5</zkclient.version>
+        <quartz.version>2.2.2</quartz.version>
+
+        <commons-lang3.version>3.4</commons-lang3.version>
     </properties>
 
 
     <dependencyManagement>
         <dependencies>
+
+            <!--common util begin-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <!--common util end-->
+
             <!--kafka  begin-->
             <dependency>
                 <groupId>org.apache.kafka</groupId>
@@ -112,6 +124,13 @@
                 <version>${logback.version}</version>
             </dependency>
             <!-- logging end -->
+
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
+            </dependency>
+
             <!-- Feed4JUnit带数据测试 -->
             <dependency>
                 <groupId>org.databene</groupId>
