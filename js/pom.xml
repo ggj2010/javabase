@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>base</artifactId>
+        <groupId>com.ggj.java</groupId>
+        <version>0.0.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>js</artifactId>
+    <packaging>war</packaging>
+    <version>0.0.1</version>
+    <name>js Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+    <build>
+        <finalName>js</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat.version}</version>
+                <configuration>
+                    <port>${webserver.port}</port>
+                    <!-- <path>/${project.artifactId}</path> -->
+                    <uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

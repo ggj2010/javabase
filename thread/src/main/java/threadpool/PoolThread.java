@@ -24,7 +24,7 @@ public class PoolThread {
 //        pt.cachedThreadPool();
 //        pt.fixedThread();
 //        pt.singleThread();
-//        pt.schelThread();
+        pt.schelThread();
 //        pt.await();
 
     }
@@ -94,15 +94,26 @@ public class PoolThread {
         ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
         pool.scheduleAtFixedRate(new Runnable() {// 每隔一段时间就触发异常
             public void run() {
-                log.info("scheduled 线程池：1");
+                log.info("scheduled 线程池：1"+Thread.currentThread().getName());
             }
-        }, 1000, 5000, TimeUnit.MILLISECONDS);
+        }, 0, 5000, TimeUnit.MILLISECONDS);
 
         pool.scheduleAtFixedRate(new Runnable() {// 每隔一段时间打印系统时间，证明两者是互不影响的
             public void run() {
-                log.info("scheduled 线程池：2");
+                log.info("scheduled 线程池：2"+Thread.currentThread().getName());
             }
-        }, 1000, 2000, TimeUnit.MILLISECONDS);
+        }, 0, 2000, TimeUnit.MILLISECONDS);
+
+        pool.scheduleWithFixedDelay(new Runnable() {// scheduleWithFixedDelay与scheduleAtFixedRate区别在于，scheduleWithFixedDelay会等待当前线程执行完了，再延迟
+            public void run() {
+                log.info("scheduled 线程池：3"+Thread.currentThread().getName());
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 2000, TimeUnit.MILLISECONDS);
     }
 
     /**

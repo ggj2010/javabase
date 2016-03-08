@@ -188,5 +188,43 @@ public class RedisAllKeyTest {
 
     }
 
+    // 7）Set 无序，不重复
+    // sadd(key, member)：向名称为key的set中添加元素member
+    // srem(key, member) ：删除名称为key的set中的元素member
+    // spop(key) ：随机返回并删除名称为key的set中一个元素
+    // smove(srckey, dstkey, member) ：移到集合元素
+    // scard(key) ：返回名称为key的set的基数
+    // sismember(key, member) ：member是否是名称为key的set的元素
+    // sinter(key1, key2,…key N) ：求交集
+    // sinterstore(dstkey, (keys)) ：求交集并将交集保存到dstkey的集合
+    // sunion(key1, (keys)) ：求并集
+    // sunionstore(dstkey, (keys)) ：求并集并将并集保存到dstkey的集合
+    // sdiff(key1, (keys)) ：求差集
+    // sdiffstore(dstkey, (keys)) ：求差集并将差集保存到dstkey的集合
+    // smembers(key) ：返回名称为key的set的所有元素
+    // srandmember(key) ：随机返回名称为key的set的一个元素
+    public void set(){
+        String key="setKey";
+        String key2="setKey2";
+
+        /*比较常用的两个 sadd srem smembers*/
+        //向名称为key的set中添加元素value1,value2
+        jedis.sadd(key,"value1","value2");
+        //删除名称为key的set中的元素member
+        jedis.srem(key,"value1");
+        //返回名称为key的set的所有元素
+        Set<String> set=jedis.smembers(key);
+
+        /*随机返回指定set的中的一个值，一个进行删除 一个不进行删除*/
+        //随机返回并删除名称为key的set中一个元素
+        String randomDelValue = jedis.spop(key);
+        //随机返回名称为key的set的一个元素
+        String randomValue =jedis.srandmember(key);
+
+        /**这个方法比较好，就是将seta 里面的某个值 转移到setb.  如果seta 里面有这个值 就会删除seta 里面这个值，如果setb里面没有这个值，就会新增一个值，如果有就不会发生变动**/
+
+
+        jedis.smove(key,key2,"value1");
+    }
 
 }
