@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<meta charset="utf-8" />
+	<title>test</title>
+</head>
+<body>
+	
+	<div ng-controller="Ctrl1">
+		{{name}}
+		<br />
+		Hello <input ng-model='name'> <hr/>
+		<span ng:bind="name"></span> <br/>
+		<span ng_bind="name"></span> <br/>
+		<span ng-bind="name"></span> <br/>
+		<span data-ng-bind="name"></span> <br/>
+		<span x-ng-bind="name"></span> <br/>
+		
+		<!--<img src="img/{{name}}.jpg">Hello {{name}}!</img>-->
+		<label ng:bind="user.name"></label>:
+		<select>
+			<option ng-repeat="opt in user.opts">{{opt}}</option>
+		</select>
+	</div>
+	
+	<script type="text/javascript" src="js/angular.min.js" ></script>
+	<script type="text/javascript">
+        function Ctrl1($scope) {
+			$scope.name = 'angular';
+			$scope.user = {
+				name: 'nick name',
+				opts: ['a', 'b', 'c', 'd', 'e']
+			};
+			
+		}
+    </script>
+</body>
+</html>

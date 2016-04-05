@@ -7,8 +7,11 @@
 
 //再看我们的例子，一个球衣模块被创建了（我们返回的是一个衣服模块
 // require(["module/name", ...], function(params){ ... });
-define(["a"],function(a){
+define(["jquery","a"],function($,a){
     var name= a.name+"b";
+    $("#b").on("click",function(){
+        alert("b模块被调用了,b.js里面写了onclik事件");
+    });
     return {
       getName:function(){
           return name;

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script type="text/javascript"src="normaljs/immedexecution.js"></script>
+<body>
+<pre>
+http://segmentfault.com/q/1010000000117476
+一般看JQuery插件里的写法是这样的
+
+(function($) {
+//...
+})(jQuery);
+今天看到bootstrap的javascript组件是这样写的
+
+!function( $ ){
+//...
+}( window.jQuery );
+为什么要在前面加一个 " ! " 呢？
+
+
+我们都知道，函数的声明方式有这两种
+
+function fnA(){alert('msg');}//声明式定义函数
+var fnB = function(){alert('msg');}//函数赋值表达式定义函数
+楼主问题中出现的两个函数，都是匿名函数。通常，我们调用一个方法的方式就是 FunctionName()
+
+但是，如果我们尝试为一个“定义函数”末尾加上()，解析器是无法理解的。
+
+function msg(){
+alert('message');
+}();//解析器是无法理解的
+定义函数的调用方式应该是 msg() ; 那为什么将函数体部分用()包裹起来就可以了呢？
+
+原来，使用括号包裹定义函数体，解析器将会以函数表达式的方式去调用定义函数。也就是说，任何能将函数变成一个函数表达式的作法，都可以使解析器正确的调用定义函数。
+而 ! 就是其中一个，而 + - || 都有这样的功能。
+
+另外，用 ! 可能更多的是一个习惯问题，不同的运算符，性能是不同的。
+
+这些有一篇非常详细的文章，推荐阅读：http://www.swordair.com/blog/2011/10/...
+
+就是为了能省略一个字符……
+
+// 这么写会报错，因为这是一个函数定义：
+function() {}()
+
+// 常见的（多了一对括号），调用匿名函数：
+(function() {})()
+
+// 但在前面加上一个布尔运算符（只多了一个感叹号），就是表达式了，将执行后面的代码，也就合法实现调用
+!function() {}()
+
+
+在前面加上~也可以。。其实还有好几种符合都可以保证匿名函数声明完就立即执行
+
+var hi = function(){ alert("hi") };
+hi();
+等于...
+(function(){ alert("hi") })();
+!、+和()一样的效果可以把换成
+!function(){ alert("hi") }();
+!比()节省一个字符，或者说比()好看些
+</pre>
+
+
+<pre style="color: red">
+    javascript中没用私有作用域的概念，如果在多人开发的项目上，你在全局或局部作用域中声明了一些变量，
+    可能会被其他人不小心用同名的变量给覆盖掉，根据javascript函数作用域链的特性，可以使用这种技术可以模仿一个私有作用域，
+    用匿名函数作为一个“容器”，“容器”内部可以访问外部的变量，而外部环境不能访问“容器”内部的变量，所以( function(){…} )()内部定义的变量不会和外部的变量发生冲突，
+    俗称“匿名包裹器”或“命名空间”。
+JQuery使用的就是这种方法，将JQuery代码包裹在( function (window,undefined){…jquery代码…} (window)中，
+    在全局作用域中调用JQuery代码时，可以达到保护JQuery内部变量的作用。
+</pre>
+</body>
+</html>

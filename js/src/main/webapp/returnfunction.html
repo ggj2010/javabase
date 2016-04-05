@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script type="text/javascript"src="normaljs/returnfunction.js"></script>
+<script>
+
+   alert( module1.objone.get());
+   alert( module2.objone.get);
+</script>
+<body>
+<pre>
+
+function generateGetMethod(attr) {
+	return function() {
+		return typeof this.getAttribute(attr) != 'undefined';
+	};
+}
+
+var accessors = {
+	sortable: {
+		get: generateGetMethod('sortable')
+	},
+	droppable: {
+		get: generateGetMethod('droppable')
+	}
+};
+
+/* 它跟最初的方法是完全等效的：*/
+
+var accessors = {
+	sortable: {
+		get: function() {
+			return typeof this.getAttribute('sortable') != 'undefined';
+		}
+	},
+	droppable: {
+		get: function() {
+			return typeof this.getAttribute('droppable') != 'undefined';
+		}
+	}
+};
+
+*/
+
+</pre>
+
+
+</body>
+</html>

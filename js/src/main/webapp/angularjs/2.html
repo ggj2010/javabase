@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="secondApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angularJs权威教程读书笔记5~n</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+    <script type="text/javascript" src="showErrors.js"></script>
+    <script type="text/javascript" src="seconddemo.js"></script>
+
+    <style>
+        .form-group .help-block {
+            display: none;
+        }
+
+        .form-group.has-error .help-block {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div ng-controller="parentController">
+            <div ng-controller="childController">
+                <button class="btn btn-info" ng-click="sayHello()">调用父类</button>
+            </div>
+            {{person}}
+        </div>
+
+        <div ng-controller="emailController">
+            <!--  <input ng-model="to"
+                     type="email"
+                     placeholder="Recipient" />-->
+            <textarea ng-model="emailBody" class="form-control"></textarea>
+            <pre>{{ previewText }}</pre>
+        </div>
+
+
+        <div class="panel" ng-controller="filterController">
+            <div class="panel-title panel-info"></div>
+            <div class="panel-body">
+                格式化的时间{{param.dates|date:'yyyy-MM-dd HH:mm:ss'}}
+                数据：{{param}}
+            </div>
+
+        </div>
+        <div class="alert alert-info">表单验证</div>
+        <div ng-controller="signupController" >
+            <!--不要写action="test" method="post"-->
+            <form  novalidate name="myForm"  ng-submit="submitForm(people,myForm.$valid)">
+                <div class="form-group" show-errors="{ trigger: 'keypress' }">
+                    <label>name</label>
+                    <input type="text" class="form-control" placeholder="firstname" name="firstname" ng-model="people.firstName" ng-minlength="3"
+                           ng-maxlength="5" required/>
+                    <p class="help-block" ng-if="myForm.firstname.$error.required">用户名不能空</p>
+                    <p class="help-block" ng-if="!myForm.firstname.$error.required&&myForm.firstname.$invalid">长度在3~5之间</p>
+
+                </div>
+                <div class="form-group" show-errors="{ trigger: 'keypress' }">
+                    <label>name</label>
+                    <input type="number" class="form-control" placeholder="age" name="age" ng-model="people.age" length="1"
+                           ng-maxlength="3" required/>
+                    <p class="help-block" ng-if="myForm.age.$error.required">年龄不能为空</p>
+                    <p class="help-block" ng-if="!myForm.age.$error.required&&myForm.age.$invalid">长度在3~5之间</p>
+                </div>
+                <div class="form-group" show-errors="{ trigger: 'keypress' }">
+                    <label >email</label>
+                    <input name="email" class="form-control" type="email" ng-model="people.email"  ng-minlength=3
+                           ng-maxlength=30 required>
+                    <p class="help-block" ng-if="myForm.email.$error.required">邮箱不能为空</p>
+                    <p class="help-block" ng-if="!myForm.email.$error.required&&myForm.email.$invalid">邮箱格式不正确</p>
+                </div>
+                <button type="submit" class="btn btn-info" ng-disabled="myForm.$invalid">提交</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

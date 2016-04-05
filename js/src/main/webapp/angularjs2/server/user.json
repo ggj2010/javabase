@@ -1,0 +1,8 @@
+[
+	{ "id": 1, "username": "situ", "gender": "男", "email": "gao_st@126.com" },
+	{ "id": 2, "username": "wb", "gender": "女", "email": "wb@126.com" },
+	{ "id": 3, "username": "lml", "gender": "男", "email": "lml@126.com" },
+	{ "id": 4, "username": "wjd", "gender": "女", "email": "wjd@126.com" },
+	{ "id": 5, "username": "lyl", "gender": "男", "email": "lyl@126.com" },
+	{ "id": 6, "username": "wjh", "gender": "女", "email": "wjh@126.com" }
+]

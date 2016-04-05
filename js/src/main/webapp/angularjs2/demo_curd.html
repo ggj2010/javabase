@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<meta charset="utf-8" />
+	<title>curd</title>
+</head>
+<body>
+	
+	<div ng-controller="InvoiceCntl">
+        <b>Invoice:</b>
+        <br>
+        <br>
+        <table>
+            <tr><td>Quantity</td><td>Cost</td></tr>
+            <tr>
+                <td><input type="integer" min="0" ng-model="qty" required ></td>
+                <td><input type="number" ng-model="cost" required ></td>
+            </tr>
+        </table>
+        <hr>
+        <b>Total:</b> {{qty * cost | currency: "RMB ￥"}}
+    </div>
+	
+	<script type="text/javascript" src="js/angular.min.js" ></script>
+	<script type="text/javascript">
+        function InvoiceCntl($scope) {
+		    $scope.qty = 1;
+		    $scope.cost = 19.95;
+		}
+        
+        function a () {
+        	alert(123)
+        }
+        
+        /*angular.element(document).ready(function() {
+        	angular.bootstrap(document);
+        });*/
+    </script>
+</body>
+</html>

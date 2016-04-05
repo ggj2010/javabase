@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angularJs权威教程读书笔记1~4</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script type="text/javascript" src="firstdemo.js"></script>
+</head>
+<body>
+<div class="form-group form-inline">
+    <label>填写名称：</label>
+    <input ng-model="ggj" placeholder="name" class="form-control">
+</div>
+<hr>
+<span>{{ggj}}</span>
+<hr>
+<div ng-controller="MyController" class="alert alert-success">
+    变动的时间:date={{ clock }}!
+</div>
+
+<div ng-controller="Myclock" class="alert alert-success">
+    升级写法对象封装:date={{ clock.now}}! remark={{clock.remark}} object={{clock}}
+</div>
+
+<div ng-controller="myCtrl" class="form-group form-inline">
+    名: <input type="text" ng-model="firstName" class="form-control"><br>
+    姓: <input type="text" ng-model="lastName" class="form-control"><br>
+    <br>
+    姓名: {{firstName + " " + lastName}}
+</div>
+
+
+<pre>
+    作用域：$rootScope是所有$scope的上层
+    <span style="color: red">{{testscope}}</span>
+</pre>
+
+<div ng-controller="onclickController" class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <strong>这是一个add/subtract ng-click事件</strong>
+            <button ng-click="add(1)" class="btn btn-info">+1</button>
+            <button ng-click="substract(1)" class="btn btn-info">-1</button>
+            <h4>Current count: {{ counter }}</h4>
+        </div>
+
+        <div class="col-md-5">
+            <strong> ng-change事件</strong>
+            <select ng-change="change(value)" ng-model="value" class="multiple form-control">
+                <option value="a">a</option>
+                <option value="b">b</option>
+            </select>
+        </div>
+
+    </div>
+</div>
+</body>
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</html>

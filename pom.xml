@@ -17,6 +17,7 @@
         <module>zookeeper</module>
         <module>redis</module>
         <module>js</module>
+        <module>httpclient</module>
     </modules>
 
     <properties>
@@ -42,6 +43,9 @@
         <jedis.version>2.8.0</jedis.version>
         <commons-lang3.version>3.4</commons-lang3.version>
 
+        <!--httpClient-->
+        <httpclient.version>4.5</httpclient.version>
+
         <!-- environment character -->
         <jdk.version>1.8</jdk.version>
         <tomcat.version>2.2</tomcat.version>
@@ -54,6 +58,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- httpClient start -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <!-- httpClient end -->
 
             <!--common util begin-->
             <dependency>
@@ -129,6 +140,7 @@
                 <artifactId>mina-core</artifactId>
                 <version>${mina.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>

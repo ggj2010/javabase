@@ -9,10 +9,38 @@
 <!--<script type="text/javascript" src="requirejs/require.js" data-main="requirejs/main.js"></script>-->
 <script type="text/javascript" src="requirejs/require.js"></script>
 <script type="text/javascript" src="requirejs/main.js" defer async="true"></script>
-<script type="text/javascript" src="requirejs/js/test.js" defer async="true"></script>
+<script type="text/javascript" src="requirejs/js/test.js"></script>
 <body>
-<div id="b">
-    点击我
+<div id="b" style="color: red">
+    b点击触发事件b.js
 </div>
+
+<br>
+<div id="test" style="color: red">
+    点击触发事件test.js
+</div>
+
+<pre>
+    http://www.ibm.com/developerworks/cn/web/1209_shiwei_requirejs/
+    requirejs 作用：实现模块化、按需加载。
+
+    require.js加载的模块，采用AMD规范。也就是说，模块必须按照AMD的规定来写，
+    理论上，require.js加载的模块，必须是按照AMD规范、用define()函数定义的模块。
+    但是实际上，虽然已经有一部分流行的函数库（比如jQuery）符合AMD规范，更多的库并不符合。那么，require.js是否能够加载非规范的模块
+    举例来说，underscore和backbone这两个库，都没有采用AMD规范编写。如果要加载它们的话，必须先定义它们的特征。
+    require.config({
+　　　　shim: {
+
+　　　　　　'underscore':{
+　　　　　　　　exports: '_'
+　　　　　　},
+　　　　　　'backbone': {
+　　　　　　　　deps: ['underscore', 'jquery'],
+　　　　　　　　exports: 'Backbone'
+　　　　　　}
+　　　　}
+　　});
+</pre>
+
 </body>
 </html>
