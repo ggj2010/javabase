@@ -17,8 +17,24 @@ public class GetClientTest {
 public  void before(){
      getClient=new GetClient();
 }
+
     @Test
-    public void testGet() throws Exception {
+    public void testGet1() throws Exception {
         getClient.get();
+    }
+
+    @Test
+    public void testGet2() throws Exception {
+        getClient.get2();
+    }
+
+    @Test
+    public void testStandard() throws Exception {
+        getClient.standard();
+    }
+
+    @Test
+    public void testQuickget() throws Exception {
+        getClient.quickget();
     }
 }

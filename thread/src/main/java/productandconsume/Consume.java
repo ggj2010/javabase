@@ -19,7 +19,7 @@ public class Consume implements Runnable {
             synchronized (object) {
                 if (list.size() > 0) {
                     list.remove(0);
-                    log.info("消费者开始消费1个,剩余" + list.size());
+                    log.info(Thread.currentThread().getName()+"消费者开始消费1个,剩余" + list.size());
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
