@@ -29,25 +29,27 @@ public class CyclicBarrierUtil {
      */
     public void userCyclicBarrierThread(){
         int cyclicSize=10;
+        //会等待startMainThread 住
         CyclicBarrier cyclicBarrier=new CyclicBarrier(cyclicSize,startMainThread());
         for (int i = 0; i < cyclicSize; i++) {
             startThread("子线程"+i,cyclicBarrier);
         }
 
-        for (int i = 0; i <100 ; i++) {
-            new Thread(){
-                @Override
-                public void run() {
-                    log.info("============");
-                }
-            }.start();
-        }
+//        for (int i = 0; i <100 ; i++) {
+//            new Thread(){
+//                @Override
+//                public void run() {
+//                    log.info("============");
+//                }
+//            }.start();
+//        }
 
     }
 
     private Thread startMainThread() {
        return  new Thread(){
             public void run() {
+               // while(true)
                 log.info("所有子线程都已经执行咯，====》执行主线程咯！");
             }
         };
@@ -63,11 +65,11 @@ public class CyclicBarrierUtil {
             startThread("子线程"+i,cyclicBarrier);
         }
 
-        new Thread() {
-            public void run() {
-                log.info(Thread.currentThread().getName()+"主线程啊");
-            }
-        }.start();
+//        new Thread() {
+//            public void run() {
+//                log.info(Thread.currentThread().getName()+"主线程啊");
+//            }
+//        }.start();
 
     }
     private void startThread(final String name, final CyclicBarrier cyclicBarrier){

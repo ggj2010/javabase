@@ -13,6 +13,17 @@ import java.util.*;
 
 /**
  * 只执行一次，谁先拿到锁谁执行
+ *
+ * 获取锁实现思路：
+ 1.     首先创建一个作为锁目录(znode)，通常用它来描述锁定的实体，称为:/lock_node
+ 2.     希望获得锁的客户端在锁目录下创建znode，作为锁/lock_node的子节点，并且节点类型为有序临时节点(EPHEMERAL_SEQUENTIAL)；
+ 例如：有两个客户端创建znode，分别为/lock_node/lock-1和/lock_node/lock-2
+ 3.     当前客户端调用getChildren（/lock_node）得到锁目录所有子节点，不设置watch，接着获取小于自己(步骤2创建)的兄弟节点
+ 4.     步骤3中获取小于自己的节点不存在 && 最小节点与步骤2中创建的相同，说明当前客户端顺序号最小，获得锁，结束。
+ 5.     客户端监视(watch)相对自己次小的有序临时节点状态
+ 6.     如果监视的次小节点状态发生变化，则跳转到步骤3，继续后续操作，直到退出锁竞争。
+ *
+ *
  */
 @Slf4j
 public class SimpleJob implements Job {
