@@ -9,6 +9,12 @@
     <description>review java base</description>
     <url>http://ggjlovezjy.com:1314</url>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.3.0.RELEASE</version>
+    </parent>
+
     <modules>
         <module>thread</module>
         <module>socket</module>
@@ -18,6 +24,7 @@
         <module>redis</module>
         <module>js</module>
         <module>httpclient</module>
+        <module>mobiletechnology</module>
     </modules>
 
     <properties>
@@ -46,22 +53,28 @@
         <!--httpClient-->
         <httpclient.version>4.5</httpclient.version>
 
+        <!--fastjson -->
+        <fastjson.version>1.1.41</fastjson.version>
+
         <!-- environment character -->
         <jdk.version>1.8</jdk.version>
-        <tomcat.version>2.2</tomcat.version>
         <webserver.port>80</webserver.port>
         <downloadSources>true</downloadSources>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-
     <dependencyManagement>
         <dependencies>
             <!-- httpClient start -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+            <!--fluent api-->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>fluent-hc</artifactId>
                 <version>${httpclient.version}</version>
             </dependency>
             <!-- httpClient end -->
@@ -160,6 +173,13 @@
                 <version>${quartz.version}</version>
             </dependency>
 
+            <!--fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
             <!-- Feed4JUnit带数据测试 -->
             <dependency>
                 <groupId>org.databene</groupId>
@@ -175,6 +195,20 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
     <!--利用profile属性可以实现不同环境下面打包的问题-->
     <profiles>

@@ -20,3 +20,16 @@ hs_err_pid*
 /kafka/*.iml
 /kafka/target
 /kafka/*.iml
+/httpclient/target
+/httpclient/httpclient.iml
+/js/target
+/js/js.iml
+/kafka/kafka.iml
+/lambda/target
+/lambda/lambda.iml
+/redis/redis.iml
+/redis/target
+/socket/socket.iml
+/socket/target
+/zookeeper/target
+/zookeeper/zookeeper.iml

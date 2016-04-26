@@ -28,10 +28,9 @@ public class ZclientNormal {
 		// zc.createEphemeral("/testroot");
 		// 创建子节点
 		zc.create("/testroot/node1", "node1", CreateMode.EPHEMERAL);
-		
 		zc.createPersistent("/testroot/node2");
 		zc.create("/testroot/node2/test", "node1", CreateMode.EPHEMERAL);
-		List<String> children = zc.getChildren("/testroot");
+		List<String> children = zc.getChildren("/");
 		log.info("根节点下面的字节点个数" + children.size());
 		
 		// 获得子节点个数

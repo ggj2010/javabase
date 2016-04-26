@@ -36,9 +36,9 @@ public class ServerManagerMonitor {
         zc.subscribeChildChanges("/monitor/client",new IZkChildListener(){
             @Override
             public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
-                System.out.println("------------客户端发生变化---------");
+                System.out.println("------------客户端发生变化---------childPath="+parentPath );
                 currentChilds.forEach((String childPath)->{
-                    System.out.println("parentPath = [" + parentPath + "], currentChilds = [" + currentChilds + "]"+",data="+(String)zc.readData("/monitor/client/clientA") );
+                    System.out.println("parentPath = [" + parentPath + "], currentChilds = [" + currentChilds + "]");
                 });
             }
         });

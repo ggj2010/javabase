@@ -78,8 +78,6 @@ public class PraseUleAddressToRedis {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private Runnable executeThreadHttp(CloseableHttpClient httpclient, int page) {

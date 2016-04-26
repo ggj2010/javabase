@@ -43,7 +43,7 @@ public class ZookeperServer {
         ACL acl = new ACL(ZooDefs.Perms.ALL, id);
         List<ACL> acls = Collections.singletonList(acl);
 
-        //zooKeeper.create("/safe","safe".getBytes(),acls, CreateMode.PERSISTENT);
+        zooKeeper.create("/safe","safe".getBytes(),acls, CreateMode.PERSISTENT);
         return acls;
     }
 
@@ -59,7 +59,7 @@ public class ZookeperServer {
      客户端与zookeeper断开连接后，该节点被删除，只是Zookeeper给该节点名称进行顺序编号
      * @param zooKeeper
      */
-    private static void zooKeeperAPITest(ZooKeeper zooKeeper) {
+    private static void  zooKeeperAPITest(ZooKeeper zooKeeper) {
         try {
             //路径、内容、、模式（PERSISTENT持久）
             zooKeeper.create("/root","中国".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);

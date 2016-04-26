@@ -181,6 +181,8 @@ public class RedisAllKeyTest {
         //删除count个key的list中值为value的元素,删除list里面值2个值为0
         jedis.lrem(key,2,"0");
 
+        jedis.llen(key);
+
         //返回并删除名称为key的list中的首元素
         String topValue=jedis.lpop(key);
         //返回并删除名称为key的list中的尾元素

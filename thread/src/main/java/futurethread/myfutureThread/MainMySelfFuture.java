@@ -28,7 +28,6 @@ public class MainMySelfFuture {
         ExecutorService executorService= Executors.newCachedThreadPool();
         executorService.execute(new Thread(new InnerThread(data)));
         executorService.shutdown();
-
         doOtherThing();
         log.info("得到用户名称："+data.getRealName());
     }
