@@ -18,7 +18,7 @@
     <modules>
         <module>thread</module>
         <module>socket</module>
-        <module>lambda</module>
+        <module>lambada</module>
         <module>kafka</module>
         <module>zookeeper</module>
         <module>redis</module>
@@ -29,7 +29,7 @@
 
     <properties>
         <!--test -->
-        <junit.version>4.7</junit.version>
+        <junit.version>4.10</junit.version>
         <contiperf.version>2.2.0</contiperf.version>
         <!-- logback -->
         <logback.version>1.1.3</logback.version>
@@ -49,6 +49,7 @@
         <!--jedis-->
         <jedis.version>2.8.0</jedis.version>
         <commons-lang3.version>3.4</commons-lang3.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
 
         <!--httpClient-->
         <httpclient.version>4.5</httpclient.version>
@@ -84,6 +85,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
             </dependency>
             <!--common util end-->
 

@@ -33,3 +33,6 @@ hs_err_pid*
 /socket/target
 /zookeeper/target
 /zookeeper/zookeeper.iml
+/mobiletechnology/mobiletechnology.iml
+/lambada/lambada.iml
+/lambada/lambda.iml

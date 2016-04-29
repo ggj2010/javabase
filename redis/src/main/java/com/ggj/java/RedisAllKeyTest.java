@@ -22,7 +22,10 @@ public class RedisAllKeyTest {
     }
     public static void main(String[] args) {
         RedisAllKeyTest redisAllKeyTest=new RedisAllKeyTest();
-        redisAllKeyTest. persistence();
+       // redisAllKeyTest. persistence();
+
+        log.info(jedis.sismember("dd","cc")+"");
+        log.info(jedis.get("dd"));
     }
 
     // quit：关闭连接（connection）
@@ -216,6 +219,8 @@ public class RedisAllKeyTest {
         jedis.srem(key,"value1");
         //返回名称为key的set的所有元素
         Set<String> set=jedis.smembers(key);
+        
+       boolean flag=jedis.sismember(key,"value2");
 
         /*随机返回指定set的中的一个值，一个进行删除 一个不进行删除*/
         //随机返回并删除名称为key的set中一个元素
@@ -224,9 +229,12 @@ public class RedisAllKeyTest {
         String randomValue =jedis.srandmember(key);
 
         /**这个方法比较好，就是将seta 里面的某个值 转移到setb.  如果seta 里面有这个值 就会删除seta 里面这个值，如果setb里面没有这个值，就会新增一个值，如果有就不会发生变动**/
-
-
         jedis.smove(key,key2,"value1");
+
+        //求并集
+        Set<String> sets = jedis.sunion(key, key2);
+        //交集
+        Set<String> setss=jedis.sinter(key,key2);
     }
 
 }

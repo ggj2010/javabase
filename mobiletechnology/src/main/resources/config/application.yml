@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: beta
+    incloud: beta,product
+
+#自定义info信息
+info:
+  app:
+    name: app后台架构搭建
+    description: 学习学习的噢！
+    version: 1.0.0
+#全局返回码，参考微信 http://mp.weixin.qq.com/wiki/17/fa4e1434e57290788bde25603fa2fcbd.html
+#因为api调用平凡，所以返回msg尽量短或者中文
+resultCode:
+    successCode: 0
+    successMsg: ok
+    errCode: -1
+    errMsg: system bus
+    blackipCode: 0001
+    blackipMsg: 黑名单ip
+    IpMaxInvoke: 0002
+    IpMaxInvokeMsg: 接口调用平凡
+    loginNameWrong: 0003
+    loginNameWrongMsg: loginName not exist
+    passwordWrong: 0004
+    passwordWrongMsg: password wrong
+    loginErrorLimit: 0005
+    loginErrorLimitMsg: login error times over max
+    paramErrorCode: 0006
+    paramErrorMsg: 参数异常
+    tokenErrorCode: 0007
+    tokenErrorCodeMsg: token 验证失败
+

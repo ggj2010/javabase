@@ -1,5 +1,6 @@
 package com.ggj.httpclient.someidea;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ggj.httpclient.someidea.redis.RedisDaoTemplate;
 import com.ggj.httpclient.someidea.redis.callback.RedisCallback;
@@ -146,7 +147,7 @@ public class FormatSuccessAddress {
 			@Override
 			public void execute(Transaction transation) {
 				for (AddressInfo addressInfo : addressInfoList) {
-					transation.lpush(REDIS_KEY_ADDRESSINFO_LIST, JSONObject.toJSON(addressInfo).toString());
+					transation.lpush(REDIS_KEY_ADDRESSINFO_LIST, JSON.toJSONString(addressInfo));
 				}
 			}
 		});

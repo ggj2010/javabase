@@ -1,0 +1,23 @@
+#不使用spring的redis  调用自己封装的redis
+redis:
+  host: 123.56.118.135
+  passwords: kF9wjNBC0IsxYuHW/lXDIw==
+  port: 6379
+  timeout: 100000
+  maxtotal: 50000
+  maxidle: 500
+  minidle: 300
+  maxwaitmillis: 1000
+  testonborrow: true
+  testwhileidle: true
+
+system:
+      #是否启用ip黑名单功能
+      isBlackipLimit: true
+      #黑名单ip 禁止访问时间
+      blackipLimitTime: 60*60*24
+      #一分钟ip限制调用100次
+      ipMaxInvokeNumber: 100
+      #半小时登陆错误次数限制调用次
+      loginErrorMaxNumber: 3
+
