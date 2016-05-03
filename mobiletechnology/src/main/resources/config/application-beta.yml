@@ -17,7 +17,7 @@ system:
       #黑名单ip 禁止访问时间
       blackipLimitTime: 60*60*24
       #一分钟ip限制调用100次
-      ipMaxInvokeNumber: 100
+      ipMaxInvokeNumber: 60
       #半小时登陆错误次数限制调用次
       loginErrorMaxNumber: 3
 

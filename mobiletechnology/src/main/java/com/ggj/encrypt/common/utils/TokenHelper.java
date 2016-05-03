@@ -72,7 +72,7 @@ public class TokenHelper {
      * @return
      * @throws Exception
      */
-    private ApiUserToken getUserToken(Long userID)throws Exception{
+    public ApiUserToken getUserToken(Long userID)throws Exception{
         return redisDaoTemplate.execute(new RedisCallback<ApiUserToken>(){
             public ApiUserToken doInRedis(Jedis jedis) throws Exception {
                 String key=redisKeyConfiguration.getUserToken()+userID;

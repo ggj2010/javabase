@@ -1,6 +1,8 @@
 package com.ggj.encrypt.interceptor;
 
+import com.ggj.encrypt.common.exception.BizException;
 import com.ggj.encrypt.common.utils.SpringContextHolder;
+import com.ggj.encrypt.configuration.ResultCodeConfiguration;
 import com.ggj.encrypt.security.LoginSecurity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.NamedThreadLocal;
@@ -18,35 +20,47 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
-    private LoginSecurity loginSecurity= SpringContextHolder.getBean(LoginSecurity.class);
-    private static final ThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>("ThreadLocal StartTime");
-    /**
-     * 检验用户是否登陆，没有登录直接返回
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
-     */
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-            long beginTime = System.currentTimeMillis();// 1、开始时间
-            startTimeThreadLocal.set(beginTime); // 线程绑定变量（该数据只有当前请求的线程可见）
-        loginSecurity.checkIsLogin(request);
-        return true;
-    }
-
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
-    }
-
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-            long beginTime = startTimeThreadLocal.get();
-            long endTime = System.currentTimeMillis();
-            long execTime = endTime-beginTime;
-        //大于5s,打印一下警告日志
-        if (execTime > 5000) {
-            log.info(request.getRequestURI() + " 访问时间过长, 耗费:" + execTime + " ms");
-        }
-    }
+	private LoginSecurity loginSecurity = SpringContextHolder.getBean(LoginSecurity.class);
+	private ResultCodeConfiguration resultCodeConfiguration = SpringContextHolder.getBean(ResultCodeConfiguration.class);
+	private static final ThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>("ThreadLocal StartTime");
+	
+	/**
+	 * 检验用户是否登陆，没有登录直接返回
+	 * @param request
+	 * @param response
+	 * @param handler
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		StringBuilder logsb = new StringBuilder();
+		long beginTime = System.currentTimeMillis();// 1、开始时间
+		startTimeThreadLocal.set(beginTime); // 线程绑定变量（该数据只有当前请求的线程可见）
+		//请求PV日志
+		logsb.append("handling request. URL:[").append(request.getPathInfo()).append("]. ");
+		try {
+			loginSecurity.checkIsLogin(request,logsb);
+			return true;
+		} catch (BizException e) {
+			response.getOutputStream().write(e.getReturnRestult().toJSONString().getBytes("utf-8"));
+		} catch (Exception e) {
+			response.getOutputStream().write(resultCodeConfiguration.getErrorResultCode().getBytes("utf-8"));
+		}
+		return false;
+	}
+	
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+		
+	}
+	
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		long beginTime = startTimeThreadLocal.get();
+		long endTime = System.currentTimeMillis();
+		long execTime = endTime - beginTime;
+		// 大于5s,打印一下警告日志
+		if (execTime > 5000||log.isInfoEnabled()) {
+			log.info(request.getRequestURI() + " 访问时间过长, 耗费:" + execTime + " ms");
+		}
+	}
 }

@@ -35,9 +35,6 @@ public class RestTemplateController extends BaseController{
 		}
 	}
 
-
-
-
 //	public static void main(String[] args) {
 //      // String date= DateUtils.formatDate(new Date((System.currentTimeMillis())),"yyyy-MM-dd HH:mm:ss");
 //       String date= DateUtils.formatDate(new Date(1425860757000l),"yyyy-MM-dd HH:mm:ss");

@@ -19,7 +19,7 @@ resultCode:
     blackipCode: 0001
     blackipMsg: 黑名单ip
     IpMaxInvoke: 0002
-    IpMaxInvokeMsg: 接口调用平凡
+    IpMaxInvokeMsg: 接口调用频繁
     loginNameWrong: 0003
     loginNameWrongMsg: loginName not exist
     passwordWrong: 0004
@@ -27,7 +27,7 @@ resultCode:
     loginErrorLimit: 0005
     loginErrorLimitMsg: login error times over max
     paramErrorCode: 0006
-    paramErrorMsg: 参数异常
+    paramErrorMsg: param wrong
     tokenErrorCode: 0007
     tokenErrorCodeMsg: token 验证失败
 

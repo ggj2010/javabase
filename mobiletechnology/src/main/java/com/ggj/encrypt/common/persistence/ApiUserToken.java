@@ -14,18 +14,18 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class ApiUserToken implements Serializable{
-    private static final long serialVersionUID = 1640649351444893129L;
-    private Long id;
-    private String token;
-    private Date createTime;
-    private Date validTime;
-    private Date lastVisitTime;
-    private Long visitCounter;
-    private String appkey;
-    private Long userId;
-    private String userEmail;
-    private Long delayTime;
-    private String deviceId;
-    private String deviceToken;
+public class ApiUserToken implements Serializable {
+	private static final long serialVersionUID = 1640649351444893129L;
+	private Long id;
+	private String token;
+	private Date createTime;
+	private Date validTime;
+	private Date lastVisitTime;
+	private Long visitCounter;
+	private String appkey;
+	private Long userId;
+	private String userEmail;
+	private Long delayTime;
+	private String deviceId;
+	private String deviceToken;
 }
