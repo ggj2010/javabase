@@ -57,6 +57,7 @@
 
         <!--fastjson -->
         <fastjson.version>1.1.41</fastjson.version>
+        <disruptor.version>3.3.4</disruptor.version>
 
         <!-- environment character -->
         <jdk.version>1.8</jdk.version>
@@ -190,6 +191,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
             </dependency>
 
             <!-- Feed4JUnit带数据测试 -->

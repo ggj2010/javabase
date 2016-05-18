@@ -16,7 +16,7 @@ public class ForkJoinPoolDemo {
 
     private static void test() {
         //1,1,2，3
-        Fibonacci task = new Fibonacci(4);
+        Fibonacci task = new Fibonacci(10);
         ForkJoinPool forkJoinPool=new ForkJoinPool(4);
         forkJoinPool.invoke(task);
         System.out.println(task.getRawResult());

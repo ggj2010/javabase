@@ -32,15 +32,15 @@ public class LockThread {
 
         /**2、读写锁ReentrantReadWriteLock和synchronized的比较**/
         /**ReentrantReadWriteLock有读写锁，可以让所有线程同时读取，而写的锁相当于* synchronized功能**/
-      //打印结果应该是单个线程从开始读到读完毕和从开始写到写完毕
+      //打印结果应该是单个线程从开始读到读完毕和单个从开始写到写完毕  读写穿插
 //          t.userSynchronizedLock();
         //打印机结果是多个线程可以同时进行读，但是写单个线程从开始写到结束
-//        t.userReetrantReadWriterLock();
+        t.userReetrantReadWriterLock();
 
         //trylock()功能提供两种，一种是不带参数的，如果当前线程获取不到锁就直接退出，一种是lock.tryLock(1000, TimeUnit.DAYS）等待n秒后如果拿不到锁再退出
 //        t.tryLcok(false);
         //等待
-        t.tryLcok(true);
+//        t.tryLcok(true);
     }
 
     public void tryLcok(final boolean isWait) {
@@ -125,7 +125,8 @@ public class LockThread {
             for (int i = 0; i < 10; i++) {
                 new Thread("线程" + i) {
                     public void run() {
-                        synchroinzedWrite(Thread.currentThread().getName());
+                        if(type==3) synchroinzedWrite(Thread.currentThread().getName());
+                        if(type==4) reetrantReadWriterLockWrite(Thread.currentThread().getName());
                     }
                 }.start();
             }

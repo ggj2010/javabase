@@ -32,7 +32,7 @@ public class JionTest {
     }
 
     @Test
-    @PerfTest(invocations = 5)
+   // @PerfTest(invocations = 5)
     public void testNotUserJion() throws Exception {
         jion.notUserJion();
     }

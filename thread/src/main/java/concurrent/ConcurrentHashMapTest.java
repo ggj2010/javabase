@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * author:gaoguangjin
- * Description:hashmap在多线程的环境下面会引起死循环
+ * Description:hashmap在多线程的环境下面会引起死循环 http://coolshell.cn/articles/9606.html
  * Email:335424093@qq.com
  * Date 2016/2/22 16:34
  */
