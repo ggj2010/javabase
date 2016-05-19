@@ -8,6 +8,7 @@ import com.ggj.encrypt.common.utils.redis.RedisDaoTemplate;
 import com.ggj.encrypt.common.utils.redis.callback.RedisCallback;
 import com.ggj.encrypt.configuration.RedisKeyConfiguration;
 import com.ggj.encrypt.configuration.ResultCodeConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import java.util.Date;
  * @Email:335424093@qq.com
  * @Date 2016/4/27 16:56
  */
+@Slf4j
 @Component
 public class TokenHelper {
 
@@ -76,6 +78,7 @@ public class TokenHelper {
         return redisDaoTemplate.execute(new RedisCallback<ApiUserToken>(){
             public ApiUserToken doInRedis(Jedis jedis) throws Exception {
                 String key=redisKeyConfiguration.getUserToken()+userID;
+                log.info("loginkey="+key);
                 String userTokenJson=jedis.get(key);
                 if(!StringUtils.isEmpty(userTokenJson)){
                    return JSON.parseObject(userTokenJson,ApiUserToken.class);

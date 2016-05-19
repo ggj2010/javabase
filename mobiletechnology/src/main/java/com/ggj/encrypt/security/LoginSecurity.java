@@ -86,14 +86,12 @@ public class LoginSecurity {
 	 * 这里需要定义一个规则，校验时间戳
 	 *
 	 * @param request
-	 * @param logsb
 	 * @throws Exception
 	 */
-	public void checkIsLogin(HttpServletRequest request, StringBuilder logsb) throws Exception {
+	public void checkIsLoginAndValidSgnature(HttpServletRequest request) throws Exception {
 		HttpHeaderParam httpHeaderParam = HttpHeaderParam.parseRequestHeader(request);
 		ApiUserToken apiUserToken = tokenHelper.getUserToken(httpHeaderParam.getUserId());
-		request.setAttribute(GlobalConstant.USER_TONKEN, apiUserToken);
-		validSgnature(httpHeaderParam,apiUserToken.getToken());
+		validSignature(httpHeaderParam,apiUserToken.getToken());
 	}
 
 	/**
@@ -104,10 +102,10 @@ public class LoginSecurity {
 	 * @param token
 	 * @throws Exception
      */
-	private void validSgnature(HttpHeaderParam httpHeaderParam,String token) throws Exception {
+	private void validSignature(HttpHeaderParam httpHeaderParam,String token) throws Exception {
 		String sing=httpHeaderParam.getAppkey()+httpHeaderParam.getTimeStamp()+token;
 		if(!MD5Util.md5Encode(httpHeaderParam.getAppkey()+httpHeaderParam.getTimeStamp()+token).equals(httpHeaderParam.getSign()))
-			throw new BizException(resultCodeConfiguration.getParamErrorCode(), resultCodeConfiguration.getParamErrorMsg());
+			throw new BizException(resultCodeConfiguration.getSignatureErrorCode(), resultCodeConfiguration.getSignatureErrorCodeMsg());
 	}
 
 

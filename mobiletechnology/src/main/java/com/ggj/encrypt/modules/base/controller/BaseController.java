@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class BaseController implements InitializingBean {
     @Autowired
-    private ResultCodeConfiguration resultCodeConfiguration;
+    protected ResultCodeConfiguration resultCodeConfiguration;
     private String exceptionJson="";
     /**
      * 日志对象

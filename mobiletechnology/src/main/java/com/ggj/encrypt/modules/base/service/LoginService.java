@@ -54,6 +54,7 @@ public class LoginService {
         ApiUserToken token=tokenHelper.createToken(dataBaseUserInfo.getId(),appkey);
         //token加密后返回
         response.setHeader(GlobalConstant.USER_TONKEN,DesUtil.encrypt(token.getToken(),appkey));
+        response.setHeader(GlobalConstant.USE_ID,DesUtil.encrypt(token.getUserId()+"",appkey));
         return resultCodeConfiguration.getSuccessResultCode();
     }
 }

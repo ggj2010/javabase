@@ -40,6 +40,9 @@ public  class ResultCodeConfiguration  implements InitializingBean{
 	private String tokenErrorCode;
 	private String tokenErrorCodeMsg;
 
+	private String signatureErrorCode;
+	private String signatureErrorCodeMsg;
+
 	public String getSuccessResultCode(){
 		return successResultCode;
 	}
@@ -51,5 +54,9 @@ public  class ResultCodeConfiguration  implements InitializingBean{
 	public void afterPropertiesSet() throws Exception {
 		successResultCode= JSON.toJSONString(new Result(successCode,successMsg));
 		errorResultCode= JSON.toJSONString(new Result(errCode,errMsg));
+	}
+
+	public Result getResult(){
+		return new Result(successCode,successMsg);
 	}
 }

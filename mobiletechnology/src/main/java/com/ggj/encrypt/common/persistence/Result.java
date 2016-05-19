@@ -31,6 +31,16 @@ public class Result implements Serializable {
         this.msg=msg;
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
+    public Result addData(Object data){
+        this.setData(data);
+        return this;
+    }
+
     public String toJSONString(){
 		return JSON.toJSONString(this);
     }

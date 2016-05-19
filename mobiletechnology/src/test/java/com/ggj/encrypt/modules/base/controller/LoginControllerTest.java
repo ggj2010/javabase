@@ -55,7 +55,11 @@ public class LoginControllerTest extends BaseTest {
             //token解密后打印出来
             log.info("打印token="+DesUtil.decrypt(token.get(0),APPKEY));
         }
-
+        List<String> userId = exchange.getHeaders().get(GlobalConstant.USE_ID);
+        if(!CollectionUtils.isEmpty(token)){
+            //token解密后打印出来
+            log.info("打印userId="+DesUtil.decrypt(userId.get(0),APPKEY));
+        }
         log.info("打印返登陆回结果"+exchange.getBody());
     }
 

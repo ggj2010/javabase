@@ -36,7 +36,7 @@ public class OrderControllerTest extends BaseTest{
 
     //32 位
     private final String APPKEY="1234567890_1234567890_1234appkey";
-    private final String USERTOKEN="eea762bbd7a24b8fa5fd35e0ea2b70fa";
+    private final String USERTOKEN="4dfb0b5764d04303808d62cc1baf683es";
     private String TIMESTAMP="";
     //测试用id=1 的账户
     private String USERID="1";
@@ -49,7 +49,6 @@ public class OrderControllerTest extends BaseTest{
         HttpHeaders headers =getHttpHeaders();
         HttpEntity<String> entity = new HttpEntity<String>(headers);
         ResponseEntity<String> exchange = restTemplate.exchange(FINDUSERINFO_URL, HttpMethod.POST, entity, String.class,uriVariables);
-        List<String> token = exchange.getHeaders().get(GlobalConstant.USER_TONKEN);
         log.info("============返回结果================");
         log.info("打印返登陆回结果"+exchange.getBody());
     }

@@ -3,6 +3,12 @@ spring:
     active: beta
     incloud: beta,product
 
+  http:
+    encoding:
+    charset: UTF-8
+    enabled: true
+    force: true
+
 #自定义info信息
 info:
   app:
@@ -16,18 +22,20 @@ resultCode:
     successMsg: ok
     errCode: -1
     errMsg: system bus
-    blackipCode: 0001
+    blackipCode: "0001"
     blackipMsg: 黑名单ip
-    IpMaxInvoke: 0002
+    IpMaxInvoke: "0002"
     IpMaxInvokeMsg: 接口调用频繁
-    loginNameWrong: 0003
+    loginNameWrong: "0003"
     loginNameWrongMsg: loginName not exist
-    passwordWrong: 0004
+    passwordWrong: "0004"
     passwordWrongMsg: password wrong
-    loginErrorLimit: 0005
+    loginErrorLimit: "0005"
     loginErrorLimitMsg: login error times over max
-    paramErrorCode: 0006
+    paramErrorCode: "0006"
     paramErrorMsg: param wrong
-    tokenErrorCode: 0007
-    tokenErrorCodeMsg: token 验证失败
+    tokenErrorCode: "0007"
+    tokenErrorCodeMsg: 用户未登录
+    signatureErrorCode: "0008"
+    signatureErrorCodeMsg: 签名验证失败
 
