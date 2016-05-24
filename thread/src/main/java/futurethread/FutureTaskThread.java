@@ -3,11 +3,14 @@ package futurethread;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 /**
  * author:gaoguangjin
  * Description:future模式,可以获取线程处理完毕的结果,在等待的过程中也可以执行其他线程操作。
+ * futureTask 是future接口的实现
  * Email:335424093@qq.com
  * Date 2016/1/8 16:49
  */
@@ -19,8 +22,11 @@ public class FutureTaskThread {
     }
 
     public void future(){
+        //两种写法
         FutureTask<String> task=new FutureTask<String>(new NameTask());
         new Thread(task).start();
+//        ExecutorService executorService= Executors.newCachedThreadPool();
+//        executorService.submit(task);
         try {
             //得到结果之前做点别的事情
             doOtherThing();

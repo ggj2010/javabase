@@ -35,7 +35,6 @@ public class RedisPool implements InitializingBean {
 	public  Jedis getJedis() throws  Exception{
 		if (jedisPool != null)
 			return jedisPool.getResource();
-		log.error("获取redis连接池失败，jedisPool为空");
 		throw new Exception("获取redis连接池失败，jedisPool为空");
 	}
 	

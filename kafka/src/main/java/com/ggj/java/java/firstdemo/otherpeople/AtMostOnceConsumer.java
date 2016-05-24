@@ -73,12 +73,13 @@ public class AtMostOnceConsumer {
         props.put("enable.auto.commit", "true");
 
         // Auto commit interval is an important property, kafka would commit offset at this interval.
+        //自动提交 offset信息到broker
         props.put("auto.commit.interval.ms", "101");
 
         // This is how to control number of records being read in each poll
         props.put("max.partition.fetch.bytes", "350");
 
-        // Set this if you want to always read from beginning.
+        // Set this if you want to always read from beginning. 每次都是从头开始取
         //        props.put("auto.offset.reset", "earliest");
 
         props.put("heartbeat.interval.ms", "3000");

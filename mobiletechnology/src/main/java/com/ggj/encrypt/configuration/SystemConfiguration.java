@@ -23,4 +23,7 @@ public class SystemConfiguration {
     private String ipMaxInvokeNumber;
     //半小时登陆错误次数限制调用次
     private String loginErrorMaxNumber;
+
+
+
 }

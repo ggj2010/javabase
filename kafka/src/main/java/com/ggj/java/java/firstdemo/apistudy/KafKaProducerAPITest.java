@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * author:gaoguangjin
- * Description:
+ * Description:可以参考 http://kelgon.iteye.com/blog/2287985
  * Email:335424093@qq.com
  * Date 2016/2/15 9:46
  */
@@ -27,10 +27,11 @@ public class KafKaProducerAPITest {
         //普通send
         while (true) {
             Thread.sleep(1000);
-            producer.send(producerRecord);
+            //producer.send(producerRecord);
+            //带callback的send
+              producer.send(producerRecord,new CallBackAPI("send message"));
         }
-        //带callback的send
-        //  producer.send(producerRecord,new CallBackAPI("send message"));
+
 
         //send发送时候加锁，一个一个发送
         //producer.send(producerRecord).get();
@@ -56,15 +57,37 @@ public class KafKaProducerAPITest {
 
     /**
      * get kafkaProducer
+     * Producer端的常用配置
+     bootstrap.servers：Kafka集群连接串，可以由多个host:port组成
+     acks：broker消息确认的模式，有三种：
+     0：不进行消息接收确认，即Client端发送完成后不会等待Broker的确认
+     1：由Leader确认，Leader接收到消息后会立即返回确认信息
+     all：集群完整确认，Leader会等待所有in-sync的follower节点都确认收到消息后，再返回确认信息
+     我们可以根据消息的重要程度，设置不同的确认模式。默认为1
+     retries：发送失败时Producer端的重试次数，默认为0
+     batch.size：当同时有大量消息要向同一个分区发送时，Producer端会将消息打包后进行批量发送。如果设置为0，则每条消息都独立发送。默认为16384字节
+     linger.ms：发送消息前等待的毫秒数，与batch.size配合使用。在消息负载不高的情况下，配置linger.ms能够让Producer在发送消息前等待一定时间，以积累更多的消息打包发送，达到节省网络资源的目的。默认为0
+     key.serializer/value.serializer：消息key/value的序列器Class，根据key和value的类型决定
+     buffer.memory：消息缓冲池大小。尚未被发送的消息会保存在Producer的内存中，如果消息产生的速度大于消息发送的速度，那么缓冲池满后发送消息的请求会被阻塞。默认33554432字节（32MB）
+     *
      *
      * @return
      */
     private static KafkaProducer<Integer, String> getProducer() {
         Properties properties = new Properties();
         //bootstrap.servers
+//        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092,123.56.118.135:9093");
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092,123.56.118.135:9093");
         //client.id
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaProducerTest");
+        //batch.size 当同时有大量消息要向同一个分区发送时，Producer端会将消息打包后进行批量发送。如果设置为0，则每条消息都独立发送。默认为16384字节
+        properties.put(ProducerConfig.BATCH_SIZE_CONFIG,16384);
+      //发送消息前等待的毫秒数，与batch.size配合使用。在消息负载不高的情况下，配置linger.ms能够让Producer在发送消息前等待一定时间，以积累更多的消息打包发送，达到节省网络资源的目的。默认为0
+        properties.put(ProducerConfig.LINGER_MS_CONFIG,5000);
+        //retries：发送失败时Producer端的重试次数，默认为0
+        properties.put(ProducerConfig.RETRIES_CONFIG,0);
+        //消息缓冲池大小。尚未被发送的消息会保存在Producer的内存中，如果消息产生的速度大于消息发送的速度，那么缓冲池满后发送消息的请求会被阻塞。默认33554432字节
+        properties.put(ProducerConfig.BUFFER_MEMORY_CONFIG,33554432);
         //key 和 value serializer的类
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());

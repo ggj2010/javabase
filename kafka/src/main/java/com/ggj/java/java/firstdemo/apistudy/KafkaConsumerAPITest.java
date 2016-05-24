@@ -19,7 +19,11 @@ import java.util.Properties;
  */
 public class KafkaConsumerAPITest {
 
-
+    /**
+     * 如果启动了多个 Consumer线程，Kafka也能够通过zookeeper实现多个Consumer间的调度，保证同一组下的Consumer不会重复消费消息。注 意，
+     * Consumer数量不能超过partition数，超出部分的Consumer无法拉取到任何数据。
+     * @param args
+     */
     public static void main(String[] args) {
         KafkaConsumer<Integer, String> consumer = getKafkaConsumer();
 
@@ -59,24 +63,31 @@ public class KafkaConsumerAPITest {
         });
     }
 
+    /**
+     * bootstrap.servers/key.deserializer/value.deserializer：和Producer端的含义一样，不再赘述
+     fetch.min.bytes：每次最小拉取的消息大小（byte）。Consumer会等待消息积累到一定尺寸后进行批量拉取。默认为1，代表有一条就拉一条
+     max.partition.fetch.bytes：每次从单个分区中拉取的消息最大尺寸（byte），默认为1M
+     group.id：Consumer的group id，同一个group下的多个Consumer不会拉取到重复的消息，不同group下的Consumer则会保证拉取到每一条消息。注意，同一个group下的consumer数量不能超过分区数。
+     enable.auto.commit：是否自动提交已拉取消息的offset。提交offset即视为该消息已经成功被消费，该组下的Consumer无法再拉取到该消息（除非手动修改offset）。默认为true
+     auto.commit.interval.ms：自动提交offset的间隔毫秒数，默认5000。
+     * @return
+     */
     public static KafkaConsumer<Integer, String> getKafkaConsumer() {
         //配置咯
         Properties props = new Properties();
         //服务器开启两个server 一个端口号是9092 一个是9093
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092,123.56.118.135:9093");
+    //      props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092,123.56.118.135:9093");
         //bootstrap.servers
-        //props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092");
         //group.id
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "ggj");
-        //enable.auto.commit
+        //enable.auto.commit 是否自动提交已拉取消息的offset。提交offset即视为该消息已经成功被消费，该组下的Consumer无法再拉取到该消息（除非手动修改offset）。默认为true
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
-        //auto.commit.interval.ms
-        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "999999999999");
+        //auto.commit.interval.ms 自动提交offset的间隔毫秒数，默认5000。
+        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000");
 
-        //max.partition.fetch.bytes 最大字节提交大小
-        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1024");
-        //max.partition.fetch.bytes
-        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, "1000");
+        //max.partition.fetch.bytes 每次从单个分区中拉取的消息最大尺寸（byte），默认为1M
+        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, 1024);
         //session.timeout.ms
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000");
         //heartbeat.interval.ms 心跳时间

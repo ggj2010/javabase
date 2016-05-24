@@ -20,6 +20,6 @@ public class CallBackAPI implements Callback {
 
     @Override
     public void onCompletion(RecordMetadata metadata, Exception exception) {
-        System.out.println("生产者发送message(" + message + ") sent to partition(" + metadata.partition() + "), " + "offset(" + metadata.offset() + ")");
+        System.out.println("生产者发送message(" + message + ") sent to partition分区(" + metadata.partition() + "), " + "消息offset(" + metadata.offset() + ")");
     }
 }

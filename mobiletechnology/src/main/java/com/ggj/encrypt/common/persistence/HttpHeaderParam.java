@@ -46,6 +46,8 @@ public class HttpHeaderParam {
 		// 用户ip都是加密的
 		String userId = DesUtil.decrypt(request.getHeader(GlobalConstant.USE_ID), header.getAppkey());
 		header.setUserId(Long.parseLong(userId));
+		//将解密后的userId再保存起来等会用到
+		request.getSession().setAttribute(GlobalConstant.USE_ID,userId);
 		return header;
 	}
 	

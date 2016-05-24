@@ -33,6 +33,7 @@ import java.util.Properties;
  * relational database this is easier) for non-relational  such as HDFS store the offset where the data
  * is since they don't support atomic transactions.
  * 6) Implement idempotent as a safety net.
+ * 重复读取
  * <p/>
  */
 public class ExactlyOnceDynamicConsumer {

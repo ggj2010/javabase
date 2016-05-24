@@ -21,3 +21,22 @@ system:
       #半小时登陆错误次数限制调用次
       loginErrorMaxNumber: 3
 
+thread:
+    #核心线程数,线程池维护线程的最少数量
+    corePoolSize: 30
+    #线程池维护线程的最大数量
+    maxPoolSize: 50
+    #线程池所使用的缓冲队列
+    queueCapacity: 10000
+    #线程池维护线程所允许的空闲时间
+    keepAliveSeconds: 300000
+
+kafka:
+    #可以是集群 其他的配置弄默认就好了
+    bootstrapServers: 123.56.118.135:9092
+    topic:
+          #访问日志的log
+          requestlog: requestlog
+          stringlog: log
+
+

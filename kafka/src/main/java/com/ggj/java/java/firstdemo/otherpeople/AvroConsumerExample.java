@@ -11,6 +11,7 @@ import java.util.Properties;
 
 
 /**
+ *
  * Reads an avro message.
  */
 public class AvroConsumerExample {

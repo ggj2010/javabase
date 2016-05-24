@@ -37,6 +37,7 @@ public class IpInterceptor implements HandlerInterceptor {
 		} catch (BizException e) {
 			response.getOutputStream().write(e.getReturnRestult().toJSONString().getBytes("utf-8"));
 		} catch (Exception e) {
+			log.error("异常："+e.getLocalizedMessage());
 			response.getOutputStream().write(resultCodeConfiguration.getErrorResultCode().getBytes("utf-8"));
 		}
 		return false;

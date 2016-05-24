@@ -36,7 +36,7 @@ public class OrderControllerTest extends BaseTest{
 
     //32 位
     private final String APPKEY="1234567890_1234567890_1234appkey";
-    private final String USERTOKEN="4dfb0b5764d04303808d62cc1baf683es";
+    private final String USERTOKEN="c6b61bdfe3a543948813aa3dae779894";
     private String TIMESTAMP="";
     //测试用id=1 的账户
     private String USERID="1";

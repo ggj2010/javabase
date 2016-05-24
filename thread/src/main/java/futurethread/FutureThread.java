@@ -14,6 +14,7 @@ import java.util.concurrent.*;
 public class FutureThread {
     public static void main(String[] args) {
         new FutureThread().future();
+
     }
 
     public void future(){
@@ -21,7 +22,6 @@ public class FutureThread {
         Future<String> result = executorService.submit(new NameTask());
           //shutdown不能少
         executorService.shutdown();
-
         //得到结果之前做点别的事情
         doOtherThing();
         try {

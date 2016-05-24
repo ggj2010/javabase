@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
+ * 发送 Avro格式 信息
  * Create and publish an avro type message.
  */
 public class AvroProducerExample {
@@ -52,7 +53,7 @@ public class AvroProducerExample {
             for (int i = 1; i < 100; i++)
                 producer.send(new ProducerRecord<String, byte[]>(topic, partition, Integer.toString(0), record(i + "")));
 
-            Thread.sleep(500);
+            Thread.sleep(1000);
         }
     }
 
@@ -60,7 +61,7 @@ public class AvroProducerExample {
     private static byte[] record(String name) throws IOException {
 
         GenericRecord record = new GenericData.Record(AvroSupport.getSchema());
-        record.put("firstName", name);
+        record.put("firstName", name+"ggj");
         return AvroSupport.dataToByteArray(AvroSupport.getSchema(), record);
 
     }

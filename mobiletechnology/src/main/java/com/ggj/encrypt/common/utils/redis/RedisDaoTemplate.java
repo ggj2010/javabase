@@ -21,7 +21,7 @@ import redis.clients.jedis.Transaction;
  * @Date 2015-9-1 下午3:53:49
  */
 @Slf4j
-@Service
+@Component
 public class RedisDaoTemplate {
 
 	@Autowired

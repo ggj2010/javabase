@@ -20,7 +20,7 @@ public class ZclientNormal {
 	 * @see:后者的具体做法是简单的在watcher回调中，重新读取数据的同时再注册相同的watcher实例。
 	 */
 	private static void test() {
-		final ZkClient zc = new ZkClient("localhost:2181");
+		final ZkClient zc = new ZkClient("123.56.118.135:2181");
 		// 创建根节点
 		/* Persistent与Ephemeral 就是持久化保存到本地和不持久化的区别 ,不能再临时节点下面创建子节点 */
 		
