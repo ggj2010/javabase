@@ -36,3 +36,7 @@ hs_err_pid*
 /mobiletechnology/mobiletechnology.iml
 /lambada/lambada.iml
 /lambada/lambda.iml
+/httpclient/*.iml
+/lambada/*
+/lambada/*.iml
+/mobiletechnology/target

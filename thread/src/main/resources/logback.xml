@@ -36,7 +36,7 @@
     -->   
     
     <!-- 指定某个包下面的日志级别，如果root设置的日志级别为info 而某个包设置的为debug，这样某个包也可以打印debug的日志了 -->
-	<logger name="com.ggj" level="DEBUG" />
+
 	
 	 <!-- 日志输出级别 DEBUG 和INFO  如果改成了INFO那么代码里面的log.debug()内容就打印不出来了，因为打印方法决定记录请求的级别-->  
      <!-- TRACE < DEBUG < INFO < WARN < ERROR。  -->
