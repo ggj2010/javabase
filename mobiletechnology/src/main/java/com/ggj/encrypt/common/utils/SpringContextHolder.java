@@ -69,24 +69,6 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext=applicationContext;
-		logger.info("                                           " +
-				"◢████████████◣　　　　　　　 \n" +
-				"　　　██████████████　　　　　　　 \n" +
-				"　　　██　　　◥██◤　　　██　　　　　　　 \n" +
-				"　◢███　　　　◥◤　　　　██◣　　　　　　 \n" +
-				"　▊▎██◣　　　　　　　　◢█▊▊　　　　　　 \n" +
-				"　▊▎██◤　　●　　●　　◥█▊▊　　　　　 \n" +
-				"　▊　██　　　　　　　　　　█▊▊　　　　　　 \n" +
-				"　◥▇██　▊　　　　　　▊　█▇◤　　　　　　 \n" +
-				"　　　██　◥▆▄▄▄▄▆◤　█▊　　　◢▇▇◣ \n" +
-				"◢██◥◥▆▅▄▂▂▂▂▄▅▆███◣　▊◢　█ \n" +
-				"█╳　　　　　　　　　　　　　　　╳█　◥◤◢◤ \n" +
-				"◥█◣　　　˙　　　　　˙　　　◢█◤　　◢◤　 \n" +
-				"　　▊　　　　　　　　　　　　　▊　　　　█　　 \n" +
-				"　　▊　　　　　　　　　　　　　▊　　　◢◤　　 \n" +
-				"　　▊　　　　　　⊕　　　　　　█▇▇▇◤　　 \n" +
-				"　◢█▇▆▆▆▅▅▅▅▆▆▆▇█◣　　　　　　 \n" +
-				"　▊　▂　▊　　　　　　▊　▂　");
 	}
 	
 }

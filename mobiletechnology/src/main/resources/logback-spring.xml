@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProfile name="beta">
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
+        <!--使用默认的file-appender.xml logging.path不会起作用-->
+        <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+        <!--自定义日志级别-->
+        <logger name="logging.level.org.springframework.web" level="DEBUG"/>
+        <logger name="logging.level.org.hibernate" level="ERROR"/>
+        <logger name="com.ggj.springboot.controller" level="INFO"/>
+
+        <!--设置info级别，debug的日志就打印不出来了-->
+        <root level="INFO">
+            <!--<appender-ref ref="FILE"/>-->
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="product">
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+        <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <File>${LOG_PATH}/log_error.log</File>
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+            <!--当prudent为true时，如果append设置为false，会被强行转成true-->
+            <append>true</append>
+            <!--prudent：小心的，慎重的。如果设置为true，不同JVM的file appenders能够安全地将日志输出到同一个文件中。 -->
+            <prudent>false</prudent>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!--归档的日志文件的路径-->
+                <fileNamePattern>${LOG_PATH}/log-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+                <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <!--设置日志文件大小-->
+                    <maxFileSize>512MB</maxFileSize>
+                </TimeBasedFileNamingAndTriggeringPolicy>
+            </rollingPolicy>
+        </appender>
+
+        <!-- 指定某个包下面的日志级别，如果root设置的日志级别为info 而某个包设置的为debug，这样某个包也可以打印debug的日志了 -->
+        <logger name="com.ggj" level="INFO" />
+        <root level="info">
+            <appender-ref ref="logfile"/>
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+</configuration>
+
+
+
+
+
+
+
+
+

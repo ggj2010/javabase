@@ -72,6 +72,7 @@ public class OrderControllerTest extends BaseTest{
         httpHeaders.add(GlobalConstant.APPKEY,APPKEY);
         httpHeaders.add(GlobalConstant.USE_ID,DesUtil.encrypt(USERID,APPKEY));
         httpHeaders.add(GlobalConstant.SIGN,MD5Util.md5Encode(APPKEY+TIMESTAMP+USERTOKEN));
+
         return httpHeaders;
     }
 

@@ -8,6 +8,14 @@ spring:
     charset: UTF-8
     enabled: true
     force: true
+#日志颜色
+  output:
+    ansi:
+      enabled: ALWAYS
+logging:
+  config: classpath:logback-spring.xml
+  file: myapps.log
+  path: var/temp
 
 #自定义info信息
 info:
@@ -39,3 +47,10 @@ resultCode:
     signatureErrorCode: "0008"
     signatureErrorCodeMsg: 签名验证失败
 
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  # mappers file
+  mapperLocations: classpath:mappings/**/*.xml
+  typeAliasesPackage: com.ggj
+   # handler's package
+  #typeHandlersPackage:
