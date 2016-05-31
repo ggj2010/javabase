@@ -41,7 +41,8 @@ kafka:
 
 #多数据源 1主2从
 datasource:
-  size: 2
+  #从库数量
+  readSize: 2
    # 使用druid数据源
   type: com.alibaba.druid.pool.DruidDataSource
 #主库

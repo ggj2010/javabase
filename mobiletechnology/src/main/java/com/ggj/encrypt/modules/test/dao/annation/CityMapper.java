@@ -31,6 +31,6 @@ public interface CityMapper {
 	@Select("select * from city where id = #{id}")
 	City getCity(@Param("id") int id);
 
-	@Insert("INSERT into City (name,country)VALUE (#{name},#{country})")
+	@Insert("INSERT into City (name,state,country)VALUE (#{name},#{state},#{country})")
 	void insert(City city);
 }

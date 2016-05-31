@@ -5,9 +5,9 @@
 <mapper namespace="com.ggj.encrypt.modules.test.dao.xml.CityDao" >
     <cache />
     <select id="getCity" resultType="City">
-        select id,name,COUNTRY from City where id = #{id}
+        select id,name,state,COUNTRY from City where id = #{id}
     </select>
     <insert id="insert" >
-        INSERT into City (name,country)VALUE (#{name},#{country})
+        INSERT into City (name,state,country)VALUE (#{name},#{state},#{country})
     </insert>
 </mapper>

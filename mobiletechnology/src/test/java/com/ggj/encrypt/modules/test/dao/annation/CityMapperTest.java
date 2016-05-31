@@ -20,10 +20,10 @@ import static org.junit.Assert.*;
  */
 @Slf4j
 public class CityMapperTest extends BaseTest {
-//    @Autowired
-//    private CityDao cityDao;
     @Autowired
-    private CityMapper cityDao;
+    private CityDao cityDao;
+//    @Autowired
+//    private CityMapper cityDao;
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
@@ -42,7 +42,12 @@ public class CityMapperTest extends BaseTest {
     }
 
     @Test
+    @PerfTest(invocations = 3)
     public void testInsert() throws Exception {
-
+        City city=new City();
+        city.setName("testInsert");
+        city.setCountry("中国");
+        city.setState("哈哈");
+        cityDao.insert(city);
     }
 }
