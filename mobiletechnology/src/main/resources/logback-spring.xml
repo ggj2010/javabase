@@ -14,7 +14,7 @@
 
         <!--设置info级别，debug的日志就打印不出来了-->
         <root level="INFO">
-            <!--<appender-ref ref="FILE"/>-->
+            <appender-ref ref="FILE"/>
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
