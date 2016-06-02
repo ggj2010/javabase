@@ -18,11 +18,11 @@ import javax.servlet.http.HttpServletRequest;
  * @Date 2016/4/25 13:54
  */
 @RestController
-@RequestMapping("/mobile")
+@RequestMapping("/test")
 @Slf4j
 public class RestTemplateController extends BaseController{
 	
-	@RequestMapping("/test/{sign}/{id}")
+	@RequestMapping("{sign}/{id}")
 	public String restTemplateClient(@PathVariable("sign") String sign,@PathVariable("id") String id) {
 		return sign+id;
 	}

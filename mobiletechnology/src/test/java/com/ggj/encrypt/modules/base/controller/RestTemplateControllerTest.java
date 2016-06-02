@@ -22,8 +22,8 @@ import static org.junit.Assert.*;
 public class RestTemplateControllerTest extends BaseTest {
 
     RestTemplate restTemplate = new TestRestTemplate();
-    private final String TEST_URL_ONE = "http://localhost/mobile/test/{sign}/{id}";
-    private final String TEST_URL_TWO = "http://localhost/mobile/exception/{type}";
+    private final String TEST_URL_ONE = "http://localhost/test/{sign}/{id}";
+    private final String TEST_URL_TWO = "http://localhost/exception/{type}";
 
     @Test
     public void testRestTemplateClient() throws Exception {
