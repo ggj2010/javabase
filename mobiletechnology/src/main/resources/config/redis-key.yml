@@ -1,6 +1,6 @@
 key:
     #+ip
-    blackip: blackip_set
+    blackip: blackip_hset
     #+ip
     ipInvoke: ip_invoke_
     #用户信息缓存

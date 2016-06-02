@@ -47,6 +47,13 @@ public class LoginSecurity {
     @Autowired
     private TokenHelper tokenHelper;
 
+    /**
+     * 接口调用频繁 直接不返回结果
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public Boolean checkIPAndInvokeNumber(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 检查ip是否黑名单
         String ip = ApiTools.getIpAddr(request);
@@ -66,7 +73,8 @@ public class LoginSecurity {
                                 ipMap.put(ip, "1");
                                 jedis.hmset(blackipKey, ipMap);
                                 log.error("ip访问频繁:=" + ip);
-                                throw new BizException(resultCodeConfiguration.getIpMaxInvoke(), resultCodeConfiguration.getIpMaxInvokeMsg());
+                                //throw new BizException(resultCodeConfiguration.getIpMaxInvoke(), resultCodeConfiguration.getIpMaxInvokeMsg());
+                                return false;
                             }
                         } else {
                             jedis.incr(ipIvokeTimekey);
@@ -78,7 +86,8 @@ public class LoginSecurity {
                         log.error("黑名单ip="+ip+";访问url="+request.getRequestURI()+";掉用接口次数"+count);
                         ipMap.put(ip,(Integer.parseInt(count)+1)+"");
                         jedis.hmset(blackipKey, ipMap);
-                        throw new BizException(resultCodeConfiguration.getBlackipCode(), resultCodeConfiguration.getBlackipMsg());
+                        return false;
+                        //throw new BizException(resultCodeConfiguration.getBlackipCode(), resultCodeConfiguration.getBlackipMsg());
                     }
                 }
                 return true;
