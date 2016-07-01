@@ -10,11 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mobiletechnology</artifactId>
-    <version>${env}-0.0.1</version>
+    <version>${profileActive}-0.0.1</version>
 
     <properties>
         <!--环境架包-->
-        <env>beta</env>
         <mainClass>com.ggj.encrypt.MainApplication</mainClass>
     </properties>
     <dependencies>
@@ -104,8 +103,55 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>beta</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profileActive>beta</profileActive>
+            </properties>
+        </profile>
+        <profile>
+            <id>prd</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <profileActive>prd</profileActive>
+            </properties>
+        </profile>
+    </profiles>
     <build>
+        <resources>
+            <!--打包时候动态根据profile动态替换-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>config/application-beta.yml</exclude>
+                    <exclude>config/application-prd.yml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>config/application-${profileActive}.yml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

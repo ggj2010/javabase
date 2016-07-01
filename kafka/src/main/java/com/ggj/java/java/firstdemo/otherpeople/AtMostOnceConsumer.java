@@ -9,6 +9,7 @@ import java.util.Properties;
 
 
 /**
+ * 消息可能会丢，但绝不会重复传输
  * At-most-once is the default behavior of KAFKA, Depending on how consumer is configured for auto
  * offset management, in some cases this message pattern would turn into at-least-once rather than at-most-once.
  * <p/>
@@ -66,7 +67,7 @@ public class AtMostOnceConsumer {
 
         Properties props = new Properties();
         props.put("bootstrap.servers", "123.56.118.135:9092");
-        String consumeGroup = "cg1";
+        String consumeGroup = "cg6";
         props.put("group.id", consumeGroup);
 
         // Set this property, if auto commit should happen.

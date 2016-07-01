@@ -32,26 +32,6 @@ public class MD5Util {
         return hexValue.toString();
     }
 
-    /**
-     * MD5加密算法
-     * @param data
-     * @return
-     */
-    public static String md5Encrypt(String data) throws Exception {
-            MessageDigest md = MessageDigest.getInstance("md5");
-        return   byte2hexString(md.digest(data.getBytes()));
-    }
 
-
-    private  static String byte2hexString(byte[] bytes) {
-        StringBuilder bf = new StringBuilder(bytes.length * 2);
-        for (int i = 0; i < bytes.length; i++) {
-            if ((bytes[i] & 0xff) < 0x10) {
-                bf.append("T0");
-            }
-            bf.append(Long.toString(bytes[i] & 0xff, 16));
-        }
-        return bf.toString();
-    }
 
 }

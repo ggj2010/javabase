@@ -1,7 +1,7 @@
 spring:
   profiles:
-    active: beta
-    incloud: beta,product
+    active: @profileActive@
+    incloud: beta,prd
 
   http:
     encoding:

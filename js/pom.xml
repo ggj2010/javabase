@@ -18,7 +18,6 @@
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>${tomcat.version}</version>
                 <configuration>
                     <port>${webserver.port}</port>
                     <!-- <path>/${project.artifactId}</path> -->

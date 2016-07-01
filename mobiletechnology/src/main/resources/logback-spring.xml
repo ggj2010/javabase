@@ -19,7 +19,7 @@
         </root>
     </springProfile>
 
-    <springProfile name="product">
+    <springProfile name="prd">
         <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
         <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
         <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">

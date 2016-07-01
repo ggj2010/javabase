@@ -25,6 +25,7 @@
         <module>js</module>
         <module>httpclient</module>
         <module>mobiletechnology</module>
+        <module>zuul</module>
     </modules>
 
     <properties>
