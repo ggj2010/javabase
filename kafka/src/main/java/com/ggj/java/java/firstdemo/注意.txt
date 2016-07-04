@@ -1,0 +1,8 @@
+http://blog.csdn.net/ggjlvzjy/article/details/50601847
+
+异常：Error while fetching metadata with correlation id 1 : {topicapi=LEADER_NOT_AVAILABLE}
+如果linu 系统设置 hostname 不是localhost 那么如果windows在调用的时候 需要设置host别名
+例如我的服务器设置的别名是
+/etc/hostname值是master
+/etc/hosts里面添加一行值123.56.118.135 master
+C:\Windows\System32\drivers\etc\hosts

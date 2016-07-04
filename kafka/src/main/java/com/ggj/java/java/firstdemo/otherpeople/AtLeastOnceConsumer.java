@@ -1,5 +1,6 @@
 package com.ggj.java.java.firstdemo.otherpeople;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -23,7 +24,7 @@ public class AtLeastOnceConsumer {
     }
     private static void execute() throws InterruptedException {
         KafkaConsumer<String, String> consumer = createConsumer();
-        consumer.subscribe(Arrays.asList("normal-topic"));
+        consumer.subscribe(Arrays.asList(Topic.TOPIC));
         processRecords(consumer);
     }
 
@@ -31,7 +32,7 @@ public class AtLeastOnceConsumer {
 
         Properties props = new Properties();
         props.put("bootstrap.servers", "123.56.118.135:9092");
-        String consumeGroup = "cg1";
+        String consumeGroup = "cg";
         props.put("group.id", consumeGroup);
 
         //是否自动提交已拉取消息的offset。提交offset即视为该消息已经成功被消费，
@@ -41,10 +42,10 @@ public class AtLeastOnceConsumer {
         // Make Auto commit interval to a big number so that auto commit does not happen,
         //自动提交offset的间隔毫秒数，默认5000。
         props.put("auto.commit.interval.ms", "999999999999");
-
+//        props.put("auto.offset.reset", "earliest");
         // 每次从单个分区中拉取的消息最大尺寸（byte），默认为1M
         props.put("max.partition.fetch.bytes", "35");
-
+       // props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put("heartbeat.interval.ms", "3000");
         props.put("session.timeout.ms", "6001");
         props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");

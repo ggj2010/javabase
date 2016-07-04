@@ -67,7 +67,7 @@ public class AtMostOnceConsumer {
 
         Properties props = new Properties();
         props.put("bootstrap.servers", "123.56.118.135:9092");
-        String consumeGroup = "cg6";
+        String consumeGroup = "cg7";
         props.put("group.id", consumeGroup);
 
         // Set this property, if auto commit should happen.
@@ -81,7 +81,7 @@ public class AtMostOnceConsumer {
         props.put("max.partition.fetch.bytes", "350");
 
         // Set this if you want to always read from beginning. 每次都是从头开始取
-        //        props.put("auto.offset.reset", "earliest");
+                props.put("auto.offset.reset", "earliest");
 
         props.put("heartbeat.interval.ms", "3000");
         props.put("session.timeout.ms", "6001");

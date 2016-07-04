@@ -17,6 +17,8 @@ public class ProducerExample {
 		System.out.println("Starting ProducerExample ...");
 		
 		sendMessages();
+
+		//System.in.read();
 		
 	}
 	
@@ -47,7 +49,7 @@ public class ProducerExample {
 	}
 	
 	private static void sendMessages(Producer<String, String> producer) {
-		String topic = "normal-topic";
+		String topic = Topic.TOPIC;
 		int partition = 0;
 		long record = 1;
 		for (int i = 1; i <= 10; i++) {
