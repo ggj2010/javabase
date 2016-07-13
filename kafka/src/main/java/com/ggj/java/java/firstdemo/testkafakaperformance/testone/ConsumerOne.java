@@ -9,7 +9,6 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import java.util.Arrays;
 import java.util.Properties;
 
-import static com.ggj.java.java.firstdemo.testkafakaperformance.testone.ProducerOne.testNumber;
 
 
 /**

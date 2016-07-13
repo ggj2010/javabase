@@ -1,5 +1,6 @@
 package com.ggj.encrypt.modules.base.controller;
 
+import com.dianping.cat.Cat;
 import com.ggj.encrypt.common.exception.BizException;
 import com.ggj.encrypt.common.persistence.Result;
 import com.ggj.encrypt.configuration.ResultCodeConfiguration;
@@ -32,11 +33,14 @@ public class BaseController implements InitializingBean {
     public @ResponseBody
     String bizException(BizException e, HttpServletRequest request) {
         logger.error("BizException异常："+e.getLocalizedMessage());
+        //将错误日志打印到大众点评cat
+        Cat.logError(e.getCode(),e);
         return e.getReturnRestult().toJSONString();
     }
     @ExceptionHandler({ Exception.class })
     public @ResponseBody String exception(Exception e, HttpServletRequest request) {
         logger.error("Exception异常："+e.getMessage());
+        Cat.logError(e);
         return exceptionJson;
     }
 

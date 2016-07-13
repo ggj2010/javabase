@@ -36,9 +36,9 @@ public class Result implements Serializable {
      * @param data
      * @return
      */
-    public Result addData(Object data){
+    public String addData(Object data){
         this.setData(data);
-        return this;
+        return this.toJSONString();
     }
 
     public String toJSONString(){

@@ -20,3 +20,5 @@ system:
       ipMaxInvokeNumber: 60
       #半小时登陆错误次数限制调用次
       loginErrorMaxNumber: 3
+      #是否启用swagger
+      enableSwagger: false

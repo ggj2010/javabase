@@ -23,6 +23,8 @@ public class SystemConfiguration {
     private String ipMaxInvokeNumber;
     //半小时登陆错误次数限制调用次
     private String loginErrorMaxNumber;
+    //是否启用enableSwagger
+    private String enableSwagger;
 
 
 

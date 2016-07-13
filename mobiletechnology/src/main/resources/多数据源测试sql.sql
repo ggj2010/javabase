@@ -1,17 +1,15 @@
-USE MASTER;
+USE master;
 
 CREATE TABLE city ( id INT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR (255), state VARCHAR (255), country VARCHAR (255));
 
 INSERT INTO city (NAME, state, country) VALUES ( 'San Francisco-master', 'CA', 'US' );
 
-USE slave1;
+CREATE TABLE `tb_user_info` (
+`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`login_name`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+`password`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+PRIMARY KEY (`id`)
+);
 
-CREATE TABLE city ( id INT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR (255), state VARCHAR (255), country VARCHAR (255));
+INSERT INTO tb_user_info (id, login_name, password) VALUES ( 1, 'gaoguangjin', 'qazqaz' );
 
-INSERT INTO city (NAME, state, country) VALUES ( 'San Francisco-slave1', 'CA', 'US' );
-
-USE slave2;
-
-CREATE TABLE city ( id INT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR (255), state VARCHAR (255), country VARCHAR (255));
-
-INSERT INTO city (NAME, state, country) VALUES ( 'San Francisco-slave2', 'CA', 'US' );

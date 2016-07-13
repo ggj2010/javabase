@@ -20,6 +20,8 @@ system:
       ipMaxInvokeNumber: 60
       #半小时登陆错误次数限制调用次
       loginErrorMaxNumber: 3
+      #是否启用swagger
+      enableSwagger: true
 
 thread:
     #核心线程数,线程池维护线程的最少数量
@@ -47,9 +49,9 @@ datasource:
   type: com.alibaba.druid.pool.DruidDataSource
 #主库
   write:
-    url: jdbc:mysql://localhost:3306/master?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: root
+    url: jdbc:mysql://123.56.118.135:3306/master?useUnicode=true&characterEncoding=utf-8
+    username: mobile
+    password: mobile
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat
     maxActive: 20
@@ -66,9 +68,9 @@ datasource:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   read1:
-    url: jdbc:mysql://localhost:3306/slave1?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: root
+    url: jdbc:mysql://110.173.28.188:3306/master?useUnicode=true&characterEncoding=utf-8
+    username: slave
+    password: mobile
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat
     maxActive: 20
@@ -85,9 +87,9 @@ datasource:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   read2:
-    url: jdbc:mysql://localhost:3306/slave2?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://110.173.28.188:3306/master?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: root
+    password: 0o0o0o0o
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat
     maxActive: 20

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 /**
  * author:gaoguangjin
  * Description:
@@ -21,15 +23,22 @@ public class KafkaConsumerAPITest {
 
     /**
      * 如果启动了多个 Consumer线程，Kafka也能够通过zookeeper实现多个Consumer间的调度，保证同一组下的Consumer不会重复消费消息。注 意，
-     * Consumer数量不能超过partition数，超出部分的Consumer无法拉取到任何数据。
      * @param args
      */
     public static void main(String[] args) {
         KafkaConsumer<Integer, String> consumer = getKafkaConsumer();
 
-      // listTopics(consumer);
+       listTopics(consumer);
 
-        subscribe(consumer);
+       listPartion(consumer);
+//        subscribe(consumer);
+    }
+
+    private static void listPartion(KafkaConsumer<Integer, String> consumer) {
+        List<PartitionInfo> partitionsFor = consumer.partitionsFor("mytopic2");
+        for (PartitionInfo partitionInfo : partitionsFor) {
+            System.out.println(""+partitionInfo);
+        }
     }
 
     /**

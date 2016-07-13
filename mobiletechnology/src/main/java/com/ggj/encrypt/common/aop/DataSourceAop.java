@@ -18,13 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DataSourceAop {
 	
-	@Before("execution(* com.ggj.encrypt.modules.*.dao..*.find*(..)) or execution(* com.ggj.encrypt.modules.*.dao..*.get*(..))")
+	@Before("execution(* com.ggj.encrypt.modules.*.dao..*.find*(..)) or execution(* com.ggj.encrypt.modules.*.dao..*.get*(..)) or execution(* com.ggj.encrypt.modules.*.dao..*.select*(..))")
 	public void setReadDataSourceType() {
 		DataSourceContextHolder.read();
 		log.info("dataSource切换到：Read");
 	}
 	
-	@Before("execution(* com.ggj.encrypt.modules.*.dao..*.insert*(..)) or execution(* com.ggj.encrypt.modules.*.dao..*.update*(..))")
+	@Before("execution(* com.ggj.encrypt.modules.*.dao..*.insert*(..)) or execution(* com.ggj.encrypt.modules.*.dao..*.update*(..)) or execution(* com.ggj.encrypt.modules.*.dao..*.add*(..))")
 	public void setWriteDataSourceType() {
 		DataSourceContextHolder.write();
 		log.info("dataSource切换到：write");

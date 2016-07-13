@@ -1,20 +1,10 @@
 package com.ggj.encrypt.common.utils.kafka;
 
-import com.alibaba.fastjson.JSONObject;
-import com.ggj.encrypt.common.utils.ApiTools;
-import com.ggj.encrypt.common.utils.DateUtils;
 import com.ggj.encrypt.modules.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import static org.junit.Assert.*;
 
 /**
  * @author:gaoguangjin

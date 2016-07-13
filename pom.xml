@@ -65,6 +65,8 @@
         <disruptor.version>3.3.4</disruptor.version>
 
         <aspectj.version>1.8.9</aspectj.version>
+        <cat.version>1.3.6</cat.version>
+        <springfox.version>2.4.0</springfox.version>
         <!-- environment character -->
         <jdk.version>1.8</jdk.version>
         <webserver.port>80</webserver.port>
@@ -243,6 +245,26 @@
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>${aspectj.version}</version>
+            </dependency>
+
+            <!--大众点评监控组件cat-->
+            <dependency>
+                <groupId>com.dianping.cat</groupId>
+                <artifactId>cat-core</artifactId>
+                <version>${cat.version}</version>
+            </dependency>
+
+            <!-- Swagger resutApi -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

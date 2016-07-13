@@ -1,17 +1,13 @@
 package com.ggj.encrypt.modules.base.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.ggj.encrypt.common.constant.GlobalConstant;
 import com.ggj.encrypt.modules.base.service.LoginService;
 import com.ggj.encrypt.modules.sys.bean.UserInfo;
 import com.ggj.encrypt.modules.sys.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**

@@ -49,10 +49,7 @@ public class MobilePraseLog extends ShutdownableThread {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,  StringDeserializer.class.getName());
         //value.deserializer
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,  StringDeserializer.class.getName());
-
-
         return new KafkaConsumer<>(props);
     }
-
 
 }

@@ -70,6 +70,7 @@ public class LoginSecurity {
                         //ip1分钟调用次数
                         if (jedis.exists(ipIvokeTimekey)) {
                             if (jedis.incr(ipIvokeTimekey) > Long.parseLong(systemConfiguration.getIpMaxInvokeNumber())) {
+                                //ip一分钟调用太多次直接拉入黑名单
                                 ipMap.put(ip, "1");
                                 jedis.hmset(blackipKey, ipMap);
                                 log.error("ip访问频繁:=" + ip);
@@ -78,8 +79,8 @@ public class LoginSecurity {
                             }
                         } else {
                             jedis.incr(ipIvokeTimekey);
-                            jedis.expire(ipIvokeTimekey, 60);
                         }
+                        jedis.expire(ipIvokeTimekey, 60);
                     } else {
                         //黑名单调用次数
                         String count=jedis.hmget(blackipKey,ip).get(0);

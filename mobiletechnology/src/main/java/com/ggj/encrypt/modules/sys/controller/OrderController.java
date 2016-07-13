@@ -33,6 +33,6 @@ public class OrderController extends BaseController {
         order2.setId("2");
         order1.setOrderDetail("衣服哈");
         order2.setOrderDetail("事务啊");
-        return resultCodeConfiguration.getResult().addData( Arrays.asList(order1,order2)).toJSONString();
+        return resultCodeConfiguration.getResult().addData( Arrays.asList(order1,order2));
     }
 }

@@ -1,13 +1,11 @@
 package com.ggj.encrypt.modules.sys.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.ggj.encrypt.common.constant.GlobalConstant;
 import com.ggj.encrypt.common.utils.ApiTools;
 import com.ggj.encrypt.common.utils.DesUtil;
 import com.ggj.encrypt.common.utils.MD5Util;
 import com.ggj.encrypt.modules.BaseTest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.http.HttpEntity;
@@ -16,11 +14,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import static org.junit.Assert.*;
 
 /**
  * @author:gaoguangjin
@@ -36,7 +29,7 @@ public class OrderControllerTest extends BaseTest{
 
     //32 位
     private final String APPKEY="1234567890_1234567890_1234appkey";
-    private final String USERTOKEN="c6b61bdfe3a543948813aa3dae779894";
+    private final String USERTOKEN="f4c04b7a8ec84aa9bdca189f682fba71";
     private String TIMESTAMP="";
     //测试用id=1 的账户
     private String USERID="1";

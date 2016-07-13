@@ -42,7 +42,7 @@ public class AtLeastOnceConsumer {
         // Make Auto commit interval to a big number so that auto commit does not happen,
         //自动提交offset的间隔毫秒数，默认5000。
         props.put("auto.commit.interval.ms", "999999999999");
-//        props.put("auto.offset.reset", "earliest");
+       // props.put("auto.offset.reset", "earliest");
         // 每次从单个分区中拉取的消息最大尺寸（byte），默认为1M
         props.put("max.partition.fetch.bytes", "35");
        // props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
