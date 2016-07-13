@@ -4,6 +4,7 @@ import com.dianping.cat.Cat;
 import com.dianping.cat.message.Message;
 import com.dianping.cat.message.Transaction;
 import com.ggj.encrypt.common.utils.mybatis.MyAbstractRoutingDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.BaseStatementHandler;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
@@ -13,6 +14,7 @@ import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 /**
@@ -22,6 +24,7 @@ import java.util.Properties;
 @Intercepts({@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class,Object.class})}
 )
+@Slf4j
 public class MyBatisCatPlugin implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -37,10 +40,12 @@ public class MyBatisCatPlugin implements Interceptor {
             Cat.getProducer().logEvent("SQL.Method", mappedStatement.getSqlCommandType().name(),Message.SUCCESS,"");
 //            Cat.getProducer().logEvent("SQL.Database","" ,Message.SUCCESS,"");
             transaction.setStatus(Message.SUCCESS);
-            transaction.addData(boundSql.getSql().trim().replaceAll("\\n",""));
-        }catch (Exception e){
-            transaction.setStatus(e);
+        }catch (InvocationTargetException|IllegalAccessException e){
+            transaction.setStatus(((InvocationTargetException) e).getTargetException().toString());
+            log.error(((InvocationTargetException) e).getTargetException().toString());
+            throw e;
         }finally {
+            transaction.addData(boundSql.getSql().trim().replaceAll("\\n",""));
             transaction.complete();
         }
         return result;
