@@ -1,7 +1,6 @@
 package com.ggj.encrypt.modules.test.dao.annation;
 
 import com.ggj.encrypt.modules.BaseTest;
-import com.ggj.encrypt.modules.sys.dao.UserDao;
 import com.ggj.encrypt.modules.test.bean.City;
 import com.ggj.encrypt.modules.test.dao.xml.CityDao;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.*;
 
 /**
  * @author:gaoguangjin

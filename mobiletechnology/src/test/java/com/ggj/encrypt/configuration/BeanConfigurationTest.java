@@ -1,15 +1,12 @@
 package com.ggj.encrypt.configuration;
 
 import com.ggj.encrypt.modules.BaseTest;
-import com.ggj.encrypt.modules.sys.dao.UserDao;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.ThreadPoolExecutor;
 
-import static org.junit.Assert.*;
 
 /**
  * @author:gaoguangjin

@@ -27,6 +27,7 @@ public class ZookeperClient{
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private  ZooKeeper getZookeeper() {
