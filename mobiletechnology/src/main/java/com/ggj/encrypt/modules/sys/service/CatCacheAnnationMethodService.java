@@ -22,8 +22,6 @@ public class CatCacheAnnationMethodService {
     @Autowired
     private RedisDaoTemplate redisDaoTemplate;
 
-
-
     /**
      * 如果某个方法要执行redis操作 而且同时用cat对redis进行监控， 那么这个方法必须要有一个参数key 是redis的key
      * @param key

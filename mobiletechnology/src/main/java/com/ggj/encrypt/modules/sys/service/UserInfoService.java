@@ -27,7 +27,6 @@ import java.util.List;
  * @Date 2016/4/28 10:35
  */
 @Service
-@Transactional(readOnly = true)
 public class UserInfoService {
 	@Autowired
 	private UserInfoMapper userInfoMapperDao;

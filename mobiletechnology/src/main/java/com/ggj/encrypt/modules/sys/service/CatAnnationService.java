@@ -16,7 +16,6 @@ import java.util.List;
  */
 @CatTransaction
 @Service
-@Transactional(readOnly = true)
 public class CatAnnationService {
     @Autowired
     private UserInfoMapper userInfoMapperDao;

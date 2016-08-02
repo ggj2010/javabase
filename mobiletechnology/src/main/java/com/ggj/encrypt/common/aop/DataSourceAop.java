@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * aop 拦截 进行切换数据源
+ * 如果service层 增加了@Transactional ，导致数据源MyAbstractRoutingDataSource的determineCurrentLookupKey()方法会在执行DataSourceAop拦截之前就进行全局事务绑定
+ * 从而导致获取 DataSourceContextHolder.getJdbcType(); 一直都是空值
  * @author:gaoguangjin
  * @date 2016/5/30 17:44
  */
@@ -24,9 +26,16 @@ public class DataSourceAop {
 		log.info("dataSource切换到：Read");
 	}
 	
-	@Before("execution(* com.ggj.encrypt.modules.*.dao..*.insert*(..)) or execution(* com.ggj.encrypt.modules.*.dao..*.update*(..)) or execution(* com.ggj.encrypt.modules.*.dao..*.add*(..))")
-	public void setWriteDataSourceType() {
-		DataSourceContextHolder.write();
-		log.info("dataSource切换到：write");
-	}
+	/*@Around("@annotation(org.springframework.transaction.annotation.Transactional)")
+	public void setWriteDataSourceType(ProceedingJoinPoint joinPoint) throws Throwable {
+		Transactional datasource = ((MethodSignature)joinPoint.getSignature()).getMethod().getAnnotation(Transactional.class);
+		if(datasource.readOnly()){
+			DataSourceContextHolder.read();
+			log.info("dataSource切换到：Read");
+		}else{
+			DataSourceContextHolder.write();
+			log.info("dataSource切换到：write");
+		}
+		joinPoint.proceed();
+	}*/
 }

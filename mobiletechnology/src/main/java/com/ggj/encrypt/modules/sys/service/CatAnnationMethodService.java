@@ -17,7 +17,6 @@ import com.ggj.encrypt.modules.sys.dao.UserInfoMapper;
  * @date 2016/7/12 16:39
  */
 @Service
-@Transactional(readOnly = true)
 public class CatAnnationMethodService {
     @Autowired
     private UserInfoMapper userInfoMapperDao;
