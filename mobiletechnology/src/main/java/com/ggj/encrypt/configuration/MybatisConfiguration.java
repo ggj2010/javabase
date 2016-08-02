@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
@@ -32,6 +33,8 @@ public class MybatisConfiguration extends MybatisAutoConfiguration {
 	private String dataSourceSize;
 	
 	@Bean
+	/*spring-boot-starter-parent架包升级到1.4.0.RELEASE 解决循环依赖问题*/
+	/*@ConditionalOnBean({AbstractRoutingDataSource.class})*/
 	public SqlSessionFactory sqlSessionFactorys() throws Exception {
 		log.info("-------------------- 重载父类 sqlSessionFactory init ---------------------");
 		return super.sqlSessionFactory(roundRobinDataSouceProxy());

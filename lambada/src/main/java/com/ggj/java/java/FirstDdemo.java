@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * author:gaoguangjin
@@ -50,5 +51,12 @@ public class FirstDdemo {
         list.forEach(number -> log.info(number));
 
         list.forEach((String number) -> {log.info(number);});
+
+        List<String> list2=list;
+        final List<String> filtered = list.stream()
+                .filter(s -> s.startsWith("1"))
+                .map(s -> s+"ddd")
+                .collect(Collectors.toList());
+        log.info("输出："+filtered.get(0));
     }
 }
