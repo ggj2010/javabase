@@ -4,6 +4,7 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.data.Stat;
 
 /**
  * @author:gaoguangjin
@@ -23,5 +24,10 @@ public class CuratorUtil {
         //The client must be started (and closed when no longer needed).
         client.start();
         return client;
+    }
+
+    public static boolean checkExists(CuratorFramework client,String path) throws Exception {
+        Stat dd = client.checkExists().forPath(path);
+        return client.checkExists().forPath(path) == null ? false : true;
     }
 }
