@@ -88,8 +88,8 @@ datasource:
     maxOpenPreparedStatements: 20
   read2:
     url: jdbc:mysql://110.173.28.188:3306/master?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: 0o0o0o0o
+    username: slave
+    password: mobile
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat
     maxActive: 20

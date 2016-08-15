@@ -25,7 +25,4 @@ public class SystemConfiguration {
     private String loginErrorMaxNumber;
     //是否启用enableSwagger
     private String enableSwagger;
-
-
-
 }
