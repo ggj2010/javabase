@@ -9,6 +9,6 @@ app.directive("myDirective", function () {
         //推荐使用A，跨浏览器兼容性
         restrict: 'A',
         template: '<a href="http://ggjlovezjy.date">Click me to go to ggj</a>'
-      /*  template: '<a href="{{ myUrl }}">Click me to go to ggj</a>'*/
+      /*  templates: '<a href="{{ myUrl }}">Click me to go to ggj</a>'*/
     }
 })

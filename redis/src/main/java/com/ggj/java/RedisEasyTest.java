@@ -22,7 +22,8 @@ public class RedisEasyTest {
     private static Jedis jedis3 = new Jedis("123.56.118.135");
     private static Pipeline p = jedis.pipelined();
 
-    private static int KEY_COUNT = 100000;
+//    private static int KEY_COUNT = 150000;
+    private static int KEY_COUNT = 50000;
 
     public static void main(String[] args) {
         jedis.auth("gaoguangjin");
@@ -32,16 +33,19 @@ public class RedisEasyTest {
         jedis2.auth("gaoguangjin");
         jedis2.select(1);
         Transaction transaction = jedis2.multi();
+        jedis2.getClient().setConnectionTimeout(100000);
+
 
         jedis3.auth("gaoguangjin");
         jedis3.select(1);
         Pipeline pipeline = jedis3.pipelined();
+        jedis3.getClient().setConnectionTimeout(100000);
         pipeline.multi();
 
         // 不要把注释打开，否则慢的要死！！！
         long start = System.currentTimeMillis();
-        // jedis();
-        // System.out.printf("jedis use %d sec \n", (System.currentTimeMillis() - start) / 1000);
+       /*  jedis();
+         System.out.printf("jedis use %d sec \n", (System.currentTimeMillis() - start) / 1000);*/
         start = System.currentTimeMillis();
         transation(transaction);
         System.out.printf("transation use %d sec \n", (System.currentTimeMillis() - start) / 1000);

@@ -26,11 +26,11 @@
  * Since data will be parsed statically during a build step, some restrictions
  * are applied with respect to how minErr instances are created and called.
  * Instances should have names of the form namespaceMinErr for a minErr created
- * using minErr('namespace') . Error codes, namespaces and template strings
+ * using minErr('namespace') . Error codes, namespaces and templates strings
  * should all be static strings, not variables or general expressions.
  *
  * @param {string} module The namespace to use for the new minErr instance.
- * @returns {function(code:string, template:string, ...templateArgs): Error} minErr instance
+ * @returns {function(code:string, templates:string, ...templateArgs): Error} minErr instance
  */
 
 function minErr(module) {
@@ -6276,7 +6276,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           newScopeDirective = newScopeDirective || directive;
 
           // skip the check for directives with async templates, we'll check the derived sync
-          // directive when the template arrives
+          // directive when the templates arrives
           if (!directive.templateUrl) {
             assertNoDuplicate('new/isolated scope', newIsolateScopeDirective, directive,
                               $compileNode);
@@ -6365,11 +6365,11 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
             var newTemplateAttrs = {$attr: {}};
 
-            // combine directives from the original node and from the template:
+            // combine directives from the original node and from the templates:
             // - take the array of directives for this element
             // - split it into two parts, those that already applied (processed) and those that weren't (unprocessed)
-            // - collect directives from the template and sort them by priority
-            // - combine directives as: processed + template + unprocessed
+            // - collect directives from the templates and sort them by priority
+            // - combine directives as: processed + templates + unprocessed
             var templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs);
             var unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
 
@@ -6633,7 +6633,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         }
 
         // RECURSION
-        // We only pass the isolate scope, if the isolate directive has a template,
+        // We only pass the isolate scope, if the isolate directive has a templates,
         // otherwise the child elements do not belong to the isolate directive.
         var scopeToChild = scope;
         if (newIsolateScopeDirective && (newIsolateScopeDirective.template || newIsolateScopeDirective.templateUrl === null)) {
@@ -6717,12 +6717,12 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
 
     /**
-     * When the element is replaced with HTML template then the new attributes
-     * on the template need to be merged with the existing attributes in the DOM.
+     * When the element is replaced with HTML templates then the new attributes
+     * on the templates need to be merged with the existing attributes in the DOM.
      * The desired effect is to have both of the attributes present.
      *
      * @param {object} dst destination attributes (original DOM)
-     * @param {object} src source attributes (from the directive template)
+     * @param {object} src source attributes (from the directive templates)
      */
     function mergeTemplateAttributes(dst, src) {
       var srcAttr = src.$attr,
@@ -6853,7 +6853,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           linkQueue = null;
         }).
         error(function(response, code, headers, config) {
-          throw $compileMinErr('tpload', 'Failed to load template: {0}', config.url);
+          throw $compileMinErr('tpload', 'Failed to load templates: {0}', config.url);
         });
 
       return function delayedNodeLinkFn(ignoreChildLinkFn, scope, node, rootElement, boundTranscludeFn) {
@@ -6898,7 +6898,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           directives.push({
             priority: 0,
             compile: function textInterpolateCompileFn(templateNode) {
-              // when transcluding a template that has bindings in the root
+              // when transcluding a templates that has bindings in the root
               // then we don't have a parent and should do this in the linkFn
               var parent = templateNode.parent(), hasCompileParent = parent.length;
               if (hasCompileParent) safeAddClass(templateNode.parent(), 'ng-binding');
@@ -11890,7 +11890,7 @@ function $RootScopeProvider(){
      * A root scope can be retrieved using the {@link ng.$rootScope $rootScope} key from the
      * {@link auto.$injector $injector}. Child scopes are created using the
      * {@link ng.$rootScope.Scope#$new $new()} method. (Most scopes are created automatically when
-     * compiled HTML template is executed.)
+     * compiled HTML templates is executed.)
      *
      * Here is a simple scope snippet to show how you can interact with the scope.
      * ```html
@@ -19471,7 +19471,7 @@ var ngIfDirective = ['$animate', function($animate) {
                 clone[clone.length++] = document.createComment(' end ngIf: ' + $attr.ngIf + ' ');
                 // Note: We only need the first/last node of the cloned nodes.
                 // However, we need to keep the reference to the jqlite wrapper as it might be changed later
-                // by a directive with templateUrl when its template arrives.
+                // by a directive with templateUrl when its templates arrives.
                 block = {
                   clone: clone
                 };
@@ -19742,7 +19742,7 @@ var ngIncludeDirective = ['$http', '$templateCache', '$anchorScroll', '$animate'
 }];
 
 // This directive is called during the $transclude call of the first `ngInclude` directive.
-// It will replace and compile the content of the element with the loaded template.
+// It will replace and compile the content of the element with the loaded templates.
 // We need this directive so that the element content is already filled when
 // the link function of another directive on the same element as ngInclude
 // is called.
@@ -20451,7 +20451,7 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
                 block.scope = childScope;
                 // Note: We only need the first/last node of the cloned nodes.
                 // However, we need to keep the reference to the jqlite wrapper as it might be changed later
-                // by a directive with templateUrl when its template arrives.
+                // by a directive with templateUrl when its templates arrives.
                 block.clone = clone;
                 nextBlockMap[block.id] = block;
               });
@@ -21097,7 +21097,7 @@ var ngTranscludeDirective = ngDirective({
   link: function($scope, $element, $attrs, controller, $transclude) {
     if (!$transclude) {
       throw minErr('ngTransclude')('orphan',
-       'Illegal use of ngTransclude directive in the template! ' +
+       'Illegal use of ngTransclude directive in the templates! ' +
        'No parent directive that requires a transclusion found. ' +
        'Element: {0}',
        startingTag($element));
@@ -21148,7 +21148,7 @@ var scriptDirective = ['$templateCache', function($templateCache) {
     restrict: 'E',
     terminal: true,
     compile: function(element, attr) {
-      if (attr.type == 'text/ng-template') {
+      if (attr.type == 'text/ng-templates') {
         var templateUrl = attr.id,
             // IE is not consistent, in scripts we have to read .text but in other nodes we have to read .textContent
             text = element[0].text;

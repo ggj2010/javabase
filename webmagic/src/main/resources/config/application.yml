@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: @profileActive@
+    incloud: beta,prd
+server:
+  port: 80
+
+  http:
+    encoding:
+    charset: UTF-8
+    enabled: true
+    force: true
+#日志颜色
+  output:
+    ansi:
+      enabled: ALWAYS
+logging:
+  config: classpath:logback-spring.xml
+  file: myapps.log
+  path: var/temp

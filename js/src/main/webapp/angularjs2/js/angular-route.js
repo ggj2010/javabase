@@ -80,18 +80,18 @@ function $RouteProvider(){
    *      controller} if passed as a string.
    *    - `controllerAs` – `{string=}` – A controller alias name. If present the controller will be
    *      published to scope under the `controllerAs` name.
-   *    - `template` – `{string=|function()=}` – html template as a string or a function that
-   *      returns an html template as a string which should be used by {@link
+   *    - `templates` – `{string=|function()=}` – html templates as a string or a function that
+   *      returns an html templates as a string which should be used by {@link
    *      ngRoute.directive:ngView ngView} or {@link ng.directive:ngInclude ngInclude} directives.
    *      This property takes precedence over `templateUrl`.
    *
-   *      If `template` is a function, it will be called with the following parameters:
+   *      If `templates` is a function, it will be called with the following parameters:
    *
    *      - `{Array.<Object>}` - route parameters extracted from the current
    *        `$location.path()` by applying the current route
    *
    *    - `templateUrl` – `{string=|function()=}` – path or function that returns a path to an html
-   *      template that should be used by {@link ngRoute.directive:ngView ngView}.
+   *      templates that should be used by {@link ngRoute.directive:ngView ngView}.
    *
    *      If `templateUrl` is a function, it will be called with the following parameters:
    *
@@ -891,7 +891,7 @@ function ngViewFactory(   $route,   $anchorScroll,   $animate) {
 }
 
 // This directive is called during the $transclude call of the first `ngView` directive.
-// It will replace and compile the content of the element with the loaded template.
+// It will replace and compile the content of the element with the loaded templates.
 // We need this directive so that the element content is already filled when
 // the link function of another directive on the same element as ngView
 // is called.

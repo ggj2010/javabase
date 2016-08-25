@@ -15,8 +15,8 @@ app.controller('childController', function ($scope) {
  // 设置监听
  $scope.$watch('emailBody', function (body) {
  if (body) {
- var template = $interpolate(body);
- $scope.previewText = template({to: $scope.to});
+ var templates = $interpolate(body);
+ $scope.previewText = templates({to: $scope.to});
  }
  });
  });*/
@@ -25,8 +25,7 @@ app.controller('emailController', function ($scope, $interpolate) {
     $scope.$watch('emailBody', function (body) {
         if (body) {
             var template = $interpolate(body);
-            $scope.previewText =
-                template({to: $scope.to});
+            $scope.previewText = template({to: $scope.to});
         }
     });
 });

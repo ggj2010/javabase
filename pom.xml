@@ -12,9 +12,10 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.3.0.RELEASE</version>
-       <!-- <version>1.4.0.RELEASE</version>-->
+  <!--      <version>1.3.0.RELEASE</version>-->
+        <version>1.4.0.RELEASE</version>
     </parent>
+
 
     <modules>
         <module>thread</module>
@@ -26,12 +27,12 @@
         <module>js</module>
         <module>httpclient</module>
         <module>mobiletechnology</module>
-        <module>zuul</module>
+        <module>webmagic</module>
     </modules>
 
     <properties>
         <!--test -->
-        <junit.version>4.10</junit.version>
+        <junit.version>4.12</junit.version>
         <contiperf.version>2.2.0</contiperf.version>
         <!-- logback -->
         <logback.version>1.1.3</logback.version>
@@ -56,6 +57,7 @@
         <!--jedis-->
         <jedis.version>2.8.0</jedis.version>
         <commons-lang3.version>3.4</commons-lang3.version>
+        <commons-lang.version>2.6</commons-lang.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-collections.version>3.2.1</commons-collections.version>
 
@@ -66,6 +68,9 @@
         <fastjson.version>1.1.41</fastjson.version>
         <disruptor.version>3.3.4</disruptor.version>
 
+        <qiniusdk.version>7.1.2</qiniusdk.version>
+        <!--webmagic-->
+        <webmagic.version>0.5.3</webmagic.version>
         <aspectj.version>1.8.9</aspectj.version>
         <cat.version>1.3.6</cat.version>
         <springfox.version>2.4.0</springfox.version>
@@ -107,6 +112,11 @@
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang.version}</version>
             </dependency>
             <!--common util end-->
 
@@ -278,6 +288,29 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${springfox.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-core</artifactId>
+                <version>${webmagic.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-log4j12</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-extension</artifactId>
+                <version>${webmagic.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniusdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
