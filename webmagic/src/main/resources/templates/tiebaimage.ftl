@@ -34,6 +34,23 @@
     <div id="links" class="lightBoxGallery">
         <div class="row">
     <#if data??&&data?size gt 0>
+        <#list sortPageIds as key>
+            <#list data[key] as image>
+           <div class="col-md-3 col-xs-6 col-sm-4">
+                <div class="thumbnail">
+                   <a href="${image}" title="吧友图片"  data-gallery>
+                        <img src="${image}" >
+                    </a>
+                    <div class="caption">
+                       <p> <a class="btn btn-link" role="button"  href="${pageUrlPrefix}${key}" title="点击跳转到对应帖子">传送门</a></p>
+                    </div>
+                   </div>
+            </div>
+             </#list>
+        </#list>
+     </#if>
+<#--
+    <#if data??&&data?size gt 0>
         <#list data?keys as key>
             <#list data[key] as image>
            <div class="col-md-3">
@@ -42,13 +59,14 @@
                         <img src="${image}" >
                     </a>
                     <div class="caption">
-                       <p> <a class="btn " role="button"  href="${key}" title="点击跳转到对应帖子">传送门</a></p>
+                       <p> <a class="btn " role="button"  href="${pageUrlPrefix}${key}" title="点击跳转到对应帖子">传送门</a></p>
                     </div>
                    </div>
             </div>
              </#list>
         </#list>
      </#if>
+-->
     </div>
     </div>
 </div>

@@ -17,7 +17,7 @@ public class ScheduleTask {
     @Autowired
     private WebmagicService webmagicService;
     //一个小时更新一次，执行top
-    @Scheduled(initialDelay = 0, fixedRate = 1000*60*60)
+//    @Scheduled(initialDelay = 0, fixedRate = 1000*60*60)
 //    @Scheduled(cron="0 */60 * * * ?")
     public void scheduleUpdateTieBa() {
         try {
@@ -26,8 +26,8 @@ public class ScheduleTask {
            log.error("贴吧同步TOP失败！"+e.getLocalizedMessage());
         }
     }
-    //5分钟更新一次，执行top
-    @Scheduled(initialDelay = 0, fixedRate = 1000*60*5)
+    //1分钟更新一次，执行top
+    @Scheduled(initialDelay = 0, fixedRate = 1000*60*1)
     public void scheduleTieBaImage() {
         webmagicService.addTieBaImage();
     }

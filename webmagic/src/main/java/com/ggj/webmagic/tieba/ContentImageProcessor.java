@@ -7,8 +7,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.alibaba.fastjson.JSONObject;
 import com.ggj.webmagic.WebmagicService;
 import com.ggj.webmagic.autoconfiguration.TieBaConfiguration;
+import com.ggj.webmagic.tieba.bean.ContentBean;
 import com.ggj.webmagic.util.QiNiuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +28,14 @@ import us.codecraft.webmagic.processor.PageProcessor;
 @Service
 @Slf4j
 public class ContentImageProcessor implements PageProcessor {
-
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private TieBaConfiguration tieBaConfiguration;
     @Autowired
     private QiNiuUtil qiNiuUtil;
     private static String url;
+    private static String tiebaName;
     private volatile static boolean isAddTarget = false;
     private static List<String> pageNumberList;
     private static ConcurrentHashMap<byte[], byte[]> map = new ConcurrentHashMap<byte[], byte[]>();
@@ -41,16 +45,23 @@ public class ContentImageProcessor implements PageProcessor {
     @Override
     public void process(Page page) {
         List<String> imageUrlList = page.getHtml().$(".BDE_Image", "src").all();
-        String pageUrl = page.getUrl().toString();
+        String pageId = page.getUrl().toString().replace(tieBaConfiguration.getTiebaContentPageUrl(),"");
         List<String> list = new ArrayList<>();
         for (String imageUrl : imageUrlList) {
+            if("4679806310".equals(pageId)){
+                System.out.println("page = [" + "213" + "]");
+            }
+
             if (imageUrl.startsWith(tieBaConfiguration.getTiebaImageUrl())) {
                 imageUrl=convertImageUrl(imageUrl);
                 if (null!=imageUrl)list.add(imageUrl);
             }
         }
-        if (list.size() > 0)
-            map.put(WebmagicService.getByte(pageUrl), WebmagicService.getByte(JSONObject.toJSONString(list)));
+        if (list.size() > 0) {
+            map.put(WebmagicService.getByte(pageId), WebmagicService.getByte(JSONObject.toJSONString(list)));
+        }else{
+            redisTemplate.convertAndSend(tieBaConfiguration.getTiebaContentNoImageIdTopic(), JSONObject.toJSONString(new ContentBean(pageId,tiebaName)));
+        }
         if (!isAddTarget) {
             for (String id : pageNumberList) {
                 StringBuilder sb = new StringBuilder();
@@ -79,8 +90,10 @@ public class ContentImageProcessor implements PageProcessor {
         return site;
     }
 
-    public ConcurrentHashMap<byte[], byte[]> start(List<String> pageNumberList) {
+    public ConcurrentHashMap<byte[], byte[]> start(List<String> pageNumberList, String tiebaName) {
+        isAddTarget=false;
         map.clear();
+        this.tiebaName=tiebaName;
         this.pageNumberList = pageNumberList;
         this.url = tieBaConfiguration.getTiebaContentPageUrl();
         Spider.create(this).addUrl(url).addPipeline(new ConsolePipeline())

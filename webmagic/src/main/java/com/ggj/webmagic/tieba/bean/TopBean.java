@@ -1,10 +1,10 @@
-package com.ggj.webmagic.tieba;
+package com.ggj.webmagic.tieba.bean;
 
+
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Date;
 
 /**
  * @author:gaoguangjin
@@ -21,7 +21,7 @@ public class TopBean {
     private Date createDate;
     private String tieBaName;
 
-    public TopBean(String index,String userName, String level, String experience,String tieBaName) {
+    public TopBean(String index, String userName, String level, String experience, String tieBaName) {
         this.index=index;
         this.userName=userName;
         this.level=level;

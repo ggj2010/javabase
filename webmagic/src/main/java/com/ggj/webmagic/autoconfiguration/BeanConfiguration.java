@@ -21,6 +21,10 @@ import static javafx.scene.input.KeyCode.T;
 public class BeanConfiguration {
     @Autowired
     TieBaConfiguration tieBaConfiguration;
+    @Autowired
+    TieBaImageIdMessageListener TieBaImageIdMessageListener;
+    @Autowired
+    TieBaNoImageIdMessageListener tieBaNoImageIdMessageListener;
     /**
      * spring-data-redis 使用jedsi作为实现类
      * @param jedisConnectionFactory
@@ -33,10 +37,11 @@ public class BeanConfiguration {
         return redisTemplate;
     }
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer(JedisConnectionFactory jedisConnectionFactory,TieBaImageIdMessageListener tieBaImageIdMessageListener){
+    public RedisMessageListenerContainer redisMessageListenerContainer(JedisConnectionFactory jedisConnectionFactory){
         RedisMessageListenerContainer  redisMessageListenerContainer=new RedisMessageListenerContainer();
         redisMessageListenerContainer.setConnectionFactory(jedisConnectionFactory);
-        redisMessageListenerContainer.addMessageListener(tieBaImageIdMessageListener,new ChannelTopic(tieBaConfiguration.getTiebaContentIdTopic()));
+        redisMessageListenerContainer.addMessageListener(TieBaImageIdMessageListener,new ChannelTopic(tieBaConfiguration.getTiebaContentIdTopic()));
+        redisMessageListenerContainer.addMessageListener(tieBaNoImageIdMessageListener,new ChannelTopic(tieBaConfiguration.getTiebaContentNoImageIdTopic()));
         return redisMessageListenerContainer;
     }
 }

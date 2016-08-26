@@ -25,6 +25,8 @@ public class TieBaConfiguration {
     private String tiebaImageUrl;
     //贴吧帖子id  redis pub/sub topic名称
     private String tiebaContentIdTopic;
+    //贴吧帖子 不存在图片的提诶子id redis pub/sub topic名称
+    private String tiebaContentNoImageIdTopic;
     //同步帖子最后一页
     private String tiebaContentPageEndNum;
 }
