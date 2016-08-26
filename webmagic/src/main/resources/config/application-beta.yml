@@ -4,7 +4,7 @@ tieba:
   tiebaContentUrl: http://tieba.baidu.com/f?ie=utf-8&kw=
   tiebaContentPageUrl: http://tieba.baidu.com/p/
   #50*50=2500 个帖子
-  tiebaContentPageEndNum: 4
+  tiebaContentPageEndNum: 5
   tiebaImageUrl: http://imgsrc.baidu.com/forum/w%3D580/
   tiebaContentIdTopic: tieba_content_id_topic
   tiebaContentNoImageIdTopic: tieba_content_noimage_id_topic

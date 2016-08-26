@@ -2,7 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>吧友图片</title>
+    <meta name="keyworlds" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="layoutmode" content="standard">
 </head>
 <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
@@ -49,24 +60,6 @@
              </#list>
         </#list>
      </#if>
-<#--
-    <#if data??&&data?size gt 0>
-        <#list data?keys as key>
-            <#list data[key] as image>
-           <div class="col-md-3">
-                <div class="thumbnail">
-                   <a href="${image}" title="吧友图片"  data-gallery>
-                        <img src="${image}" >
-                    </a>
-                    <div class="caption">
-                       <p> <a class="btn " role="button"  href="${pageUrlPrefix}${key}" title="点击跳转到对应帖子">传送门</a></p>
-                    </div>
-                   </div>
-            </div>
-             </#list>
-        </#list>
-     </#if>
--->
     </div>
     </div>
 </div>
