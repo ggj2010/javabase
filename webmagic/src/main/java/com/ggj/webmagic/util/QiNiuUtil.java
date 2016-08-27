@@ -79,7 +79,7 @@ public class QiNiuUtil implements InitializingBean {
 		}
 	}
 	
-	public synchronized String upload(String key, byte[] bytes) throws IOException {
+	public  String upload(String key, byte[] bytes) throws IOException {
 		try {
             //log.info("上传图片至七牛：key="+key);
 			String token = getUpToken(key);
