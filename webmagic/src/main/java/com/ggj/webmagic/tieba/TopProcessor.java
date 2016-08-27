@@ -33,7 +33,7 @@ public class TopProcessor implements PageProcessor {
     private String tiebaName;
     private String tiebaUrl;
     // 部分一：抓取网站的相关配置，包括编码、抓取间隔、重试次数等
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000).setTimeOut(10000);
+    private Site site = Site.me().setRetryTimes(3).setSleepTime(5000).setTimeOut(10000);
 
     @Override
     // process是定制爬虫逻辑的核心接口，在这里编写抽取逻辑
@@ -94,7 +94,7 @@ public class TopProcessor implements PageProcessor {
                 // 开启5个线程抓取
 //                .thread(200)
                 //服务器上面线程数不能开启多 防止链接异常
-                .thread(200)
+                .thread(10)
                 // 启动爬虫
                 .run();
         return map;

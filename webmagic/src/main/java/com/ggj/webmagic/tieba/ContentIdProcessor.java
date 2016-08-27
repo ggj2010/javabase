@@ -44,7 +44,7 @@ public class ContentIdProcessor implements PageProcessor {
     private static String tiebaUrl;
     private static String tiebaName;
     // 部分一：抓取网站的相关配置，包括编码、抓取间隔、重试次数等
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000);
+    private Site site = Site.me().setRetryTimes(3).setSleepTime(5000);
     @Override
     public void process(Page page) {
         for (int i = 1; i <= pageSize; i++) {
@@ -99,7 +99,7 @@ public class ContentIdProcessor implements PageProcessor {
        endNum=Integer.parseInt(tieBaConfiguration.getTiebaContentPageEndNum());
         Spider.create(this).addUrl(tiebaUrl).addPipeline(new ConsolePipeline())
                 // 开启5个线程抓取
-                .thread(200)
+                .thread(10)
                 // 启动爬虫
                 .run();
        if(pageNumberList.size()>0) {

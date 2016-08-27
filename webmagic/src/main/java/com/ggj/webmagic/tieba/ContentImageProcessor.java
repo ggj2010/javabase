@@ -40,7 +40,7 @@ public class ContentImageProcessor implements PageProcessor {
     private static List<String> pageNumberList;
     private static ConcurrentHashMap<byte[], byte[]> map = new ConcurrentHashMap<byte[], byte[]>();
     // 部分一：抓取网站的相关配置，包括编码、抓取间隔、重试次数等
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000);
+    private Site site = Site.me().setRetryTimes(3).setSleepTime(5000);
 
     @Override
     public void process(Page page) {
@@ -48,10 +48,6 @@ public class ContentImageProcessor implements PageProcessor {
         String pageId = page.getUrl().toString().replace(tieBaConfiguration.getTiebaContentPageUrl(),"");
         List<String> list = new ArrayList<>();
         for (String imageUrl : imageUrlList) {
-            if("4679806310".equals(pageId)){
-                System.out.println("page = [" + "213" + "]");
-            }
-
             if (imageUrl.startsWith(tieBaConfiguration.getTiebaImageUrl())) {
                 imageUrl=convertImageUrl(imageUrl);
                 if (null!=imageUrl)list.add(imageUrl);
@@ -98,7 +94,7 @@ public class ContentImageProcessor implements PageProcessor {
         this.url = tieBaConfiguration.getTiebaContentPageUrl();
         Spider.create(this).addUrl(url).addPipeline(new ConsolePipeline())
                 // 开启5个线程抓取
-                .thread(200)
+                .thread(10)
                 // 启动爬虫
                 .run();
         return  map;

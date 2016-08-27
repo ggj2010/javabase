@@ -22,14 +22,18 @@ public class ScheduleTask {
     public void scheduleUpdateTieBa() {
         try {
             webmagicService.addTieBaTop();
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
            log.error("贴吧同步TOP失败！"+e.getLocalizedMessage());
         }
     }
     //1分钟更新一次，执行top
     @Scheduled(initialDelay = 0, fixedRate = 1000*60*1)
     public void scheduleTieBaImage() {
+        try {
         webmagicService.addTieBaImage();
+        } catch (Exception e) {
+            log.error("贴吧同步Image失败！"+e.getLocalizedMessage());
+        }
     }
 
 }
