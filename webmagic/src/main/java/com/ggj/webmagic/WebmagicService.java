@@ -168,8 +168,10 @@ public class WebmagicService {
 	 * 根据帖子最后最新更新日期显示图片
 	 * @param model
 	 * @param tieBaName
-     */
-	public void getTieBaImage(Model model, String tieBaName) {
+	 * @param begin
+	 * @param end
+	 */
+	public void getTieBaImage(Model model, String tieBaName, Integer begin, Integer end) {
 
 		byte[] contenUpdateKey = getByte(TieBaImageIdMessageListener.TIEBA_CONTENT_UPDATE_TIME_KEY +tieBaName);
 		redisTemplate.execute(new RedisCallback<Object>() {
@@ -178,20 +180,37 @@ public class WebmagicService {
                Map<String,List<String>> map=new TreeMap<String, List<String>>();
 				Map<byte[], byte[]> mapByte = redisConnection.hGetAll(key);
 				for(Iterator<byte[]> iter = mapByte.keySet().iterator(); iter.hasNext();) {
-					byte[] pageUrl=iter.next();
-					byte[] imageUrl = mapByte.get(pageUrl);
+					byte[] pageId=iter.next();
+					byte[] imageUrl = mapByte.get(pageId);
 					if(imageUrl!=null) {
 						List listImage = JSONObject.parseObject(getString(imageUrl), ArrayList.class);
-						map.put(getString(pageUrl), listImage);
+						map.put(getString(pageId), listImage);
 					}
 				}
 				Set<byte[]>  sortPageIds= redisConnection.zRevRange(contenUpdateKey, 0, -1);
-				List<String> listPageIds = CollectionUtils.converSetToList(sortPageIds);
+				List<String> listIds = CollectionUtils.converSetToList(sortPageIds);
 				model.addAttribute("data",map);
-				model.addAttribute("sortPageIds",listPageIds);
+				model.addAttribute("sortPageIds",setPageTolistIds(listIds,begin,end));
 				return null;
 			}
 		});
 
+	}
+
+	/**
+	 * 增加分页
+	 * @param listIds
+	 * @param begin
+	 * @param end
+	 */
+	private List<String> setPageTolistIds(List<String> listIds, Integer begin, Integer end) {
+		if(listIds!=null){
+			int listSize=listIds.size();
+			if(begin<0)begin=0;
+			if (begin>listSize)begin=listSize-1;
+			if(begin>end)end=begin;
+			return listIds.subList(begin, end);
+		}
+		return new ArrayList<>();
 	}
 }

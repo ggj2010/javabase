@@ -94,7 +94,7 @@ public class TopProcessor implements PageProcessor {
                 // 开启5个线程抓取
 //                .thread(200)
                 //服务器上面线程数不能开启多 防止链接异常
-                .thread(10)
+                .thread(2)
                 // 启动爬虫
                 .run();
         return map;

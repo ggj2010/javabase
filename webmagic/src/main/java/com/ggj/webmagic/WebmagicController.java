@@ -36,10 +36,10 @@ public class WebmagicController {
 		return "tiebatoplevel";
 	}
 	
-	@RequestMapping("/tieba/img/{tieBaName}")
-	public String tieBaTop(Model model, @PathVariable("tieBaName") String tieBaName) throws Exception {
+	@RequestMapping("/tieba/img/{tieBaName}/{begin}/{end}")
+	public String tieBaTop(Model model, @PathVariable("tieBaName") String tieBaName,@PathVariable("begin") Integer begin,@PathVariable("end") Integer end) throws Exception {
 		model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
-		webmagicService.getTieBaImage(model, tieBaName);
+		webmagicService.getTieBaImage(model, tieBaName,begin,end);
 		return "tiebaimage";
 	}
 
@@ -52,7 +52,7 @@ public class WebmagicController {
 	@RequestMapping("/tieba/img")
     public String tieBaTop( Model model) throws  Exception{
         model.addAttribute("pageUrlPrefix",tieBaConfiguration.getTiebaContentPageUrl());
-       webmagicService.getTieBaImage(model,tieBaConfiguration.getTiebaName()[0]);
+       webmagicService.getTieBaImage(model,tieBaConfiguration.getTiebaName()[0], 0, 0);
         model.addAttribute("tiebaName",tieBaConfiguration.getTiebaName()[0]);
         return "tiebaimage";
     }

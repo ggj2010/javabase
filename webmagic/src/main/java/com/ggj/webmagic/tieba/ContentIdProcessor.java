@@ -99,7 +99,7 @@ public class ContentIdProcessor implements PageProcessor {
        endNum=Integer.parseInt(tieBaConfiguration.getTiebaContentPageEndNum());
         Spider.create(this).addUrl(tiebaUrl).addPipeline(new ConsolePipeline())
                 // 开启5个线程抓取
-                .thread(10)
+                .thread(100)
                 // 启动爬虫
                 .run();
        if(pageNumberList.size()>0) {
