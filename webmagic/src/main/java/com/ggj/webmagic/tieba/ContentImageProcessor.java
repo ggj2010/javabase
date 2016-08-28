@@ -40,7 +40,7 @@ public class ContentImageProcessor implements PageProcessor {
     private static List<String> pageNumberList;
     private static ConcurrentHashMap<byte[], byte[]> map = new ConcurrentHashMap<byte[], byte[]>();
     // 部分一：抓取网站的相关配置，包括编码、抓取间隔、重试次数等
-    private Site site = Site.me().setRetryTimes(3).setSleepTime(1000);
+    private Site site = Site.me().setRetryTimes(1).setSleepTime(1000);
 
     @Override
     public void process(Page page) {
