@@ -18,3 +18,9 @@ logging:
   config: classpath:logback-spring.xml
   file: myapps.log
   path: var/temp
+
+
+mybatis:
+  config: classpath:mybatis-config.xml
+  mapperLocations: classpath:mappings/**/*.xml
+  typeAliasesPackage: com.ggj.webmagic

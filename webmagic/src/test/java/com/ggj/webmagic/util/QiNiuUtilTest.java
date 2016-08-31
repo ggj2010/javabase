@@ -6,10 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.validation.constraints.AssertTrue;
 
-import static org.apache.coyote.http11.Constants.a;
-import static org.junit.Assert.*;
 
 /**
  * @author:gaoguangjin

@@ -32,7 +32,8 @@ import org.springframework.ui.Model;
 @Slf4j
 public class WebmagicService {
 	public static final   String TIEBA_TOP_KEY ="tieba_top_";
-	
+	public static final   String TIEBA_NAME_KEY ="tieba_names";
+
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
@@ -154,7 +155,7 @@ public class WebmagicService {
 		String[] tiebaName = tieBaConfiguration.getTiebaName();
 		return redisTemplate.execute(new RedisCallback<Set<byte[]>>() {
 			public Set<byte[]> doInRedis(RedisConnection redisConnection) throws DataAccessException {
-				byte[] key = getByte("tieba_names");
+				byte[] key = getByte(TIEBA_NAME_KEY);
 				if (!redisConnection.exists(key)) {
 					for (String name : tiebaName)
 						redisConnection.sAdd(key, getByte(name));

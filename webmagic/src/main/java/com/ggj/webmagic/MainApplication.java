@@ -1,10 +1,9 @@
 package com.ggj.webmagic;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -17,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ServletComponentScan
 @SpringBootApplication
 //扫描mybatis接口
-//@MapperScan("com.ggj")
+@MapperScan("com.ggj.webmagic.tieba.dao")
 public class MainApplication {
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class);

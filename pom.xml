@@ -12,8 +12,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-  <!--      <version>1.3.0.RELEASE</version>-->
-        <version>1.4.0.RELEASE</version>
+        <!-- <version>1.3.0.RELEASE</version>-->
+        <version>1.3.7.RELEASE</version>
+        <!--1.4.0.RELEASE 有个bug 默认配置项不支持自定义数据源 DataSourceProperties这个类缺少initializeDataSourceBuilder()-->
+        <!--<version>1.4.0.RELEASE</version>-->
+        <!--<version>1.4.1.RELEASE</version>-->
     </parent>
 
 
