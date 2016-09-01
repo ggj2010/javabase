@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ggj.webmagic.tieba.dao.TieBaImageMapper" >
+  <select id="selectCountByPageId" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(page_id)
+    from tieba_image
+    where page_id = #{pageId};
+  </select>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into tieba_image ( page_id, image_url,tieba_name)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.pageId},#{item.imageUrl},#{item.tiebaName})
+    </foreach>
+  </insert>
+</mapper>
