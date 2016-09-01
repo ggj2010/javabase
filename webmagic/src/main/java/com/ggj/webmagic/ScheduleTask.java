@@ -28,7 +28,7 @@ public class ScheduleTask {
     }
 
     //1分钟更新一次，执行top
-//    @Scheduled(initialDelay = 0, fixedRate = 1000*60*1)
+    @Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
     public void scheduleTieBaImage() {
         try {
         webmagicService.addTieBaImage();
