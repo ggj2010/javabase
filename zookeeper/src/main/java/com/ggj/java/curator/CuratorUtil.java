@@ -6,6 +6,8 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.data.Stat;
 
+import static org.apache.zookeeper.ZooDefs.OpCode.create;
+
 /**
  * @author:gaoguangjin
  * @date 2016/7/27 15:33
@@ -27,7 +29,6 @@ public class CuratorUtil {
     }
 
     public static boolean checkExists(CuratorFramework client,String path) throws Exception {
-        Stat dd = client.checkExists().forPath(path);
         return client.checkExists().forPath(path) == null ? false : true;
     }
 }

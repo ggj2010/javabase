@@ -8,6 +8,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
 
 import com.ggj.java.curator.CuratorUtil;
+import org.apache.zookeeper.CreateMode;
 
 /**
  * Curator提供了三种Watcher(Cache)来监听结点的变化.
@@ -20,10 +21,10 @@ import com.ggj.java.curator.CuratorUtil;
 @Slf4j
 public class CuratorListener {
 	
-	private static final String LISTERNER_PATH = "/root/listener1";
+	private static final String LISTERNER_PATH = "/root/listener";
 	
-	private static final String LISTERNER_CHILD_PATH = "/child5";
-	
+	private static final String LISTERNER_CHILD_PATH = "/child1";
+	private static final String LISTERNER_CHILD_TWO_PATH = "/child3";
 	/**
 	 * 在注册监听器的时候，如果传入此参数，当事件触发时，逻辑由线程池处理
 	 */
@@ -31,8 +32,54 @@ public class CuratorListener {
 	
 	public static void main(String[] args) throws Exception {
 		CuratorFramework client = CuratorUtil.getClient();
-        if(!CuratorUtil.checkExists(client,LISTERNER_PATH))
-		client.create().creatingParentsIfNeeded().forPath(LISTERNER_PATH, "hello".getBytes());
+		//demo1(client);
+//		demo2(client);
+		demo3(client);
+		System.in.read();
+	}
+
+	private static void demo3(CuratorFramework client) throws Exception {
+		log.info("demo3");
+		if(!CuratorUtil.checkExists(client,LISTERNER_PATH+LISTERNER_CHILD_TWO_PATH))
+			client.create().withMode(CreateMode.EPHEMERAL).forPath(LISTERNER_PATH+LISTERNER_CHILD_TWO_PATH, "child2".getBytes());
+//		client.delete().forPath(LISTERNER_PATH+LISTERNER_CHILD_TWO_PATH);
+	}
+
+	private static void demo2(CuratorFramework client) throws Exception {
+		if(!CuratorUtil.checkExists(client,LISTERNER_PATH))
+			client.create().creatingParentsIfNeeded().forPath(LISTERNER_PATH, "hello".getBytes());
+		/**
+		 * 监听子节点的变化情况
+		 */
+		final PathChildrenCache childrenCache = new PathChildrenCache(client, LISTERNER_PATH, true);
+		childrenCache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
+		childrenCache.getListenable().addListener(new PathChildrenCacheListener() {
+			@Override
+			public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
+				switch(event.getType()) {
+					case CHILD_ADDED:
+						log.info("CHILD_ADDED: " + event.getData().getPath());
+						break;
+					case CHILD_REMOVED:
+						log.info("CHILD_REMOVED: " + event.getData().getPath());
+						break;
+					case CHILD_UPDATED:
+						log.info("CHILD_UPDATED: " + event.getData().getPath());
+						break;
+					default:
+						log.info("default");
+						break;
+				}
+			}
+		});
+		if(!CuratorUtil.checkExists(client,LISTERNER_PATH+LISTERNER_CHILD_PATH))
+			client.create().forPath(LISTERNER_PATH+LISTERNER_CHILD_PATH, "child1".getBytes());
+	}
+
+	private static void demo1(CuratorFramework client) throws Exception {
+
+		if(!CuratorUtil.checkExists(client,LISTERNER_PATH))
+			client.create().creatingParentsIfNeeded().forPath(LISTERNER_PATH, "hello".getBytes());
 		/**
 		 * 监听数据节点的变化情况
 		 */
@@ -56,13 +103,13 @@ public class CuratorListener {
 			public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
 				switch(event.getType()) {
 					case CHILD_ADDED:
-                        log.info("CHILD_ADDED: " + event.getData().getPath());
+						log.info("CHILD_ADDED: " + event.getData().getPath());
 						break;
 					case CHILD_REMOVED:
-                        log.info("CHILD_REMOVED: " + event.getData().getPath());
+						log.info("CHILD_REMOVED: " + event.getData().getPath());
 						break;
 					case CHILD_UPDATED:
-                        log.info("CHILD_UPDATED: " + event.getData().getPath());
+						log.info("CHILD_UPDATED: " + event.getData().getPath());
 						break;
 					default:
 						break;
@@ -70,8 +117,8 @@ public class CuratorListener {
 			}
 		}, pool);
 		client.setData().forPath(LISTERNER_PATH, "world".getBytes());
-        if(!CuratorUtil.checkExists(client,LISTERNER_CHILD_PATH))
-        client.create().creatingParentsIfNeeded().forPath(LISTERNER_PATH+LISTERNER_CHILD_PATH, "child".getBytes());
+		if(!CuratorUtil.checkExists(client,LISTERNER_PATH+LISTERNER_CHILD_PATH))
+			client.create().forPath(LISTERNER_PATH+LISTERNER_CHILD_PATH, "child".getBytes());
 		Thread.sleep(10 * 1000);
 		pool.shutdown();
 		client.close();

@@ -28,7 +28,7 @@ public class CrudDemo {
         CuratorFramework client = getClient();
           crud(client);
         //事物 增删改可以带事物
-        transation(client);
+//        transation(client);
     }
 
     /**
@@ -85,7 +85,7 @@ public class CrudDemo {
         if (childExists) client.delete().forPath(childPath);
         if (parentExists) client.delete().forPath(parentPath);
         if (parent2Exists) client.delete().forPath(parentPath2);
-        if (rootExists) client.delete().forPath(rootPath);
+       // if (rootExists) client.delete().forPath(rootPath);
     }
 
     private static void display(List<String> list, CuratorFramework client, String rootPath) throws Exception {
