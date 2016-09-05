@@ -10,6 +10,9 @@ import org.apache.curator.framework.recipes.cache.*;
 import com.ggj.java.curator.CuratorUtil;
 import org.apache.zookeeper.CreateMode;
 
+import static org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent.Type.CHILD_ADDED;
+import static org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent.Type.CHILD_REMOVED;
+
 /**
  * Curator提供了三种Watcher(Cache)来监听结点的变化.
  * Path Cache：监视一个路径下1）孩子结点的创建、2）删除，3）以及结点数据的更新。产生的事件会传递给注册的PathChildrenCacheListener。
@@ -25,6 +28,7 @@ public class CuratorListener {
 	
 	private static final String LISTERNER_CHILD_PATH = "/child1";
 	private static final String LISTERNER_CHILD_TWO_PATH = "/child3";
+	private static final String LISTERNER_DISCONNECT_PATH = "/root/disconnect";
 	/**
 	 * 在注册监听器的时候，如果传入此参数，当事件触发时，逻辑由线程池处理
 	 */
@@ -34,8 +38,45 @@ public class CuratorListener {
 		CuratorFramework client = CuratorUtil.getClient();
 		//demo1(client);
 //		demo2(client);
-		demo3(client);
+//		demo3(client);
+		//测试事件 CHILD_REMOVED,先用demo4  再用demo5
+		demo4(client);
+		demo5(client);
 		System.in.read();
+	}
+
+	private static void demo5(CuratorFramework client) throws Exception {
+		if(!CuratorUtil.checkExists(client,LISTERNER_DISCONNECT_PATH+LISTERNER_CHILD_PATH))
+			client.create().withMode(CreateMode.EPHEMERAL).forPath(LISTERNER_DISCONNECT_PATH+LISTERNER_CHILD_PATH, "child2".getBytes());
+	}
+
+	private static void demo4(CuratorFramework client) throws Exception {
+		if(!CuratorUtil.checkExists(client,LISTERNER_DISCONNECT_PATH))
+			client.create().creatingParentsIfNeeded().forPath(LISTERNER_DISCONNECT_PATH, "hello".getBytes());
+		/**
+		 * 监听子节点的变化情况
+		 */
+		final PathChildrenCache childrenCache = new PathChildrenCache(client, LISTERNER_DISCONNECT_PATH, true);
+		childrenCache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
+		childrenCache.getListenable().addListener(new PathChildrenCacheListener() {
+			@Override
+			public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
+				switch(event.getType()) {
+					case CHILD_ADDED:
+						log.info("CHILD_ADDED: " + event.getData().getPath());
+						break;
+					case CHILD_REMOVED:
+						log.info("CHILD_REMOVED: " + event.getData().getPath());
+						break;
+					case CHILD_UPDATED:
+						log.info("CHILD_UPDATED: " + event.getData().getPath());
+						break;
+					default:
+						log.info("default");
+						break;
+				}
+			}
+		});
 	}
 
 	private static void demo3(CuratorFramework client) throws Exception {

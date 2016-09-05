@@ -36,9 +36,10 @@ public class ZookeeperRegistryCenter implements RegistryCenter {
 
     @Override
     public void register(JobConfig jobConfig) {
-        ZKPath zkPath = new ZKPath(jobConfig.getClientId(),jobConfig.getJobName());
+        ZKPath zkPath = new ZKPath(jobConfig.getClientId(),jobConfig.getIp(),jobConfig.getJobName());
         try {
-            create(CreateMode.EPHEMERAL,zkPath.getJobDataPath(), JSONObject.toJSONString(zkPath));
+            create(zkPath.getJobDataPath(), JSONObject.toJSONString(zkPath));
+            create(CreateMode.EPHEMERAL,zkPath.getJobIpDataPath(), jobConfig.getIp());
             create(zkPath.getJobStatuPath(), JobStatu.RUN.getStatus()+"");
             addChildWatcher(zkPath,jobConfig);
             addStatusWatcher(zkPath,jobConfig);
@@ -65,7 +66,7 @@ public class ZookeeperRegistryCenter implements RegistryCenter {
      * 监听子节点的变化情况
      */
     private void addChildWatcher(ZKPath zkPath, JobConfig jobConfig) throws Exception {
-        final PathChildrenCache childrenCache = new PathChildrenCache(client, zkPath.getJobDataPath(), true);
+        final PathChildrenCache childrenCache = new PathChildrenCache(client, zkPath.getJobIpPath(), true);
         childrenCache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
         childrenCache.getListenable().addListener(new PathChildrenCacheListener() {
             @Override

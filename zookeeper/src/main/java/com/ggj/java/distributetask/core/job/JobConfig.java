@@ -1,5 +1,6 @@
 package com.ggj.java.distributetask.core.job;
 
+import com.ggj.java.distributetask.core.LocalHostService;
 import lombok.Getter;
 import lombok.Setter;
 import org.quartz.Job;
@@ -24,6 +25,7 @@ public class JobConfig {
 	private String jobDetail;
 	
 	private String jobCron;
+	private String ip;
 
 	private Class<? extends Job> jobClass;
 	
@@ -36,5 +38,6 @@ public class JobConfig {
 		this.jobDetail = jobDetail;
 		this.jobCron = jobCron;
 		this.jobClass=jobClass;
+		this.ip=new LocalHostService().getIp();
 	}
 }

@@ -18,7 +18,8 @@ public class JobClient {
 
     private static  final String CLIENT_ID="joboneid1";
 
-    public static final String connectString = "localhost:2180,localhost:2181,localhost:2182";
+//    public static final String connectString = "localhost:2180,localhost:2181,localhost:2182";
+    public static final String connectString = "localhost:2185";
     public static final String nameSpace = "distributeJob";
 
 

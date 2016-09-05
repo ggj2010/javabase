@@ -13,7 +13,8 @@ import static org.apache.zookeeper.ZooDefs.OpCode.create;
  * @date 2016/7/27 15:33
  */
 public class CuratorUtil {
-    public static final String zookeeperConnectionString = "localhost:2180,localhost:2181,localhost:2182";
+//    public static final String zookeeperConnectionString = "localhost:2180,localhost:2181,localhost:2182";
+    public static final String zookeeperConnectionString = "localhost:2185";
     /**
      * 初始化获取 CuratorFramework 正式项目里面应该单例
      *
