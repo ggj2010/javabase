@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.alibaba.fastjson.JSONObject;
 import com.ggj.webmagic.WebmagicService;
 import com.ggj.webmagic.autoconfiguration.TieBaConfiguration;
+import com.ggj.webmagic.autoconfiguration.TieBaImageIdMessageListener;
 import com.ggj.webmagic.tieba.bean.ContentBean;
 import com.ggj.webmagic.util.QiNiuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
+
 
 
 /**
@@ -54,7 +56,7 @@ public class ContentImageProcessor implements PageProcessor {
             }
         }
         if (list.size() > 0) {
-            map.put(WebmagicService.getByte(pageId), WebmagicService.getByte(JSONObject.toJSONString(list)));
+            map.put(WebmagicService.getByte(TieBaImageIdMessageListener.TIEBA_CONTENT_IMAGE_KEY+pageId), WebmagicService.getByte(JSONObject.toJSONString(list)));
         }else{
             redisTemplate.convertAndSend(tieBaConfiguration.getTiebaContentNoImageIdTopic(), JSONObject.toJSONString(new ContentBean(pageId,tiebaName)));
         }

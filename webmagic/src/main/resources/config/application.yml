@@ -2,9 +2,11 @@ spring:
   profiles:
     active: @profileActive@
     incloud: beta,prd
+  freemarker:
+    requestContextAttribute: request
+
 server:
   port: 80
-
   http:
     encoding:
     charset: UTF-8
@@ -24,3 +26,11 @@ mybatis:
   config: classpath:mybatis-config.xml
   mapperLocations: classpath:mappings/**/*.xml
   typeAliasesPackage: com.ggj.webmagic
+
+weixin:
+  appid: wx0edeca197ddefe97
+  secret: d4624c36b6795d1d99dcf0547af5443d
+  authorizeUrl: https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
+  accessTokenUrl: https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code
+  userinfoUrl: https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN
+  authCallBackUrl: http://668586a6.ngrok.natapp.cn/weixin/auth?token=

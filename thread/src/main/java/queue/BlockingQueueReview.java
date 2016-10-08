@@ -60,7 +60,7 @@ public class BlockingQueueReview {
         new Thread(() -> {
             for (int i = 0; i < number*2; i++) {
                 try {
-                    Thread.sleep(3000);
+//                    Thread.sleep(3000);
                     linkedBlockingDeque.put(i);
                     log.info("put  linkedBlockingDeque大小=" + linkedBlockingDeque.size());
                 } catch (InterruptedException e) {

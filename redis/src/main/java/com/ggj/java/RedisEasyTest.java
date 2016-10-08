@@ -86,7 +86,6 @@ public class RedisEasyTest {
         for (int i = 0; i < KEY_COUNT; i++) {
             jedis.set("normal" + i, i + "");
         }
-
     }
 
 }

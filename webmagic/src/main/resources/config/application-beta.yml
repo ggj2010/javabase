@@ -4,14 +4,14 @@ tieba:
   tiebaContentUrl: http://tieba.baidu.com/f?ie=utf-8&kw=
   tiebaContentPageUrl: http://tieba.baidu.com/p/
   #5*50=250个帖子
-  tiebaContentPageEndNum: 5
+  tiebaContentPageEndNum: 1
   tiebaImageUrl: http://imgsrc.baidu.com/forum/w%3D580/
   tiebaContentIdTopic: tieba_content_id_topic
   tiebaContentNoImageIdTopic: tieba_content_noimage_id_topic
 spring:
   redis:
     database: 2
-    host: 110.173.28.188
+    host: 123.56.118.135
     password: gaoguangjin
     pool.max-active: 50000
     pool.max-idle: 500

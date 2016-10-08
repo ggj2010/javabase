@@ -31,6 +31,7 @@
         <module>httpclient</module>
         <module>mobiletechnology</module>
         <module>webmagic</module>
+        <module>elasticsearch</module>
     </modules>
 
     <properties>
@@ -77,6 +78,8 @@
         <aspectj.version>1.8.9</aspectj.version>
         <cat.version>1.3.6</cat.version>
         <springfox.version>2.4.0</springfox.version>
+        <ganymed.ssh.version>build210</ganymed.ssh.version>
+        <elasticsearch.version>2.4.0</elasticsearch.version>
         <!-- environment character -->
         <jdk.version>1.8</jdk.version>
         <webserver.port>80</webserver.port>
@@ -314,6 +317,18 @@
                 <groupId>com.qiniu</groupId>
                 <artifactId>qiniu-java-sdk</artifactId>
                 <version>${qiniusdk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.ethz.ganymed</groupId>
+                <artifactId>ganymed-ssh2</artifactId>
+                <version>${ganymed.ssh.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

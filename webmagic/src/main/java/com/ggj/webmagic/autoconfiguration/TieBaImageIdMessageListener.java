@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggj.webmagic.elasticsearch.ElasticSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.Message;
@@ -15,7 +16,6 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ggj.webmagic.WebmagicService;
@@ -42,39 +42,47 @@ public class TieBaImageIdMessageListener implements MessageListener {
 	private ContentImageProcessor contentImageProcessor;
 	
 	@Autowired
-	private TieBaConfiguration tieBaConfiguration;
-	
+	private ElasticSearch elasticSearch;
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
-	
+
+	/**
+	 * 所有帖子ID，部分帖子包含图片
+	 * @param message
+	 * @param bytes
+     */
 	public void onMessage(Message message, byte[] bytes) {
 		String jsonStr = WebmagicService.getString(message.getBody());
-		List<ContentBean> list = JSONObject.parseArray(jsonStr, ContentBean.class);
-		// list 里面最后一条数据存放的是贴吧名称，为了兼容多个贴吧存储
-		if (list != null && list.size() > 0) {
-			String tiebaName = list.get(0).getName();
+		List<ContentBean> pageList = JSONObject.parseArray(jsonStr, ContentBean.class);
+		if (pageList != null && pageList.size() > 0) {
+			String tiebaName = pageList.get(0).getName();
+			//包含图片的key
 			byte[] imageKey = getByte(TIEBA_CONTENT_IMAGE_KEY + tiebaName);
+			//不包含图片的key
 			byte[] noImageKey = getByte(TieBaNoImageIdMessageListener.TIEBA_CONTENT_NO_IMAGE_KEY + tiebaName);
-			log.info("待同步图片pageID数量：" + list.size());
-			List<ContentBean> notImageList = new ArrayList<>();
-			List<String> notCacheImageList = new ArrayList<>();
-			removeExistId(list, notImageList, notCacheImageList, imageKey, noImageKey);
-			log.info("去除已同步和不包含图片pageID后数量：" + notCacheImageList.size());
-			ConcurrentHashMap<byte[], byte[]> map = contentImageProcessor.start(notCacheImageList,tiebaName);
-			redisTemplate.execute(new RedisCallback<Object>() {
+			log.info("待同步图片pageID数量：" + pageList.size());
+			//去除不含图片的list
+			List<ContentBean> imagePageList = new ArrayList<>();
+			//去除不含图片没有被缓存的list
+			List<String> notCachePageImageList = new ArrayList<>();
+			removeExistId(pageList, imagePageList, notCachePageImageList, imageKey, noImageKey);
+			log.info("去除已同步和不包含图片pageID后数量：" + notCachePageImageList.size());
+			ConcurrentHashMap<byte[], byte[]> map = contentImageProcessor.start(notCachePageImageList,tiebaName);
+			redisTemplate.executePipelined(new RedisCallback<Object>() {
 				@Override
 				public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
-					if (map.size() > 0)
-						redisConnection.hMSet(imageKey, map);
-
-					Set<String> convertSet = CollectionUtils.convertSetByteToSetString(redisConnection.hKeys(imageKey));
+					//保存所有帖子 tieba_content_image_4813146001
+					redisConnection.mSet(map);
 					// 存储帖子最新更新时间
 					byte[] timeKey = getByte(TIEBA_CONTENT_UPDATE_TIME_KEY + tiebaName);
-					for(ContentBean content : notImageList) {
-						byte[] bytePageId = WebmagicService.getByte(content.getId());
-						// 只存储有图片的帖子
-						if (convertSet.contains(content.getId()))
-							redisConnection.zAdd(timeKey, Double.parseDouble(content.getDate()), bytePageId);
+					for (ContentBean contentBean : imagePageList) {
+						Set<String> set = CollectionUtils.convertMapByteToSetString(map);
+						if (set.contains(TIEBA_CONTENT_IMAGE_KEY+contentBean.getId())){
+							//key=tieba_content_image_李毅
+							redisConnection.sAdd(imageKey,WebmagicService.getByte(contentBean.getId()));
+							//key=tieba_content_image_4813146001
+							redisConnection.zAdd(timeKey, Double.parseDouble(contentBean.getDate()), WebmagicService.getByte(contentBean.getId()));
+						}
 					}
 					return null;
 				}
@@ -85,26 +93,32 @@ public class TieBaImageIdMessageListener implements MessageListener {
 	/**
 	 * 优化去除已经爬过的和不存在图片的pageid
 	 * @param list
-	 * @param notImageList
-	 * @param notCacheImageList
+	 * @param imagePageList  包含图片的帖子（用来更新时间）
+	 * @param notCachePageImageList 包含图片且没有被缓存进去的帖子
 	 * @param imageKey
      * @param noImageKey
      */
-	private void removeExistId(List<ContentBean> list, List<ContentBean> notImageList, List<String> notCacheImageList,
+	private void removeExistId(List<ContentBean> list, List<ContentBean> imagePageList, List<String> notCachePageImageList,
 		byte[] imageKey, byte[] noImageKey) {
 		redisTemplate.execute(new RedisCallback<Object>() {
 			@Override
 			public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
 				// 已经缓存过包含图片的帖子Id
-				Set<String> cacheImageSet = CollectionUtils.convertSetByteToSetString(redisConnection.hKeys(imageKey));
+				Set<String> cacheImageSet = CollectionUtils.convertSetByteToSetString(redisConnection.sMembers(imageKey));
 				// 不包含图片的帖子Id
 				Set<String> noImageSet = CollectionUtils.convertSetByteToSetString(redisConnection.sMembers(noImageKey));
 				for(ContentBean content : list) {
+					try {
+						//标题放入elasticsearch里面搜索
+						elasticSearch.getBeanBlockingDeque().put(content);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					String id = content.getId();
 					if (!noImageSet.contains(id)) {
-						notImageList.add(content);
+						imagePageList.add(content);
 						if (!cacheImageSet.contains(id))
-							notCacheImageList.add(id);
+							notCachePageImageList.add(id);
 					}
 				}
 				return null;

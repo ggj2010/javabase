@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="echart">
+<html  ng-app="echart">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>

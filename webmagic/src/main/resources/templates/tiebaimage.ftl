@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>吧友图片</title>
@@ -28,6 +28,7 @@
         width: 160px;
     }
 </style>
+<#assign base=request.contextPath />
 <body>
 
 
@@ -44,9 +45,20 @@
 <div class="container-fluid">
     <div id="links" class="lightBoxGallery">
         <div class="row">
-    <#if data??&&data?size gt 0>
-        <#list sortPageIds as key>
-            <#list data[key] as image>
+            <div class="panel panel-info">
+                <div class="panel-heading">帖子查询</div>
+                <div class="panel-body">
+                    <form action="${base}/tieba/search"  class="form-inline">
+                        <div class="form-group">
+                            <label for="keyWord">关键字</label>
+                            <input type="text" class="form-control" id="keyWord" name="keyWord" placeholder="请输入关键字查询">
+                        </div>
+                    </form>
+                </div>
+            </div>
+    <#if mapData??&&mapData?size gt 0>
+        <#list mapData?keys as key>
+            <#list mapData[key] as image>
            <div class="col-md-3 col-xs-6 col-sm-4">
                 <div class="thumbnail">
                    <a href="${image}" title="吧友图片"  data-gallery>

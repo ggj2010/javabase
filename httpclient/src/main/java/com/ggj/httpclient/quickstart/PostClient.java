@@ -9,6 +9,7 @@ import org.apache.http.client.RequestDirector;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -61,7 +62,39 @@ public class PostClient {
 			}
 		}
 	}
-	
+
+	/**
+	 * 参数放到body 里面
+	 * @throws IOException
+     */
+	public void post2() throws IOException {
+		HttpResponse response = null;
+		HttpEntity entity = null;
+		CloseableHttpClient httpclient = new DefaultHttpClient();
+		try {
+			HttpPost post = new HttpPost(url);
+			// 参数：
+			String params="";
+			StringEntity se = new StringEntity(params, "utf-8");
+			post.setEntity(se);
+			// 执行pos
+			response = httpclient.execute(post);
+			log.info("status:" + response.getStatusLine());
+			if (response.getStatusLine().getStatusCode() == 200) {
+				entity = response.getEntity();
+				String result = EntityUtils.toString(entity, "UTF-8");
+				log.info(result);
+			}
+		} catch (Exception e) {
+			// 处理异常
+			log.error("" + e.getLocalizedMessage());
+		} finally {
+			if (response != null) {
+				EntityUtils.consume(entity); // 会自动释放连接
+			}
+		}
+	}
+
 	/**
 	 * 请求gzip 压缩  服务器返回的信息是压缩过的
 	 * Cache-Control:private

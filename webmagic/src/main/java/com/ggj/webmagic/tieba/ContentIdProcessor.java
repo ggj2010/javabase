@@ -50,9 +50,13 @@ public class ContentIdProcessor implements PageProcessor {
         for (int i = 1; i <= pageSize; i++) {
             String json = page.getHtml().xpath("//ul[@id='thread_list']/li[@class='j_thread_list clearfix'][" + (i) + "]/@data-field").toString();
             if(json!=null&&JSONObject.parseObject(json).containsKey("id")){
-                String pageId=JSONObject.parseObject(json).getString("id");
+                JSONObject jsonObject = JSONObject.parseObject(json);
+                String pageId=jsonObject.getString("id");
+                String authorName=jsonObject.getString("author_name");
                 String date = praseDate(page,i);
-                pageNumberList.add(new ContentBean(pageId,date,tiebaName));
+                String title=page.getHtml().xpath("a[@href='"+tieBaConfiguration.getTiebaContentPageUrl()+pageId+"']/@title").toString();
+
+                pageNumberList.add(new ContentBean(pageId,date,tiebaName,authorName,title));
                log.info("page = [" + pageId + "]");
             }
         }

@@ -14,6 +14,12 @@ public class Jion {
 
     /**
      * 让线程按照顺序执行，比如线程1执行完之后再执行线程2,3
+     *
+     * join的本质就是
+     *
+     *  while (isAlive()) {
+            wait(0);
+        }
      */
     public  void userJion() throws InterruptedException {
         Thread thread1= thread("线程1");

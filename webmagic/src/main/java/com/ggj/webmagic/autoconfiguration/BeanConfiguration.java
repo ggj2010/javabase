@@ -10,6 +10,8 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import static javafx.scene.input.KeyCode.T;
 
@@ -33,6 +35,7 @@ public class BeanConfiguration {
     @Bean
     public RedisTemplate<String, String>  stringRedisTemplate(JedisConnectionFactory jedisConnectionFactory){
         RedisTemplate<String, String>  redisTemplate=new RedisTemplate<String, String> ();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setConnectionFactory(jedisConnectionFactory);
         return redisTemplate;
     }
@@ -43,5 +46,10 @@ public class BeanConfiguration {
         redisMessageListenerContainer.addMessageListener(TieBaImageIdMessageListener,new ChannelTopic(tieBaConfiguration.getTiebaContentIdTopic()));
         redisMessageListenerContainer.addMessageListener(tieBaNoImageIdMessageListener,new ChannelTopic(tieBaConfiguration.getTiebaContentNoImageIdTopic()));
         return redisMessageListenerContainer;
+    }
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter (){
+        return new ServerEndpointExporter();
     }
 }

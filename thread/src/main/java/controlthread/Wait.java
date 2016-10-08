@@ -2,6 +2,8 @@ package controlthread;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+
 /**
  * author:gaoguangjin
  * Description:wait（）会释放线程所，而sleep()和yield（）是不会释放线程所
@@ -22,8 +24,8 @@ public class Wait {
     public static void main(String[] args) {
         Wait  wait= new Wait();
 
-    //  wait.releaseLock(wait,true);
-      wait.notReleaseLock(wait,false);
+      wait.releaseLock(wait,true);
+//      wait.notReleaseLock(wait,false);
 
     }
 
@@ -55,9 +57,15 @@ public class Wait {
         Thread thread2 = getThread("线程2",isRelease);
         thread1.start();
         thread2.start();
+        try {
+            if(isRelease) {
+                System.in.read();
+                notifyAllThread(isRelease);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        if(isRelease)
-            notifyAllThread(isRelease);
     }
 
     /**
@@ -89,14 +97,8 @@ public class Wait {
 
     public synchronized void notifyAllThread(Boolean isRelease){
         if(isRelease) {
-            try {
-                log.info("休眠5秒模拟，等待被唤醒");
-                Thread.sleep(5000);
                 log.info("notifyAll通知所有=====");
                 this.notifyAll();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 

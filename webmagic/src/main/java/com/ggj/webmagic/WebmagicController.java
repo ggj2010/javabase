@@ -8,16 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ggj.webmagic.autoconfiguration.TieBaConfiguration;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author:gaoguangjin
  * @date 2016/8/19 10:58
  */
 @Controller
+@Slf4j
 public class WebmagicController {
+	
 	
 	@Autowired
 	private WebmagicService webmagicService;
-	
+
 	@Autowired
 	private TieBaConfiguration tieBaConfiguration;
 	
@@ -37,23 +41,31 @@ public class WebmagicController {
 	}
 	
 	@RequestMapping("/tieba/img/{tieBaName}/{begin}/{end}")
-	public String tieBaTop(Model model, @PathVariable("tieBaName") String tieBaName,@PathVariable("begin") Integer begin,@PathVariable("end") Integer end) throws Exception {
+	public String tieBaTop(Model model, @PathVariable("tieBaName") String tieBaName,
+		@PathVariable("begin") Integer begin, @PathVariable("end") Integer end) throws Exception {
 		model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
-		webmagicService.getTieBaImage(model, tieBaName,begin,end);
+		webmagicService.getTieBaImage(model, tieBaName, begin, end);
+		return "tiebaimage";
+	}
+	
+	/**
+	 * 增加默认贴吧
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/tieba/img")
+	public String tieBaTop(Model model) throws Exception {
+		model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
+		webmagicService.getTieBaImage(model, tieBaConfiguration.getTiebaName()[0], 0, -1);
+		model.addAttribute("tiebaName", tieBaConfiguration.getTiebaName()[0]);
 		return "tiebaimage";
 	}
 
-    /**
-     * 增加默认贴吧
-     * @param model
-     * @return
-     * @throws Exception
-     */
-	@RequestMapping("/tieba/img")
-    public String tieBaTop( Model model) throws  Exception{
-        model.addAttribute("pageUrlPrefix",tieBaConfiguration.getTiebaContentPageUrl());
-       webmagicService.getTieBaImage(model,tieBaConfiguration.getTiebaName()[0], 0, -1);
-        model.addAttribute("tiebaName",tieBaConfiguration.getTiebaName()[0]);
-        return "tiebaimage";
-    }
+	@RequestMapping("/tieba/search")
+	public String search(Model model,String keyWord) throws Exception {
+		model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
+		model.addAttribute("listContent", webmagicService.search(keyWord));
+		return "search";
+	}
 }

@@ -15,17 +15,23 @@ public class ContentBean {
     private String id;
     //贴吧名称
     private String name;
+    //帖子作者名称
+    private String authorName;
+    //帖子标题
+    private String title;
     //最后更新时间
     private String  date;
 
-    public ContentBean(String pageId, String date, String tiebaName) {
-        id=pageId;
+    public ContentBean(String pageId, String date, String tiebaName,String authorName,String title) {
+        this.id=pageId;
         this.date=date;
-        name=tiebaName;
+        this.name=tiebaName;
+        this.authorName=authorName;
+        this.title=title;
     }
     public ContentBean(String pageId,  String tiebaName) {
-        id=pageId;
-        name=tiebaName;
+        this.id=pageId;
+        this.name=tiebaName;
     }
     public ContentBean() {
     }
