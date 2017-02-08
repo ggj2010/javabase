@@ -8,7 +8,8 @@
         <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
         <!--自定义日志级别-->
-        <logger name="logging.level.org.springframework.web" level="DEBUG"/>
+        <logger name="logging.level.org.springframework.web" level="ERROR"/>
+        <logger name="us.codecraft.webmagic" level="ERROR"/>
         <logger name="logging.level.org.hibernate" level="ERROR"/>
         <logger name="com.ggj.springboot.controller" level="INFO"/>
 

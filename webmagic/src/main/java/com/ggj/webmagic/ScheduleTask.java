@@ -29,7 +29,7 @@ public class ScheduleTask {
     }
 
     //1分钟更新一次，执行top
-    @Scheduled(initialDelay = 0, fixedDelay = 1000*10)
+//    @Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
     public void scheduleTieBaImage() {
         try {
         webmagicService.addTieBaImage();
@@ -41,7 +41,7 @@ public class ScheduleTask {
     /**
      * 将贴吧信息放到elasticsearch
      */
-    @Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
+//    @Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
     public void scheduleSearchIndex() {
         try {
             elasticSearch.addTieBaContentIndex();

@@ -15,7 +15,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * http://localhost:8080/swagger-ui.htm
+ * http://localhost:8080/swagger-ui.html
  * @author:gaoguangjin
  * @Description:利用 Swagger 生成api文档,如果我们想修改swagger-ui.html样式，我们可以将swagger-ui的架包拷贝到public目录下面自己修改swagger-ui.html里面内容
  * @Email:335424093@qq.com

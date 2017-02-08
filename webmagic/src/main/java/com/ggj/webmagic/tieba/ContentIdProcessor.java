@@ -57,7 +57,6 @@ public class ContentIdProcessor implements PageProcessor {
                 String title=page.getHtml().xpath("a[@href='"+tieBaConfiguration.getTiebaContentPageUrl()+pageId+"']/@title").toString();
 
                 pageNumberList.add(new ContentBean(pageId,date,tiebaName,authorName,title));
-               log.info("page = [" + pageId + "]");
             }
         }
 

@@ -44,7 +44,7 @@ public class JobManager {
 
     public static void pauseJob(JobConfig jobConfig) {
         try {
-            scheduler.deleteJob(new JobKey(jobConfig.getJobName(), jobConfig.getGroupName()));
+            scheduler.pauseJob(new JobKey(jobConfig.getJobName(), jobConfig.getGroupName()));
         } catch (SchedulerException e) {
             log.error("pauseJob error"+e.getLocalizedMessage());
         }

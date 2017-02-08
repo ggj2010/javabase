@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class WeiXinController {
-	
+
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
@@ -52,7 +52,7 @@ public class WeiXinController {
 		String url = String.format(weiXinConfig.getAuthorizeUrl(), weiXinConfig.getAppid(), targetUrl);
 		model.addAttribute("token", token);
 		model.addAttribute("url", url);
-		String websocketUrl = request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
+		String websocketUrl = request.getServerName() + ":" + request.getServerPort() + request.getContextPath() ;
 		model.addAttribute("websocketUrl",websocketUrl);
 		return "weixin/login";
 	}
@@ -77,7 +77,8 @@ public class WeiXinController {
 				model.addAttribute("result","登录失败！");
 			}
 		}
-		return "weixin/loginResult";
+//		return "weixin/loginResult";
+		return "redirect:/tieba/img";
 	}
 	
 	@RequestMapping("/weixin/center")

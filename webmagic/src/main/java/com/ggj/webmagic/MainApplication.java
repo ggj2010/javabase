@@ -19,6 +19,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan("com.ggj.webmagic.tieba.dao")
 public class MainApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MainApplication.class);
+        SpringApplication.run(MainApplication.class,args);
     }
 }

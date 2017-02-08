@@ -4,9 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.ggj.webmagic.tieba.bean.ContentBean;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest;
+import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.cluster.metadata.MappingMetaData;
+import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -23,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import static jdk.nashorn.internal.objects.NativeRegExp.source;
 
 /**
  * @author:gaoguangjin
@@ -57,9 +63,15 @@ public class ElasticSearch implements InitializingBean{
         try {
             transportClient = TransportClient.builder().settings(settings).build()
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
-            //创建zk分词mapping
-            PutMappingRequest mapping = Requests.putMappingRequest(INDEX_NAME).type(TIEABA_CONTENT_TYPE).source(createIKMapping(TIEABA_CONTENT_TYPE,TIEABA_CONTENT_FIELD).string());
-            transportClient.admin().indices().putMapping(mapping).actionGet();
+            //查询mapping是否存在，已存在就不创建了
+            GetMappingsResponse getMappingsResponse = transportClient.admin().indices().getMappings(new GetMappingsRequest().indices(INDEX_NAME)).actionGet();
+            ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetaData>> indexToMappings = getMappingsResponse.getMappings();
+           if(indexToMappings.get(INDEX_NAME).get(TIEABA_CONTENT_TYPE)==null) {
+               //创建zk分词mapping
+               PutMappingRequest mapping = Requests.putMappingRequest(INDEX_NAME).type(TIEABA_CONTENT_TYPE).source(createIKMapping(TIEABA_CONTENT_TYPE, TIEABA_CONTENT_FIELD).string());
+               mapping.updateAllTypes(true);
+               transportClient.admin().indices().putMapping(mapping).actionGet();
+           }
         } catch (Exception e) {
            log.error("初始化 elasticsearch cliet error"+e.getLocalizedMessage());
         }
@@ -67,6 +79,7 @@ public class ElasticSearch implements InitializingBean{
 
     /**
      * 创建mapping分词IK索引
+     * Elasticsearch的mapping一旦创建，只能增加字段，而不能修改已经mapping的字段
      * @param indexType
      * @return
      */

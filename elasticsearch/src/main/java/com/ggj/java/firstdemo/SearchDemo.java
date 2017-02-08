@@ -30,6 +30,7 @@ import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 
 
 /**
+ * Elasticsearch是实时分布式搜索和分析引擎
  * http://es.xiaoleilu.com/030_Data/15_Get.html
  * Relational DB -> Databases -> Tables -> Rows -> Columns
  Elasticsearch -> Indices  -> Types  -> Documents -> Fields
@@ -58,14 +59,14 @@ public class SearchDemo {
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 
 
-//            SearchResponse response=crud(indexName,type,client);
-            SearchResponse response=zkfc(indexName,zkType,client);
+            SearchResponse response=crud(indexName,type,client);
+            //分词
+//            SearchResponse response=zkfc(indexName,zkType,client);
             SearchHits hits = response.getHits();
-            log.info("记录数:"+hits.getTotalHits());
             for (SearchHit searchHitFields : hits.getHits()) {
                 log.info("相关数据："+searchHitFields.getSourceAsString());
             }
-
+            //删除
            // delete(client,indexName,zkType,hits);
         } catch (UnknownHostException e) {
             e.printStackTrace();

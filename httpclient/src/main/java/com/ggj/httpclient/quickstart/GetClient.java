@@ -75,7 +75,8 @@ public class GetClient {
         params.append("key=" + URLEncoder.encode("4b441cb500f431adc6cc0cb650b4a5d0", REQUEST_CHARSET)).append("&");
         params.append("info=" + URLEncoder.encode("4b441cb500f431adc6cc0cb650b4a5d0", REQUEST_CHARSET));
         try {
-
+            httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000); // 请求超时
+            httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 10000); // 读取超时
             HttpGet httpGet = new HttpGet(params.toString());
             response = httpclient.execute(httpGet);
             HttpEntity entity = response.getEntity();

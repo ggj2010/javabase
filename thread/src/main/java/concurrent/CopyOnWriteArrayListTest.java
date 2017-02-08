@@ -1,5 +1,7 @@
 package concurrent;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -13,13 +15,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author:gaoguangjin
  * @date 2016/5/6 9:58
  */
+@Slf4j
 public class CopyOnWriteArrayListTest {
     static List<String> list = new ArrayList<String>();
     //读不加锁 写加锁
     static List<String> copyOnWriteArrayList = new CopyOnWriteArrayList<String>();
     public static void main(String[] args) {
         //java中，List在遍历的时候，如果被修改了会抛出java.util.ConcurrentModificationException错误
-       // exceptionTest(list);
+//        exceptionTest(list);
         //CopyOnWriteArrayList类最大的特点就是，在对其实例进行修改操作（add/remove等）会新建一个数据并修改，修改完毕之后，再将原来的引用指向新的数组。这样，修改过程没有修改原来的数组。也就没有了ConcurrentModificationException错误。
         exceptionTest(copyOnWriteArrayList);
     }
@@ -39,6 +42,7 @@ public class CopyOnWriteArrayListTest {
             Thread.currentThread().sleep(3);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            log.error("error");
         }
         for (String s : list) {
             System.out.println(s);

@@ -9,6 +9,11 @@ import java.util.concurrent.CyclicBarrier;
 /**
  * author:gaoguangjin
  * Description:俗名回环栅栏，它允许一组线程互相等待，功能和countdowanLatch类似，不过 CyclicBarrier可以重用
+ * CyclicBarrier 是指到达同一栅栏点后，执行其他的程序，然后再执行自己的程序。
+ * CountDownLatch里的线程是到了运行的目标后继续干自己的其他事情
+ * 有四个游戏玩家玩游戏，游戏有三个关卡，每个关卡必须要所有玩家都到达后才能允许通关。
+ 其 实这个场景里的玩家中如果有玩家A先到了关卡1，他必须等待其他所有玩家都到达关卡1时才能通过，也就是说线程之间需要互相等待，
+ 这和 CountDownLatch的应用场景有区别，CountDownLatch里的线程是到了运行的目标后继续干自己的其他事情，而这里的线程需要等待其 他线程后才能继续完成下面的工作。
  * Email:335424093@qq.com
  * Date 2016/1/8 14:16
  */
@@ -49,8 +54,8 @@ public class CyclicBarrierUtil {
     private Thread startMainThread() {
        return  new Thread(){
             public void run() {
-               // while(true)
-                log.info("所有子线程都已经执行咯，====》执行主线程咯！");
+//                while(true)
+                log.info("所有子线程都已经执行咯，到达栅栏点====》执行主线程咯！");
             }
         };
     }
@@ -83,7 +88,7 @@ public class CyclicBarrierUtil {
                 } catch (BrokenBarrierException e) {
                     e.printStackTrace();
                 }
-                log.info(Thread.currentThread().getName()+"到达栅栏点，同时执行结束！");
+                log.info(Thread.currentThread().getName()+"到达栅栏点，同时执行结束！{}",System.currentTimeMillis());
             }
         }.start();
     }

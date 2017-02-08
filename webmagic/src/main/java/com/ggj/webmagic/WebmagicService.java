@@ -236,7 +236,6 @@ public class WebmagicService {
                 .setQuery(QueryBuilders.matchQuery(ElasticSearch.TIEABA_CONTENT_FIELD, keyWord)
                 ).execute().actionGet();
         SearchHits hits = response.getHits();
-        log.info("记录数:" + hits.getTotalHits());
         for (SearchHit searchHitFields : hits.getHits()) {
             listContentBean.add(JSONObject.parseObject(searchHitFields.getSourceAsString(), ContentBean.class));
         }

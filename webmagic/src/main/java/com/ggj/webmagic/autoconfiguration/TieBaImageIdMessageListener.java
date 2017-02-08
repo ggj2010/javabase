@@ -60,18 +60,19 @@ public class TieBaImageIdMessageListener implements MessageListener {
 			byte[] imageKey = getByte(TIEBA_CONTENT_IMAGE_KEY + tiebaName);
 			//不包含图片的key
 			byte[] noImageKey = getByte(TieBaNoImageIdMessageListener.TIEBA_CONTENT_NO_IMAGE_KEY + tiebaName);
-			log.info("待同步图片pageID数量：" + pageList.size());
+			log.info("{}:待同步图片pageID数量：{}" ,tiebaName, pageList.size());
 			//去除不含图片的list
 			List<ContentBean> imagePageList = new ArrayList<>();
 			//去除不含图片没有被缓存的list
 			List<String> notCachePageImageList = new ArrayList<>();
 			removeExistId(pageList, imagePageList, notCachePageImageList, imageKey, noImageKey);
-			log.info("去除已同步和不包含图片pageID后数量：" + notCachePageImageList.size());
+			log.info("{}:去除已同步和不包含图片pageID后数量：{}",tiebaName ,notCachePageImageList.size());
 			ConcurrentHashMap<byte[], byte[]> map = contentImageProcessor.start(notCachePageImageList,tiebaName);
 			redisTemplate.executePipelined(new RedisCallback<Object>() {
 				@Override
 				public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
 					//保存所有帖子 tieba_content_image_4813146001
+					if(map.size()>0)
 					redisConnection.mSet(map);
 					// 存储帖子最新更新时间
 					byte[] timeKey = getByte(TIEBA_CONTENT_UPDATE_TIME_KEY + tiebaName);

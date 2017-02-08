@@ -7,6 +7,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * author:gaoguangjin
  * Description:实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行 和jion（）功能类似
+ * 他是等所有线程都执行完了再执行某个方法
  * Email:335424093@qq.com
  * Date 2016/1/8 13:31
  */
@@ -48,7 +49,13 @@ public class CountDownLatchUtil {
             public void run() {
                 log.info(Thread.currentThread().getName()+"执行=======>");
                 countDownLatch.countDown();
-                log.info(Thread.currentThread().getName()+"执行结束=======>");
+                // countDown() 后面不要有任何方法
+//                try {
+//                    Thread.sleep(10000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                log.info(Thread.currentThread().getName()+"执行结束=======>");
             }
         }.start();
 

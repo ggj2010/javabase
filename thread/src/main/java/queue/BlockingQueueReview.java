@@ -52,11 +52,8 @@ public class BlockingQueueReview {
      * @throws InterruptedException
      */
     public void linkedBlockingDeque() throws InterruptedException {
-
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
-
-        executor.scheduleWithFixedDelay(getThread(), 0, 5000, TimeUnit.MILLISECONDS);
-
+//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
+//        executor.scheduleWithFixedDelay(getThread(), 0, 5000, TimeUnit.MILLISECONDS);
         new Thread(() -> {
             for (int i = 0; i < number*2; i++) {
                 try {
@@ -69,6 +66,12 @@ public class BlockingQueueReview {
             }
         }).start();
 
+
+        while (true){
+            Integer number = linkedBlockingDeque.take();
+            log.info("线程拿出元素" + number);
+           // Thread.sleep(1000);
+        }
     }
 
     private Runnable getThread() {
@@ -76,13 +79,15 @@ public class BlockingQueueReview {
                      List<Integer> list=new LinkedList<Integer>();
                 //一次性从BlockingQueue获取所有可用的数据对象
                 try {
+                    //poll 不会堵塞
+//                    Integer number=linkedBlockingDeque.poll();
                     //每次只拿去一个 太麻烦了
-//                    Integer number = linkedBlockingDeque.take();
-//                    log.info("线程拿出元素" + number);
-                    Thread.sleep(3000);
+                    Integer number = linkedBlockingDeque.take();
+                    log.info("线程拿出元素" + number);
+//                    Thread.sleep(3000);
                     //就获取number 大于linkedBlockingDeque目前的长度，那么就会直接拿去linkedBlockingDeque全部的长度
-                    linkedBlockingDeque.drainTo(list,number);
-                        log.info("线程拿到数据size："+list.size());
+//                    linkedBlockingDeque.drainTo(list,number);
+//                    log.info("线程拿到数据size："+list.size());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
