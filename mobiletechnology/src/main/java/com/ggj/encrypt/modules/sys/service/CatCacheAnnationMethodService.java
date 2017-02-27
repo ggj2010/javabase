@@ -1,10 +1,9 @@
 package com.ggj.encrypt.modules.sys.service;
 
 import com.alibaba.fastjson.JSON;
-import com.ggj.encrypt.common.annation.catclient.method.CatMethodCache;
+import com.ggj.encrypt.common.annotation.catclient.method.CatMethodCache;
 import com.ggj.encrypt.common.utils.redis.RedisDaoTemplate;
 import com.ggj.encrypt.common.utils.redis.callback.RedisCallback;
-import com.ggj.encrypt.configuration.RedisKeyConfiguration;
 import com.ggj.encrypt.modules.sys.bean.UserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import redis.clients.jedis.Jedis;
  * @date 2016/7/12 19:32
  */
 @Service
-
 public class CatCacheAnnationMethodService {
     @Autowired
     private RedisDaoTemplate redisDaoTemplate;

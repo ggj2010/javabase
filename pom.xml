@@ -32,6 +32,7 @@
         <module>mobiletechnology</module>
         <module>webmagic</module>
         <module>elasticsearch</module>
+        <module>db</module>
     </modules>
 
     <properties>
@@ -42,6 +43,7 @@
         <logback.version>1.1.3</logback.version>
         <!-- util -->
         <lombok.version>1.12.6</lombok.version>
+        <lz4.version>1.3.0</lz4.version>
         <!--mina socket-->
         <mina.version>2.0.9</mina.version>
         <!--kafka-->
@@ -329,6 +331,12 @@
                 <groupId>org.elasticsearch</groupId>
                 <artifactId>elasticsearch</artifactId>
                 <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.jpountz.lz4</groupId>
+                <artifactId>lz4</artifactId>
+                <version>${lz4.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

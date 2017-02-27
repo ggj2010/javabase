@@ -1,0 +1,51 @@
+spring:
+  profiles:
+   #激活不同的profile test/dev/product
+    active: beta
+  http:
+    encoding:
+    charset: UTF-8
+    enabled: true
+    force: true
+#日志颜色
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  datasource:
+        name: database
+        url: jdbc:mysql://123.56.118.135:3306/master?useUnicode=true&characterEncoding=utf-8
+        username: mobile
+        password: mobile
+        # 使用druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQueryTimeout: 900000
+        validationQuery: SELECT SYSDATE() from dual
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+logging:
+  config: classpath:logback-spring.xml
+  file: db.log
+  path: /data/logs/db.log
+
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  # mappers file
+  mapperLocations: classpath:mappings/**/*.xml
+  typeAliasesPackage: com.ggj
+   # handler's package
+  #typeHandlersPackage:
+
+

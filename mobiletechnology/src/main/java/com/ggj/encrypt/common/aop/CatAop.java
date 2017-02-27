@@ -3,8 +3,8 @@ package com.ggj.encrypt.common.aop;
 import java.lang.reflect.Method;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ggj.encrypt.common.annation.catclient.CatTransaction;
-import com.ggj.encrypt.common.annation.catclient.method.CatMethodCache;
+import com.ggj.encrypt.common.annotation.catclient.CatTransaction;
+import com.ggj.encrypt.common.annotation.catclient.method.CatMethodCache;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,7 +12,7 @@ import org.aspectj.lang.annotation.Aspect;
 
 import com.dianping.cat.Cat;
 import com.dianping.cat.message.Transaction;
-import com.ggj.encrypt.common.annation.catclient.method.CatMethodTransaction;
+import com.ggj.encrypt.common.annotation.catclient.method.CatMethodTransaction;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -59,7 +59,7 @@ public class CatAop {
      * @return
      * @throws NoSuchMethodException
      */
-    @Around("@annotation(com.ggj.encrypt.common.annation.catclient.method.CatMethodTransaction)")
+    @Around("@annotation(com.ggj.encrypt.common.annotation.catclient.method.CatMethodTransaction)")
     public Object CatMethodTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
         Class<? extends Object> object = joinPoint.getTarget().getClass();
         String methodName = joinPoint.getSignature().getName();
@@ -70,6 +70,12 @@ public class CatAop {
                  method = m;
             }
         }
+//        Object[] args = joinPoint.getArgs();
+//        Class[] parameterTypes=new Class[args.length];
+//        for(int i=0;i<args.length;i++){
+//            parameterTypes[i]=args[i].getClass();
+//        }
+//        method=object.getMethod(methodName,parameterTypes);
         CatMethodTransaction catMethodTransaction = method.getAnnotation(CatMethodTransaction.class);
         //注解有值的优先以注解的值
         String type = catMethodTransaction.type();
@@ -86,7 +92,7 @@ public class CatAop {
      * @return
      * @throws Throwable
      */
-    @Around("@annotation(com.ggj.encrypt.common.annation.catclient.method.CatMethodCache)")
+    @Around("@annotation(com.ggj.encrypt.common.annotation.catclient.method.CatMethodCache)")
     public Object CatMethodCache(ProceedingJoinPoint joinPoint) throws Throwable {
         Class<? extends Object> object = joinPoint.getTarget().getClass();
         String methodName = joinPoint.getSignature().getName();

@@ -1,4 +1,4 @@
-package com.ggj.encrypt.common.annation.catclient.method;
+package com.ggj.encrypt.common.annotation.catclient.method;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,7 +12,8 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CatMethodTransaction {
-    public String type() ;
-    public String name() ;
+public @interface CatMethodCache {
+    public String  type() default "Cache.redis";
+    //("add", "get", "mGet", "remove");
+    public String  name() default "get";
 }

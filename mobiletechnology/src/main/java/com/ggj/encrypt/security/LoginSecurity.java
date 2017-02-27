@@ -74,8 +74,8 @@ public class LoginSecurity {
                                 ipMap.put(ip, "1");
                                 jedis.hmset(blackipKey, ipMap);
                                 log.error("ip访问频繁:=" + ip);
-                                //throw new BizException(resultCodeConfiguration.getIpMaxInvoke(), resultCodeConfiguration.getIpMaxInvokeMsg());
-                                return false;
+                                throw new BizException(resultCodeConfiguration.getIpMaxInvoke(), resultCodeConfiguration.getIpMaxInvokeMsg());
+//                                return false;
                             }
                         } else {
                             jedis.incr(ipIvokeTimekey);
@@ -87,8 +87,8 @@ public class LoginSecurity {
                         log.error("黑名单ip="+ip+";访问url="+request.getRequestURI()+";掉用接口次数"+count);
                         ipMap.put(ip,(Integer.parseInt(count)+1)+"");
                         jedis.hmset(blackipKey, ipMap);
-                        return false;
-                        //throw new BizException(resultCodeConfiguration.getBlackipCode(), resultCodeConfiguration.getBlackipMsg());
+//                        return false;
+                        throw new BizException(resultCodeConfiguration.getBlackipCode(), resultCodeConfiguration.getBlackipMsg());
                     }
                 }
                 return true;

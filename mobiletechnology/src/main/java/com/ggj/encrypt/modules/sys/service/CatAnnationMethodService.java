@@ -2,12 +2,10 @@ package com.ggj.encrypt.modules.sys.service;
 
 import java.util.List;
 
-import com.ggj.encrypt.common.annation.catclient.method.CatMethodTransaction;
+import com.ggj.encrypt.common.annotation.catclient.method.CatMethodTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.ggj.encrypt.common.annation.catclient.CatTransaction;
 import com.ggj.encrypt.modules.sys.bean.UserInfo;
 import com.ggj.encrypt.modules.sys.dao.UserInfoMapper;
 

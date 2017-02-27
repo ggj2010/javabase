@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author:gaoguangjin
  * @Description:Http连接是复杂，有状态的，线程不安全的对象，所以它必须被妥善管理。一个Http连接在同一时间只能被一个线程访问
+ * HttpClients如果在多线程下面公用一个HttpClient实力的话必须要用httpclinet线程池去执行
  * http://www.yeetrack.com/?p=782
  * @Email:335424093@qq.com
  * @Date 2016/4/6 17:25
@@ -34,7 +35,7 @@ public class HttpclientManager {
 
 	AtomicInteger errorAtomicInteger=new AtomicInteger();
 	
-	private String url = "http://localhost:8080/index";
+	private String url = "http://localhost:81/index";
 	//外网的域名网速不稳定
 //	private String url = "http://www.baidu.com";
 	private int threadNumber = 1000;
@@ -55,9 +56,9 @@ public class HttpclientManager {
      */
 	public static void main(String[] args) {
 		HttpclientManager httpclientManager = new HttpclientManager();
-//		httpclientManager.wrongThreadHttp();
+		httpclientManager.wrongThreadHttp();
         //请求连接池管理器PoolingClientConnectionManager
-        httpclientManager.threadPoolHttp();
+//        httpclientManager.threadPoolHttp();
 	}
 	
 	/**
@@ -72,9 +73,9 @@ public class HttpclientManager {
 		ExecutorService executorService = Executors.newFixedThreadPool(threadNumber);
 		for (int i = 0; i < threadNumber; i++) {
             //串行执行效果
-//			executorService.execute(getThread(httpclient));
+			executorService.execute(getThread(httpclient));
 			//并发执行效果
-            executorService.execute(getThread(null));
+//            executorService.execute(getThread(null));
 		}
 		executorService.shutdown();
 		try {

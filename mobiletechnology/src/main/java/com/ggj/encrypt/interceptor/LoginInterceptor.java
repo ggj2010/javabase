@@ -22,7 +22,6 @@ import com.ggj.encrypt.common.utils.SpringContextHolder;
 import com.ggj.encrypt.common.utils.kafka.KafkaClientUtil;
 import com.ggj.encrypt.configuration.ResultCodeConfiguration;
 import com.ggj.encrypt.security.LoginSecurity;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -33,9 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
-	private static final String DEFAULT_CHARSET = "UTF-8";
-	private static final String DEFAULT_CONTENT_TYPE_NAME = "content-type";
-	private static final String DEFAULT_CONTENT_TYPE_VALUE = "application/json;charset=UTF-8";
+
 	private static final ThreadLocal<Long> startTimeThreadLocal = new NamedThreadLocal<Long>("ThreadLocal StartTime");
 	private LoginSecurity loginSecurity = SpringContextHolder.getBean(LoginSecurity.class);
 	private ResultCodeConfiguration resultCodeConfiguration = SpringContextHolder.getBean(ResultCodeConfiguration.class);
@@ -50,17 +47,17 @@ public class LoginInterceptor implements HandlerInterceptor {
 	 * @throws Exception
 	 */
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		response.setCharacterEncoding(DEFAULT_CHARSET);
-		response.setHeader(DEFAULT_CONTENT_TYPE_NAME, DEFAULT_CONTENT_TYPE_VALUE);
+		response.setCharacterEncoding(GlobalConstant.DEFAULT_CHARSET);
+		response.setHeader(GlobalConstant.DEFAULT_CONTENT_TYPE_NAME, GlobalConstant.DEFAULT_CONTENT_TYPE_VALUE);
 		long beginTime = System.currentTimeMillis();// 1、开始时间
 		startTimeThreadLocal.set(beginTime); // 线程绑定变量（该数据只有当前请求的线程可见）
 		try {
 			loginSecurity.checkIsLoginAndValidSgnature(request);
 			return true;
 		} catch (BizException e) {
-			response.getOutputStream().write(e.getReturnRestult().toJSONString().getBytes(DEFAULT_CHARSET));
+			response.getOutputStream().write(e.getReturnRestult().toJSONString().getBytes(GlobalConstant.DEFAULT_CHARSET));
 		} catch (Exception e) {
-			response.getOutputStream().write(resultCodeConfiguration.getErrorResultCode().getBytes(DEFAULT_CHARSET));
+			response.getOutputStream().write(resultCodeConfiguration.getErrorResultCode().getBytes(GlobalConstant.DEFAULT_CHARSET));
 		}
 		return false;
 	}

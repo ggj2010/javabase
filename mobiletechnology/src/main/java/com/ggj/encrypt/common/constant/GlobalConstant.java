@@ -15,4 +15,7 @@ public class GlobalConstant {
     public static final String SIGN = "X-Emp-Signature";
     public static final String USE_ID = "X-Emp-U";
     public static final String APPKEY = "X-Emp-AppKey";
+    public static final String DEFAULT_CHARSET = "UTF-8";
+    public static final String DEFAULT_CONTENT_TYPE_NAME = "content-type";
+    public static final String DEFAULT_CONTENT_TYPE_VALUE = "application/json;charset=UTF-8";
 }

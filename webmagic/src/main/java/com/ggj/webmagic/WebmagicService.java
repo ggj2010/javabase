@@ -26,12 +26,9 @@ import com.ggj.webmagic.tieba.ContentIdProcessor;
 import com.ggj.webmagic.tieba.TopProcessor;
 import com.ggj.webmagic.tieba.bean.ContentBean;
 import com.ggj.webmagic.tieba.bean.TopBean;
-import com.ggj.webmagic.util.CollectionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
-import static freemarker.log._Log4jOverSLF4JTester.test;
-import static org.apache.coyote.http11.Constants.a;
 
 
 /**

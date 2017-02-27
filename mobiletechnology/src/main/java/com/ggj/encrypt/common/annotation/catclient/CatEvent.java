@@ -1,4 +1,4 @@
-package com.ggj.encrypt.common.annation.catclient;
+package com.ggj.encrypt.common.annotation.catclient;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

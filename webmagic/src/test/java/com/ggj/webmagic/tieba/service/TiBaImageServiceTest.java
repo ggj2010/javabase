@@ -17,4 +17,8 @@ public class TiBaImageServiceTest extends BaseTest{
     public void sychReisToMySql() throws Exception {
         tiBaImageService.sychReisToMySql();
     }
+
+    public static void main(String[] args) {
+        System.out.println("args = [" + 2%4 + "]");
+    }
 }

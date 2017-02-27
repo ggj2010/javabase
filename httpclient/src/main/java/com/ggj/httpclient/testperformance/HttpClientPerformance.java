@@ -26,7 +26,7 @@ public class HttpClientPerformance {
         //14:56:05.745 [main] INFO  c.g.h.t.HttpClientPerformance - methodOne耗费时间：10873
         //14:56:08.807 [main] INFO  c.g.h.t.HttpClientPerformance - methodTwo耗费时间：3052
 
-        hcp. methodOne();
+        hcp.methodOne();
         hcp.methodTwo();
     }
     public void methodOne() throws IOException {
