@@ -22,7 +22,7 @@ public class ScheduleTask {
 	@Autowired
 	private ElasticSearch elasticSearch;
 	
-	private boolean isDeleteImageNow = true;
+	private boolean isDeleteImageNow ;
 	
 	// 一个小时更新一次，执行top
 	// @Scheduled(initialDelay = 0, fixedRate = 1000*60*60*6)
@@ -35,8 +35,7 @@ public class ScheduleTask {
 		}
 	}
 	
-	// 1分钟更新一次，执行top
-	// @Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
+	@Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
 	public void scheduleTieBaImage() {
 		try {
             //删除历史图片时候不进行定时任务
@@ -50,7 +49,7 @@ public class ScheduleTask {
 	/**
 	 * 将贴吧信息放到elasticsearch
 	 */
-	// @Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
+	//@Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
 	public void scheduleSearchIndex() {
 		try {
 			elasticSearch.addTieBaContentIndex();
