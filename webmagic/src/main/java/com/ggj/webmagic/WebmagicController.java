@@ -63,9 +63,10 @@ public class WebmagicController {
 	}
 
 	@RequestMapping("/tieba/search")
-	public String search(Model model,String keyWord) throws Exception {
+	public String search(Model model,String keyWord,Integer from) throws Exception {
 		model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
-		model.addAttribute("listContent", webmagicService.search(keyWord));
+		model.addAttribute("listContent", webmagicService.search(model,keyWord,from));
+		model.addAttribute("keyWord", keyWord);
 		return "search";
 	}
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="search">
 <head>
     <meta charset="UTF-8">
     <title>elasticsearch 查询</title>
@@ -15,45 +15,75 @@
     <meta name="keywords" content="">
     <meta name="layoutmode" content="standard">
 </head>
+<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
 <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 <link href="http://cdn.bootcss.com/blueimp-gallery/2.21.3/css/blueimp-gallery.css" rel="stylesheet">
 <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<#assign base=request.contextPath />
 <style>
 </style>
 <body>
 
-
 <div class="container-fluid">
-    <div id="links" class="lightBoxGallery">
-        <div class="row">
-            <table class="table table-bordered">
-                <tr>
-                    <th>帖子地址</th>
-                    <th>贴吧名称</th>
-                    <th>帖子作者</th>
-                    <th>标题</th>
-                    <th>日期</th>
-                </tr>
-            <#if listContent??&&listContent?size gt 0>
-                <#list listContent as data>
-                <tr>
-                    <td><a href="${pageUrlPrefix}${data.id}">传送门</a> </td>
-                    <td>${(data.name)?if_exists }</td>
-                    <td>${(data.authorName)?if_exists }</td>
-                    <td>${(data.title)?if_exists }</td>
-                    <th>${(data.date)?if_exists }</th>
-                </tr>
-                </#list>
-            </#if>
-            </table>
-    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            帖子查询
+        </div>
+            <div class="panel-body">
+                <div id="links" class="lightBoxGallery">
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>帖子地址</th>
+                                <th>贴吧名称</th>
+                                <th>帖子作者</th>
+                                <th>标题</th>
+                                <th>日期</th>
+                            </tr>
+                        <#if listContent??&&listContent?size gt 0>
+                            <#list listContent as data>
+                            <tr>
+                                <td><a href="${pageUrlPrefix}${data.id}">传送门</a> </td>
+                                <td>${(data.name)?if_exists }</td>
+                                <td>${(data.authorName)?if_exists }</td>
+                                <td>${(data.title)?if_exists }</td>
+                                <th>${(data.date)?if_exists }</th>
+                            </tr>
+                            </#list>
+                        </#if>
+                        </table>
+                    </div>
+                    <ul class="pager" ng-controller="pageController">
+                        <span class="page-list">共${totalSize}</span>条记录
+                        <li>
+                            <a href="" aria-label="Previous" name="pages"
+                               ng-click="page(${from-1})"> <span aria-hidden="true">上一页</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" aria-label="Next" name="pages"
+                               ng-click="page(${from+1})" > <span aria-hidden="true">下一页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        <div>
     </div>
 </div>
-
-
 <script>
+    var app = angular.module('search', []);
+    app.controller("pageController",function ($scope) {
+        $scope.page=function (i) {
+            if(i<0){
+                i=0;
+            }
+            window.location.href="${base}/tieba/search?keyWord=${keyWord}"+"&from="+i;
+        }
+    });
+
 
 </script>
 </body>

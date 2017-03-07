@@ -5,6 +5,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggj.webmagic.base.ConfigConsts;
+import com.ggj.webmagic.tieba.bean.TieBaImage;
+import com.ggj.webmagic.util.QiNiuUtil;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -29,6 +32,7 @@ import com.ggj.webmagic.tieba.bean.TopBean;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static com.ggj.webmagic.base.ConfigConsts.PAGE_SIZE;
 
 
 /**
@@ -54,7 +58,8 @@ public class WebmagicService {
     private TopProcessor topProcessor;
     @Autowired
     private ContentIdProcessor contentIdProcessor;
-
+    @Autowired
+    private QiNiuUtil qiNiuUtil;
     public static byte[] getByte(String str) {
         try {
             return str.getBytes("utf-8");
@@ -225,17 +230,59 @@ public class WebmagicService {
         return new ArrayList<>();
     }
 
-    public List<ContentBean> search(String keyWord) {
+    public List<ContentBean> search(Model model, String keyWord, Integer from) {
+        if(from==null)from=0;
+        model.addAttribute("from",from);
         List<ContentBean> listContentBean = new ArrayList<>();
         SearchResponse response = elasticSearch.getTransportClient().prepareSearch(ElasticSearch.INDEX_NAME)
                 .setTypes(ElasticSearch.TIEABA_CONTENT_TYPE)
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                 .setQuery(QueryBuilders.matchQuery(ElasticSearch.TIEABA_CONTENT_FIELD, keyWord)
-                ).execute().actionGet();
+                ).setFrom(from* ConfigConsts.PAGE_SIZE).setSize(ConfigConsts.PAGE_SIZE).execute().actionGet();
         SearchHits hits = response.getHits();
+        model.addAttribute("totalSize",hits.getTotalHits());
         for (SearchHit searchHitFields : hits.getHits()) {
             listContentBean.add(JSONObject.parseObject(searchHitFields.getSourceAsString(), ContentBean.class));
         }
         return listContentBean;
+    }
+
+    /**
+     * 删除历史数据
+     * 根据key值找到图片的名称
+     */
+    public void deleteTieBaImageTypeOne() {
+        redisTemplate.execute(new RedisCallback<Object>() {
+            public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                    byte[] imageKey = getByte(TieBaImageIdMessageListener.TIEBA_CONTENT_IMAGE_KEY+"*");
+                    long beginTime = System.currentTimeMillis();
+                    Set<byte[]> keys = redisConnection.keys(imageKey);
+                    log.info("模糊查询耗时：{}",( System.currentTimeMillis()-beginTime)+"ms");
+                    //判断key
+                    for (byte[] key : keys) {
+                        try {
+                            byte[] image = redisConnection.get(key);
+                            List<String> imageUrlList = JSONObject.parseObject(image, List.class);
+//                            qiNiuUtil.deleteByList(imageUrlList);
+                            qiNiuUtil.getDeleteBlockingDeque().put(imageUrlList);
+                        }catch (Exception e) {
+                            log.error("删除图片失败！key {}",WebmagicService.getString(key));
+                        }
+                    }
+                return null;
+            }
+        });
+    }
+
+    /**
+     * 根据前缀查询出来七牛所有的图片再删除
+     * sign=005456d6a5345982c58ae59a3cf5310b/76d25982b2b7d0a29b7dc63fc3ef760949369ac7.jpg
+     */
+    public void deleteTieBaImageTypeTwo(){
+        try{
+            qiNiuUtil.deleteFileList("sign=");
+        }catch (Exception e){
+            log.error("删除图片失败！ {}",e.getLocalizedMessage());
+        }
     }
 }
