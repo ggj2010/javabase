@@ -35,7 +35,7 @@ public class ScheduleTask {
 		}
 	}
 	
-	@Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
+	@Scheduled(initialDelay = 1000*60, fixedDelay = 1000*60*1)
 	public void scheduleTieBaImage() {
 		try {
             //删除历史图片时候不进行定时任务
@@ -49,7 +49,7 @@ public class ScheduleTask {
 	/**
 	 * 将贴吧信息放到elasticsearch
 	 */
-	@Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
+	@Scheduled(initialDelay = 1000*60, fixedDelay = 1000*60*1)
 	public void scheduleSearchIndex() {
 		try {
 			elasticSearch.addTieBaContentIndex();

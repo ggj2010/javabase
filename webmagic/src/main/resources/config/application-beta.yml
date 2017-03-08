@@ -2,7 +2,7 @@ tieba:
   tiebaName: 李毅
   tiebaTopUrl: http://tieba.baidu.com/f/like/furank?ie=utf-8&kw=
   tiebaContentUrl: http://tieba.baidu.com/f?ie=utf-8&kw=
-  tiebaContentPageUrl: https://tieba.baidu.com/p/
+  tiebaContentPageUrl: http://tieba.baidu.com/p/
   #5*50=250个帖子
   tiebaContentPageEndNum: 3
   tiebaImageUrl: https://imgsa.baidu.com/forum/w%3D580/
