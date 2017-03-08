@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsRequest;
 import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
+import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
@@ -63,14 +64,20 @@ public class ElasticSearch implements InitializingBean{
         try {
             transportClient = TransportClient.builder().settings(settings).build()
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+
+            IndicesAdminClient indicesAdminClient = transportClient.admin().indices();
+            //查看索引是否存在,不存在就创建索引
+            if(!checkExistsIndex(indicesAdminClient,INDEX_NAME)){
+                indicesAdminClient.prepareCreate(INDEX_NAME).setSettings().execute().actionGet();
+            }
             //查询mapping是否存在，已存在就不创建了
-            GetMappingsResponse getMappingsResponse = transportClient.admin().indices().getMappings(new GetMappingsRequest().indices(INDEX_NAME)).actionGet();
+            GetMappingsResponse getMappingsResponse = indicesAdminClient.getMappings(new GetMappingsRequest().indices(INDEX_NAME)).actionGet();
             ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetaData>> indexToMappings = getMappingsResponse.getMappings();
            if(indexToMappings.get(INDEX_NAME).get(TIEABA_CONTENT_TYPE)==null) {
                //创建zk分词mapping
                PutMappingRequest mapping = Requests.putMappingRequest(INDEX_NAME).type(TIEABA_CONTENT_TYPE).source(createIKMapping(TIEABA_CONTENT_TYPE, TIEABA_CONTENT_FIELD).string());
                mapping.updateAllTypes(true);
-               transportClient.admin().indices().putMapping(mapping).actionGet();
+               indicesAdminClient.putMapping(mapping).actionGet();
            }
         } catch (Exception e) {
            log.error("初始化 elasticsearch cliet error"+e.getLocalizedMessage());
@@ -102,5 +109,8 @@ public class ElasticSearch implements InitializingBean{
             log.error("创建mapping分词IK索引 error"+e.getLocalizedMessage());
         }
         return mapping;
+    }
+    private static boolean checkExistsIndex(IndicesAdminClient indicesAdminClient, String indexName) {
+        return indicesAdminClient.prepareExists(indexName).execute().actionGet().isExists();
     }
 }
