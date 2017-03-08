@@ -6,7 +6,7 @@ spring:
     requestContextAttribute: request
 
 server:
-  port: 80
+  port: 81
   http:
     encoding:
     charset: UTF-8
