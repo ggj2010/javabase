@@ -74,7 +74,7 @@
         <fastjson.version>1.1.41</fastjson.version>
         <disruptor.version>3.3.4</disruptor.version>
 
-        <qiniusdk.version>7.1.2</qiniusdk.version>
+        <qiniusdk.version>7.2.3</qiniusdk.version>
         <!--webmagic-->
         <webmagic.version>0.5.3</webmagic.version>
         <aspectj.version>1.8.9</aspectj.version>
