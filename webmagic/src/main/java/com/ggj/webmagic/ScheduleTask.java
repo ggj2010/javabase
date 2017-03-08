@@ -49,7 +49,7 @@ public class ScheduleTask {
 	/**
 	 * 将贴吧信息放到elasticsearch
 	 */
-	//@Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
+	@Scheduled(initialDelay = 0, fixedDelay = 1000*60*1)
 	public void scheduleSearchIndex() {
 		try {
 			elasticSearch.addTieBaContentIndex();
@@ -63,7 +63,7 @@ public class ScheduleTask {
 	 * 两种方式删除
 	 */
 //	@Scheduled(cron = "0 0 */3 * * ?")
-//	@Scheduled(initialDelay = 0, fixedDelay = 1000*60*60*12*3)
+	@Scheduled(initialDelay = 0, fixedDelay = 1000*60*60*12*3)
 	public void deleteTieBaImage() {
 		try {
 			isDeleteImageNow = true;
