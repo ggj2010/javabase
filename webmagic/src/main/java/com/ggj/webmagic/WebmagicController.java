@@ -54,7 +54,7 @@ public class WebmagicController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/tieba/img")
+	@RequestMapping("")
 	public String tieBaTop(Model model) throws Exception {
 		model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
 		webmagicService.getTieBaImage(model, tieBaConfiguration.getTiebaName()[0], 0, 10);
