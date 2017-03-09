@@ -295,6 +295,13 @@ public class WebmagicService {
     public void deleteTieBaImageTypeTwo() {
         try {
             qiNiuUtil.deleteFileList("sign=");
+            redisTemplate.execute(new RedisCallback<Object>() {
+                public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                    //删除当前库里面所有key
+                    redisConnection.flushDb();
+                    return null;
+                }
+            });
         } catch (Exception e) {
             log.error("删除图片失败！ {}", e.getLocalizedMessage());
         }

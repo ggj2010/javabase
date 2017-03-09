@@ -22,7 +22,7 @@ public class ScheduleTask {
 	@Autowired
 	private ElasticSearch elasticSearch;
 	
-	private boolean isDeleteImageNow ;
+	private boolean isDeleteImageNow=true;
 	
 	// 一个小时更新一次，执行top
 	// @Scheduled(initialDelay = 0, fixedRate = 1000*60*60*6)
