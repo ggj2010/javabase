@@ -123,7 +123,7 @@ public class QiNiuUtil implements InitializingBean {
     }
 
     private void deleteBlockingDequeImage() {
-        ExecutorService pool = Executors.newFixedThreadPool(200);
+        ExecutorService pool = Executors.newFixedThreadPool(20);
         while (true) {
             try {
                 List<String> list = deleteBlockingDeque.take();

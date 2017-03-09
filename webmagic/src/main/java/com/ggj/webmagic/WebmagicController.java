@@ -56,6 +56,7 @@ public class WebmagicController {
 	 */
 	@RequestMapping("")
 	public String tieBaTop(Model model) throws Exception {
+		log.info("访问主页");
 		model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
 		webmagicService.getTieBaImage(model, tieBaConfiguration.getTiebaName()[0], 0, 10);
 		model.addAttribute("tiebaName", tieBaConfiguration.getTiebaName()[0]);
@@ -64,6 +65,7 @@ public class WebmagicController {
 
 	@RequestMapping("/tieba/search")
 	public String search(Model model,String keyWord,Integer from) throws Exception {
+		log.info("ngingx搜索缓存测试");
 		model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
 		model.addAttribute("listContent", webmagicService.search(model,keyWord,from));
 		model.addAttribute("keyWord", keyWord);
