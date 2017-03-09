@@ -3,6 +3,7 @@
     <springProfile name="beta">
         <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
         <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
+        <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] ${PID:- } %-5level [%logger{50}:%L [%M]]:%msg%n"/>
         <!--使用默认的file-appender.xml logging.path不会起作用-->
         <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
         <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>

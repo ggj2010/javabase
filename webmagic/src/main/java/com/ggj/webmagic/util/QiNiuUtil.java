@@ -110,6 +110,9 @@ public class QiNiuUtil implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         Configuration cfg = new Configuration(Zone.zone0());
+        cfg.connectTimeout=5000;
+        cfg.responseTimeout=5000;
+        cfg.writeTimeout=2000;
         auth = Auth.create(accessKey, secretKey);
         uploadManager = new UploadManager(cfg);
         // 实例化一个BucketManager对象
@@ -203,7 +206,7 @@ public class QiNiuUtil implements InitializingBean {
         }
     }
 
-    public void deleteFileList(String prefix) throws InterruptedException {
+    public void deleteFileList(String prefix) throws Exception {
         BucketManager.FileListIterator fileListIterator = bucketManager.createFileListIterator(bucketName, prefix, 1000, "");
         while (fileListIterator.hasNext()) {
             //处理获取的file list结果
