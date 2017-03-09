@@ -74,7 +74,7 @@
         </#list>
      </#if>
 
-            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='0'>
+            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='3'>
                 <div ng-repeat='link in reddit.links'>
                     <div ng-repeat='imageList in reddit.images'>
                         <div ng-repeat='image in imageList'>
