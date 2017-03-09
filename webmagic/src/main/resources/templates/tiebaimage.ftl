@@ -75,7 +75,7 @@
      </#if>
 
             <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='3'>
-                <div ng-repeat='link in reddit.links'>
+                <div ng-repeat='link in reddit.links track by $index'>
                     <div ng-repeat='imageList in reddit.images'>
                         <div ng-repeat='image in imageList'>
                             <div class="col-md-3 col-xs-6 col-sm-4">
@@ -108,15 +108,15 @@
             this.links = [];
             this.images = [];
             this.busy = false;
-            this.after = 5;
+            this.after =1;
         };
 
         Reddit.prototype.nextPage = function() {
             if (this.busy) return;
             this.busy = true;
             var that=this;
-            var end=this.after+5;
-            var begin=this.after+1;
+            var end=this.after+1;
+            var begin=this.after;
             var url = "${path}/page/" + begin + "/"+end;
             $http.get(url).success(function(data) {
                 $.each(data, function(key, obj) {
