@@ -5,9 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ggj.webmagic.base.ConfigConsts;
-import com.ggj.webmagic.tieba.bean.TieBaImage;
-import com.ggj.webmagic.util.QiNiuUtil;
+import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -24,15 +22,15 @@ import org.springframework.ui.Model;
 import com.alibaba.fastjson.JSONObject;
 import com.ggj.webmagic.autoconfiguration.TieBaConfiguration;
 import com.ggj.webmagic.autoconfiguration.TieBaImageIdMessageListener;
+import com.ggj.webmagic.base.ConfigConsts;
 import com.ggj.webmagic.elasticsearch.ElasticSearch;
 import com.ggj.webmagic.tieba.ContentIdProcessor;
 import com.ggj.webmagic.tieba.TopProcessor;
 import com.ggj.webmagic.tieba.bean.ContentBean;
 import com.ggj.webmagic.tieba.bean.TopBean;
+import com.ggj.webmagic.util.QiNiuUtil;
 
 import lombok.extern.slf4j.Slf4j;
-
-import static com.ggj.webmagic.base.ConfigConsts.PAGE_SIZE;
 
 
 /**
@@ -60,6 +58,7 @@ public class WebmagicService {
     private ContentIdProcessor contentIdProcessor;
     @Autowired
     private QiNiuUtil qiNiuUtil;
+
     public static byte[] getByte(String str) {
         try {
             return str.getBytes("utf-8");
@@ -186,30 +185,45 @@ public class WebmagicService {
 
     /**
      * 根据帖子最后最新更新日期显示图片
-     *
+     * zrange 从小到大
+     * zRevRange从大到小
+     * 优化前速度
+     * 2017-03-09 19:17:48.053  INFO 30624 --- [p-nio-81-exec-2] com.ggj.webmagic.WebmagicService         : zRevRange:201条数据 耗时：30s
+     * 2017-03-09 19:17:53.877  INFO 30624 --- [p-nio-81-exec-2] com.ggj.webmagic.WebmagicService         : 循环:201条数据 耗时：5823s
+     * 优化后的速度
+     * 2017-03-09 19:45:26.124  INFO 31864 --- [p-nio-81-exec-2] com.ggj.webmagic.WebmagicService         : zRevRange:201条数据 耗时：90ms
+     * 2017-03-09 19:45:26.474  INFO 31864 --- [p-nio-81-exec-2] com.ggj.webmagic.WebmagicService         : 循环:201条数据 耗时：349ms
+     * redis批量数据用Pipeline
      * @param model
      * @param tieBaName
      * @param begin
      * @param end
      */
-    public void getTieBaImage(Model model, String tieBaName, Integer begin, Integer end) {
-
-        byte[] contenUpdateKey = getByte(TieBaImageIdMessageListener.TIEBA_CONTENT_UPDATE_TIME_KEY + tieBaName);
-        redisTemplate.execute(new RedisCallback<Object>() {
+    public Map<String, List<String>> getTieBaImage(Model model,  String tieBaName, Integer begin, Integer end) {
+        if (StringUtils.isEmpty(tieBaName)) {
+            tieBaName = tieBaConfiguration.getTiebaName()[0];
+        }
+        long beginTime = System.currentTimeMillis();
+        Set<String> sortPageIds = redisTemplate.opsForZSet().reverseRange(TieBaImageIdMessageListener.TIEBA_CONTENT_UPDATE_TIME_KEY + tieBaName, begin, end);
+        log.info("redis zRevRange:{}条数据 耗时：{}ms", sortPageIds.size(), (System.currentTimeMillis() - beginTime));
+        Map<String, List<String>> map = new TreeMap<String, List<String>>();
+        beginTime = System.currentTimeMillis();
+        //piple 批量查询效率高
+        List<Object> listObject = redisTemplate.executePipelined(new RedisCallback<Object>() {
             public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
-                Map<String, List<String>> map = new TreeMap<String, List<String>>();
-                Set<byte[]> sortPageIds = redisConnection.zRevRange(contenUpdateKey, begin, end);
-
-                for (byte[] sortPageId : sortPageIds) {
-                    String pagId=getString(sortPageId);
-                    byte[] imageUrls=redisConnection.get(getByte(TieBaImageIdMessageListener.TIEBA_CONTENT_IMAGE_KEY+pagId));
-                    map.put(pagId, JSONObject.parseObject(getString(imageUrls), ArrayList.class));
+                for (String sortPageId : sortPageIds) {
+                    redisConnection.get(getByte(TieBaImageIdMessageListener.TIEBA_CONTENT_IMAGE_KEY + sortPageId));
                 }
-                model.addAttribute("mapData", map);
                 return null;
             }
         });
-
+        int i = 0;
+        for (String sortPageId : sortPageIds) {
+            map.put(tieBaConfiguration.getTiebaContentPageUrl() + sortPageId, JSONObject.parseObject(listObject.get(i).toString(), ArrayList.class));
+            i++;
+        }
+        log.info("redis pipelined循环get:{}条数据 耗时：{}ms", sortPageIds.size(), (System.currentTimeMillis() - beginTime));
+        return map;
     }
 
     /**
@@ -231,16 +245,16 @@ public class WebmagicService {
     }
 
     public List<ContentBean> search(Model model, String keyWord, Integer from) {
-        if(from==null)from=0;
-        model.addAttribute("from",from);
+        if (from == null) from = 0;
+        model.addAttribute("from", from);
         List<ContentBean> listContentBean = new ArrayList<>();
         SearchResponse response = elasticSearch.getTransportClient().prepareSearch(ElasticSearch.INDEX_NAME)
                 .setTypes(ElasticSearch.TIEABA_CONTENT_TYPE)
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                 .setQuery(QueryBuilders.matchQuery(ElasticSearch.TIEABA_CONTENT_FIELD, keyWord)
-                ).setFrom(from* ConfigConsts.PAGE_SIZE).setSize(ConfigConsts.PAGE_SIZE).execute().actionGet();
+                ).setFrom(from * ConfigConsts.PAGE_SIZE).setSize(ConfigConsts.PAGE_SIZE).execute().actionGet();
         SearchHits hits = response.getHits();
-        model.addAttribute("totalSize",hits.getTotalHits());
+        model.addAttribute("totalSize", hits.getTotalHits());
         for (SearchHit searchHitFields : hits.getHits()) {
             listContentBean.add(JSONObject.parseObject(searchHitFields.getSourceAsString(), ContentBean.class));
         }
@@ -254,21 +268,21 @@ public class WebmagicService {
     public void deleteTieBaImageTypeOne() {
         redisTemplate.execute(new RedisCallback<Object>() {
             public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
-                    byte[] imageKey = getByte(TieBaImageIdMessageListener.TIEBA_CONTENT_IMAGE_KEY+"*");
-                    long beginTime = System.currentTimeMillis();
-                    Set<byte[]> keys = redisConnection.keys(imageKey);
-                    log.info("模糊查询耗时：{}",( System.currentTimeMillis()-beginTime)+"ms");
-                    //判断key
-                    for (byte[] key : keys) {
-                        try {
-                            byte[] image = redisConnection.get(key);
-                            List<String> imageUrlList = JSONObject.parseObject(image, List.class);
+                byte[] imageKey = getByte(TieBaImageIdMessageListener.TIEBA_CONTENT_IMAGE_KEY + "*");
+                long beginTime = System.currentTimeMillis();
+                Set<byte[]> keys = redisConnection.keys(imageKey);
+                log.info("模糊查询耗时：{}", (System.currentTimeMillis() - beginTime) + "ms");
+                //判断key
+                for (byte[] key : keys) {
+                    try {
+                        byte[] image = redisConnection.get(key);
+                        List<String> imageUrlList = JSONObject.parseObject(image, List.class);
 //                            qiNiuUtil.deleteByList(imageUrlList);
-                            qiNiuUtil.getDeleteBlockingDeque().put(imageUrlList);
-                        }catch (Exception e) {
-                            log.error("删除图片失败！key {}",WebmagicService.getString(key));
-                        }
+                        qiNiuUtil.getDeleteBlockingDeque().put(imageUrlList);
+                    } catch (Exception e) {
+                        log.error("删除图片失败！key {}", WebmagicService.getString(key));
                     }
+                }
                 return null;
             }
         });
@@ -278,11 +292,11 @@ public class WebmagicService {
      * 根据前缀查询出来七牛所有的图片再删除
      * sign=005456d6a5345982c58ae59a3cf5310b/76d25982b2b7d0a29b7dc63fc3ef760949369ac7.jpg
      */
-    public void deleteTieBaImageTypeTwo(){
-        try{
+    public void deleteTieBaImageTypeTwo() {
+        try {
             qiNiuUtil.deleteFileList("sign=");
-        }catch (Exception e){
-            log.error("删除图片失败！ {}",e.getLocalizedMessage());
+        } catch (Exception e) {
+            log.error("删除图片失败！ {}", e.getLocalizedMessage());
         }
     }
 }

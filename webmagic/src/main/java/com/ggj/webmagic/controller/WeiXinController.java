@@ -78,7 +78,7 @@ public class WeiXinController {
 			}
 		}
 //		return "weixin/loginResult";
-		return "redirect:/tieba/img";
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/weixin/center")
