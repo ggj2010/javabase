@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.ggj.webmagic.autoconfiguration.TieBaConfiguration;
 import com.ggj.webmagic.elasticsearch.ElasticSearch;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +17,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ScheduleTask {
 	
+	
 	@Autowired
 	private WebmagicService webmagicService;
 	
 	@Autowired
 	private ElasticSearch elasticSearch;
 	
-	private boolean isDeleteImageNow=true;
+	@Autowired
+	private TieBaConfiguration tieBaConfiguration;
+	
+	private boolean execute;
 	
 	// 一个小时更新一次，执行top
 	// @Scheduled(initialDelay = 0, fixedRate = 1000*60*60*6)
@@ -35,11 +40,11 @@ public class ScheduleTask {
 		}
 	}
 	
-	@Scheduled(initialDelay = 1000*60, fixedDelay = 1000*60*1)
+	@Scheduled(initialDelay = 1000 * 60, fixedDelay = 1000 * 60 * 1)
 	public void scheduleTieBaImage() {
 		try {
-            //删除历史图片时候不进行定时任务
-			if (!isDeleteImageNow)
+			// 删除历史图片时候不进行定时任务
+			if (execute)
 				webmagicService.addTieBaImage();
 		} catch (Exception e) {
 			log.error("贴吧同步Image失败！" + e.getLocalizedMessage());
@@ -49,7 +54,7 @@ public class ScheduleTask {
 	/**
 	 * 将贴吧信息放到elasticsearch
 	 */
-	@Scheduled(initialDelay = 1000*60, fixedDelay = 1000*60*1)
+	@Scheduled(initialDelay = 1000 * 60, fixedDelay = 1000 * 60 * 1)
 	public void scheduleSearchIndex() {
 		try {
 			elasticSearch.addTieBaContentIndex();
@@ -62,19 +67,25 @@ public class ScheduleTask {
 	 *因为七牛免费的存储空间就10G 如果一直爬的话就超了，所以三天清除下数据
 	 * 两种方式删除
 	 */
-//	@Scheduled(cron = "0 0 */3 * * ?")
-	@Scheduled(initialDelay = 0, fixedDelay = 1000*60*60*12*3)
+	// @Scheduled(cron = "0 0 */3 * * ?")
+	@Scheduled(initialDelay = 0, fixedDelay = 1000 * 60 * 60 * 12 * 3)
 	public void deleteTieBaImage() {
 		try {
-			isDeleteImageNow = true;
-//			webmagicService.deleteTieBaImageTypeOne();
-			webmagicService.deleteTieBaImageTypeTwo();
-			isDeleteImageNow = false;
+			if (tieBaConfiguration.getExecuteDeleteTiebaImageTask().equals("true")) {
+				// 执行删除之前停掉 抓取图片的定时任务不执行
+				execute = false;
+				// 这种方式不建议使用 废弃
+				// webmagicService.deleteTieBaImageTypeOne();
+				webmagicService.deleteTieBaImageTypeTwo();
+				execute = true;
+			}else{
+				log.info("第一次启动不执行删除定时任务");
+			}
 		} catch (Exception e) {
 			log.error("删除Image失败！" + e.getLocalizedMessage());
 		} finally {
-			isDeleteImageNow = false;
+			execute = true;
+			tieBaConfiguration.setExecuteDeleteTiebaImageTask("true");
 		}
 	}
-
 }

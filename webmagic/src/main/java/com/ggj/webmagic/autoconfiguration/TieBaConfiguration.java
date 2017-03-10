@@ -29,4 +29,6 @@ public class TieBaConfiguration {
     private String tiebaContentNoImageIdTopic;
     //同步帖子最后一页
     private String tiebaContentPageEndNum;
+    //是否执删除帖子图片的定时任务，默认false
+    private String executeDeleteTiebaImageTask;
 }

@@ -8,6 +8,8 @@ tieba:
   tiebaImageUrl: https://imgsa.baidu.com/forum/w%3D580/
   tiebaContentIdTopic: tieba_content_id_topic
   tiebaContentNoImageIdTopic: tieba_content_noimage_id_topic
+  #我们可以通过java -DexecuteDeleteTiebaImageTask="fase" 修改启动参数
+  executeDeleteTiebaImageTask: true
 spring:
   redis:
     database: 2
@@ -51,4 +53,3 @@ qiniu:
   #ggj2010 ggjqn
   bucketName: ggjqn
   domain: http://o8c5x5dg6.bkt.clouddn.com/
-  

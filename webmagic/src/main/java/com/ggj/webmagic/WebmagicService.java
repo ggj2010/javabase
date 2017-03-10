@@ -265,6 +265,7 @@ public class WebmagicService {
      * 删除历史数据
      * 根据key值找到图片的名称
      */
+    @Deprecated
     public void deleteTieBaImageTypeOne() {
         redisTemplate.execute(new RedisCallback<Object>() {
             public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
