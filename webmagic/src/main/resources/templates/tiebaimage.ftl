@@ -74,14 +74,14 @@
         </#list>
      </#if>
 
-            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='3'>
+            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
                 <div ng-repeat='link in reddit.links track by $index'>
                     <div ng-repeat='imageList in reddit.images'>
                         <div ng-repeat='image in imageList'>
                             <div class="col-md-3 col-xs-6 col-sm-4">
                                 <div class="thumbnail">
                                     <a href="{{image}}" title="吧友图片"  data-gallery>
-                                        <img src="{{image}}" >
+                                        <img ng-src="{{image}}" >
                                     </a>
                                     <div class="caption">
                                         <p> <a class="btn btn-link" role="button"  href="{{link}}" title="点击跳转到对应帖子">传送门</a></p>
