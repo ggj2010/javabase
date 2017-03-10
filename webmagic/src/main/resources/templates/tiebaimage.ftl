@@ -116,7 +116,7 @@
                 this.busy = true;
                 var that = this;
                 var end = this.after + 3;
-                var begin = this.afte + 1;
+                var begin = this.after + 1;
                 var url = "${path}/page/" + begin + "/" + end;
                 $http.get(url).success(function (data) {
                     $.each(data, function (key, obj) {
