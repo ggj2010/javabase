@@ -24,7 +24,7 @@
 <script src="https://cdn.bootcss.com/blueimp-gallery/2.21.3/js/blueimp-gallery.min.js"></script>
 <script src="https://cdn.bootcss.com/blueimp-gallery/2.21.3/js/jquery.blueimp-gallery.min.js"></script>
 <script src="https://cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
-<script src="https://o8c5x5dg6.bkt.clouddn.com/ng-infinite-scroll.min.js"></script>
+<script src="https://ggjcdn.oss-cn-shanghai.aliyuncs.com/ng-infinite-scroll.min.js"></script>
 <style>
     .lightBoxGallery img {
         margin: 5px;
