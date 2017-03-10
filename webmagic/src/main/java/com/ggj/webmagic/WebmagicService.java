@@ -205,7 +205,7 @@ public class WebmagicService {
         }
         long beginTime = System.currentTimeMillis();
         Set<String> sortPageIds = redisTemplate.opsForZSet().reverseRange(TieBaImageIdMessageListener.TIEBA_CONTENT_UPDATE_TIME_KEY + tieBaName, begin, end);
-        log.info("redis zRevRange:{}条数据 耗时：{}ms", sortPageIds.size(), (System.currentTimeMillis() - beginTime));
+        //log.info("redis zRevRange:{}条数据 耗时：{}ms", sortPageIds.size(), (System.currentTimeMillis() - beginTime));
         Map<String, List<String>> map = new TreeMap<String, List<String>>();
         beginTime = System.currentTimeMillis();
         //piple 批量查询效率高
@@ -222,7 +222,7 @@ public class WebmagicService {
             map.put(tieBaConfiguration.getTiebaContentPageUrl() + sortPageId, JSONObject.parseObject(listObject.get(i).toString(), ArrayList.class));
             i++;
         }
-        log.info("redis pipelined循环get:{}条数据 耗时：{}ms", sortPageIds.size(), (System.currentTimeMillis() - beginTime));
+        //log.info("redis pipelined循环get:{}条数据 耗时：{}ms", sortPageIds.size(), (System.currentTimeMillis() - beginTime));
         return map;
     }
 

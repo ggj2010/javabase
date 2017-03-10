@@ -57,7 +57,8 @@ public class WebmagicController {
     @RequestMapping("")
     public String index(Model model) throws Exception {
         log.info("访问主页");
-        model.addAttribute("mapData", webmagicService.getTieBaImage(model, null, 0, 4));
+        //取
+        model.addAttribute("mapData", webmagicService.getTieBaImage(model, null, 0, 2));
         return "tiebaimage";
     }
 
@@ -73,6 +74,7 @@ public class WebmagicController {
     @RequestMapping("page/{begin}/{end}")
     @ResponseBody
     public String page(Model model, @PathVariable("begin") Integer begin, @PathVariable("end") Integer end) throws Exception {
+        log.info("page:{}到{}", begin, end);
         Map<String, List<String>> map = webmagicService.getTieBaImage(model, null, begin, end);
         return  JSONObject.toJSON(map).toString();
     }

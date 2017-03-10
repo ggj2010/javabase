@@ -45,11 +45,11 @@
 </div>
 <div class="container-fluid">
     <div id="links" class="lightBoxGallery">
-        <div class="row"  ng-controller='scrollController'>
+        <div class="row" ng-controller='scrollController'>
             <div class="panel panel-info">
                 <div class="panel-heading">帖子查询</div>
                 <div class="panel-body">
-                    <form action="${base}/tieba/search"  class="form-inline">
+                    <form action="${base}/tieba/search" class="form-inline">
                         <div class="form-group">
                             <label for="keyWord">关键字</label>
                             <input type="text" class="form-control" id="keyWord" name="keyWord" placeholder="请输入关键字查询">
@@ -57,78 +57,80 @@
                     </form>
                 </div>
             </div>
-    <#if mapData??&&mapData?size gt 0>
-        <#list mapData?keys as key>
-            <#list mapData[key] as image>
-            <div class="col-md-3 col-xs-6 col-sm-4">
-                <div class="thumbnail">
-                   <a href="${image}" title="吧友图片"  data-gallery>
-                        <img src="${image}" >
-                    </a>
-                    <div class="caption">
-                       <p> <a class="btn btn-link" role="button"  href="${key}" title="点击跳转到对应帖子">传送门</a></p>
+        <#if mapData??&&mapData?size gt 0>
+            <#list mapData?keys as key>
+                <#list mapData[key] as image>
+                    <div class="col-md-3 col-xs-6 col-sm-4">
+                        <div class="thumbnail">
+                            <a href="${image}" title="吧友图片" data-gallery>
+                                <img src="${image}">
+                            </a>
+                            <div class="caption">
+                                <p><a class="btn btn-link" role="button" href="${key}" title="点击跳转到对应帖子">传送门</a></p>
+                            </div>
+                        </div>
                     </div>
-                   </div>
-            </div>
-             </#list>
-        </#list>
-     </#if>
+                </#list>
+            </#list>
+        </#if>
 
-            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
-                <div ng-repeat='link in reddit.links track by $index'>
-                    <div ng-repeat='imageList in reddit.images'>
-                        <div ng-repeat='image in imageList'>
-                            <div class="col-md-3 col-xs-6 col-sm-4">
-                                <div class="thumbnail">
-                                    <a href="{{image}}" title="吧友图片"  data-gallery>
-                                        <img ng-src="{{image}}" >
-                                    </a>
-                                    <div class="caption">
-                                        <p> <a class="btn btn-link" role="button"  href="{{link}}" title="点击跳转到对应帖子">传送门</a></p>
-                                    </div>
+            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy'
+                 infinite-scroll-distance='0'>
+                <div ng-repeat='object in reddit.links track by $index'>
+                    <div ng-repeat='image in object.images'>
+                        <div class="col-md-3 col-xs-6 col-sm-4">
+                            <div class="thumbnail">
+                                <a href="{{image}}" title="吧友图片" data-gallery>
+                                    <img ng-src="{{image}}">
+                                </a>
+                                <div class="caption">
+                                    <p><a class="btn btn-link" role="button" href="{{object.link}}" title="点击跳转到对应帖子">传送门</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div ng-show='reddit.busy'>Loading data...</div>
+                    <div style='clear: both;'></div>
                 </div>
+                <div ng-show='reddit.busy'>Loading data...</div>
             </div>
+        </div>
     </div>
-</div>
-<script>
-    var iamge = angular.module('iamge', ['infinite-scroll']);
+    <script>
+        var iamge = angular.module('iamge', ['infinite-scroll']);
 
-    iamge.controller('scrollController', function($scope, Reddit) {
-        $scope.reddit = new Reddit();
-    });
+        iamge.controller('scrollController', function ($scope, Reddit) {
+            $scope.reddit = new Reddit();
+        });
 
-    // Reddit constructor function to encapsulate HTTP and pagination logic
-    iamge.factory('Reddit', function($http) {
-        var Reddit = function() {
-            this.links = [];
-            this.images = [];
-            this.busy = false;
-            this.after =5;
-        };
-
-        Reddit.prototype.nextPage = function() {
-            if (this.busy) return;
-            this.busy = true;
-            var that=this;
-//            var end=this.after+1;
-//            var begin=this.after;
-            var url = "${path}/page/" + this.after + "/"+this.after;
-            $http.get(url).success(function(data) {
-                $.each(data, function(key, obj) {
-                    that.links.push(key);
-                    that.images.push(obj);
-                });
-                this.after = this.after+1;
+        // Reddit constructor function to encapsulate HTTP and pagination logic
+        iamge.factory('Reddit', function ($http) {
+            var Reddit = function () {
+                this.links = [];
                 this.busy = false;
-            }.bind(this));
-        };
-        return Reddit;
-    });
-</script>
+                this.after = 3;
+            };
+
+            Reddit.prototype.nextPage = function () {
+                if (this.busy) return;
+                this.busy = true;
+                var that = this;
+                var end = this.after + 3;
+                var begin = this.afte + 1;
+                var url = "${path}/page/" + begin + "/" + end;
+                $http.get(url).success(function (data) {
+                    $.each(data, function (key, obj) {
+                        var object = new Object();
+                        object.link = key;
+                        object.images = obj;
+                        that.links.push(object);
+                    });
+                    this.after = this.after + 3;
+                    this.busy = false;
+                }.bind(this));
+            };
+            return Reddit;
+        });
+    </script>
 </body>
 </html>
