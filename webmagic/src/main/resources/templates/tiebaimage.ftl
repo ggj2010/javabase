@@ -74,13 +74,13 @@
         </#list>
      </#if>
 
-            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='3'>
+            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
                 <div ng-repeat='link in reddit.links track by $index'>
                     <div ng-repeat='imageList in reddit.images'>
                         <div ng-repeat='image in imageList'>
                             <div class="col-md-3 col-xs-6 col-sm-4">
                                 <div class="thumbnail">
-                                    <a href="{{link}}" title="吧友图片"  data-gallery>
+                                    <a href="{{image}}" title="吧友图片"  data-gallery>
                                         <img src="{{image}}" >
                                     </a>
                                     <div class="caption">
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                     </div>
-                <div ng-show='reddit.busy'>Loading data...</div>
+                    <div ng-show='reddit.busy'>Loading data...</div>
                 </div>
             </div>
     </div>
@@ -108,22 +108,22 @@
             this.links = [];
             this.images = [];
             this.busy = false;
-            this.after =1;
+            this.after =0;
         };
 
         Reddit.prototype.nextPage = function() {
             if (this.busy) return;
             this.busy = true;
             var that=this;
-            var end=this.after+1;
-            var begin=this.after;
-            var url = "${path}/page/" + begin + "/"+end;
+//            var end=this.after+1;
+//            var begin=this.after;
+            var url = "${path}/page/" + this.after + "/"+this.after;
             $http.get(url).success(function(data) {
                 $.each(data, function(key, obj) {
                     that.links.push(key);
                     that.images.push(obj);
                 });
-                this.after = end;
+                this.after = this.after+1;
                 this.busy = false;
             }.bind(this));
         };
