@@ -74,7 +74,7 @@
         </#list>
      </#if>
 
-            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
+            <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='3'>
                 <div ng-repeat='link in reddit.links track by $index'>
                     <div ng-repeat='imageList in reddit.images'>
                         <div ng-repeat='image in imageList'>
@@ -108,7 +108,7 @@
             this.links = [];
             this.images = [];
             this.busy = false;
-            this.after =0;
+            this.after =1;
         };
 
         Reddit.prototype.nextPage = function() {
