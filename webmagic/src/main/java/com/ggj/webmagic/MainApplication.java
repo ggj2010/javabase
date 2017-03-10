@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * nohup java -jar target/webmagic-0.0.1.jar -Xms400m -Xmx400m  -Dtieba.executeDeleteTiebaImageTask="fase" -Djava.awt.headless=true -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
+ * nohup java -Dtieba.executeDeleteTiebaImageTask=fase -jar target/webmagic-0.0.1.jar -Xms400m -Xmx400m   -Djava.awt.headless=true -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
  * -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:-HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/data/log  >/dev/null &
  * @author:gaoguangjin
  * @date 2016/8/19 10:52
