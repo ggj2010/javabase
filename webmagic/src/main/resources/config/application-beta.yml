@@ -1,10 +1,11 @@
 tieba:
+  #支持多个逗号分隔开
   tiebaName: 李毅
   tiebaTopUrl: http://tieba.baidu.com/f/like/furank?ie=utf-8&kw=
   tiebaContentUrl: http://tieba.baidu.com/f?ie=utf-8&kw=
   tiebaContentPageUrl: http://tieba.baidu.com/p/
-  #5*50=250个帖子
-  tiebaContentPageEndNum: 3
+  #1*50=50个帖子 每次只抓第一页帖子
+  tiebaContentPageEndNum: 1
   tiebaImageUrl: https://imgsa.baidu.com/forum/w%3D580/
   tiebaContentIdTopic: tieba_content_id_topic
   tiebaContentNoImageIdTopic: tieba_content_noimage_id_topic
