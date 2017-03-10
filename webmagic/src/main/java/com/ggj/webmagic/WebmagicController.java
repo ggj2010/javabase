@@ -57,7 +57,7 @@ public class WebmagicController {
     @RequestMapping("")
     public String index(Model model) throws Exception {
         log.info("访问主页");
-        model.addAttribute("mapData", webmagicService.getTieBaImage(model, null, 0, 1));
+        model.addAttribute("mapData", webmagicService.getTieBaImage(model, null, 0, 4));
         return "tiebaimage";
     }
 

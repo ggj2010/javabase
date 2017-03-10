@@ -108,7 +108,7 @@
             this.links = [];
             this.images = [];
             this.busy = false;
-            this.after =1;
+            this.after =5;
         };
 
         Reddit.prototype.nextPage = function() {
