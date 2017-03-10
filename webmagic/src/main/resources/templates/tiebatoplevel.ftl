@@ -15,12 +15,12 @@
     <meta name="keywords" content="">
     <meta name="layoutmode" content="standard">
 </head>
-<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<script src="//cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
-<script src="http://cdn.bootcss.com/echarts/3.2.2/echarts.js"></script>
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://cdn.bootcss.com/angular.js/1.5.0/angular.js"></script>
+<script src="https://cdn.bootcss.com/echarts/3.2.2/echarts.js"></script>
+<script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <body>
 <div class="container">
     <div class="row" ng-controller="onclickController">
