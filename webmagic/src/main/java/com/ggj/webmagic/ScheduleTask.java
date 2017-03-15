@@ -27,7 +27,7 @@ public class ScheduleTask {
 	@Autowired
 	private TieBaConfiguration tieBaConfiguration;
 	
-	private boolean execute;
+	public static volatile boolean execute;
 	
 	// 一个小时更新一次，执行top
 	// @Scheduled(initialDelay = 0, fixedRate = 1000*60*60*6)
@@ -48,6 +48,9 @@ public class ScheduleTask {
 				webmagicService.addTieBaImage();
 		} catch (Exception e) {
 			log.error("贴吧同步Image失败！" + e.getLocalizedMessage());
+		}finally {
+			//阿里云服务器流量收费消耗太厉害，改成访问才出发定时任务
+			execute=false;
 		}
 	}
 	
