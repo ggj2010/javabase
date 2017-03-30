@@ -28,7 +28,7 @@
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
                     <div class="caption">
-                        <h3>扫码登录</h3>
+                        <h3>扫码登录-防止爬虫</h3>
                     </div>
                     <div id="qrcode-container">
                     </div>
@@ -86,4 +86,5 @@
     }
 
 </script>
+<script src="http://ggjcdn.oss-cn-shanghai.aliyuncs.com/statistics.js"></script>
 </html>

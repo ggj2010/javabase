@@ -101,4 +101,5 @@
         };
     });
 </script>
+<script src="http://ggjcdn.oss-cn-shanghai.aliyuncs.com/statistics.js"></script>
 </html>

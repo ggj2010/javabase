@@ -43,7 +43,7 @@ public class WeiXinController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/weixin")
+	@RequestMapping("/")
 	public String weiXin(Model model,HttpServletRequest request) throws Exception {
 		String token = UUID.randomUUID().toString();
 		// ngrok 生产的localhost映射域名
@@ -78,7 +78,7 @@ public class WeiXinController {
 			}
 		}
 //		return "weixin/loginResult";
-		return "redirect:/";
+		return "redirect:/tiebaimage";
 	}
 	
 	@RequestMapping("/weixin/center")

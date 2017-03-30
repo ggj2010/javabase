@@ -54,7 +54,7 @@ public class WebmagicController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/")
+    @RequestMapping("/tiebaimage")
     public String index(Model model) throws Exception {
         log.info("访问主页");
         //只有访问时候才执行定时任务。
