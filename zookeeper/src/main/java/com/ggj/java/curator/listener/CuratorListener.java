@@ -39,10 +39,20 @@ public class CuratorListener {
 		//demo1(client);
 //		demo2(client);
 //		demo3(client);
-		//测试事件 CHILD_REMOVED,先用demo4  再用demo5
-		demo4(client);
-		demo5(client);
+		//测试事件 CHILD_REMOVED,先用demo4  再用demo5 再用demo6
+//		demo4(client);
+		//如果不是显示的去删除这个零时节点，那么主动退出程序默认是三十秒 这个节点才会被删除
+//		demo5(client);
+		demo6(client);
 		System.in.read();
+	}
+
+	private static void demo6(CuratorFramework client) {
+		try {
+			client.delete().forPath(LISTERNER_DISCONNECT_PATH+LISTERNER_CHILD_PATH);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void demo5(CuratorFramework client) throws Exception {

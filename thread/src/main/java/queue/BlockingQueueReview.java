@@ -1,7 +1,9 @@
 package queue;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -19,6 +21,7 @@ public class BlockingQueueReview {
 
     int number = 50;
     private BlockingQueue<Integer> arrayBlockingQueue = new ArrayBlockingQueue<Integer>(number);
+    private BlockingQueue<Integer> testBlockingQueue = new ArrayBlockingQueue<Integer>(1);
     //大量插入和删除效率高
     private BlockingQueue<Integer> linkedBlockingDeque = new LinkedBlockingDeque<Integer>(number);
 
@@ -40,7 +43,27 @@ public class BlockingQueueReview {
              　　　　通过该方法，可以提升获取数据效率；不需要多次分批加锁或释放锁。*/
     public static void main(String[] args) throws InterruptedException {
         BlockingQueueReview blockingQueueReview = new BlockingQueueReview();
-        blockingQueueReview.linkedBlockingDeque();
+//        blockingQueueReview.linkedBlockingDeque();
+//        blockingQueueReview.putLock();
+        //执行这个注释其他的
+        blockingQueueReview.drainToLock();
+    }
+
+    private void drainToLock() throws InterruptedException {
+        List<Integer> list=new ArrayList<>();
+        testBlockingQueue.drainTo(list);
+        log.info("drainTo 不堵塞");
+        testBlockingQueue.take();
+        log.info("take 堵塞");
+        testBlockingQueue.drainTo(list);
+    }
+
+    private void putLock() throws InterruptedException {
+        testBlockingQueue.put(1);
+        log.info("不堵塞");
+        testBlockingQueue.put(2);
+        log.info("堵塞");
+        testBlockingQueue.put(3);
     }
 
     /**

@@ -68,8 +68,8 @@ datasource:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   read1:
-    url: jdbc:mysql://110.173.28.188:3306/master?useUnicode=true&characterEncoding=utf-8
-    username: slave
+    url: jdbc:mysql://123.56.118.135:3306/slave?useUnicode=true&characterEncoding=utf-8
+    username: mobile
     password: mobile
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat
@@ -87,8 +87,8 @@ datasource:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   read2:
-    url: jdbc:mysql://110.173.28.188:3306/master?useUnicode=true&characterEncoding=utf-8
-    username: slave
+    url: jdbc:mysql://123.56.118.135:3306/slave?useUnicode=true&characterEncoding=utf-8
+    username: mobile
     password: mobile
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat

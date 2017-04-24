@@ -9,6 +9,7 @@ import org.apache.http.entity.ContentType;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * @author:gaoguangjin
@@ -26,7 +27,7 @@ public class AweSomeApi {
     //The same requests can be executed using a simpler, albeit less flexible, fluent API.
     private static void get() {
         try {
-            String result = Request.Get("http://www.baidu.com").execute().returnContent().asString();
+            String result = Request.Get("https://www.baidu.com/").execute().returnContent().asString(Charset.forName("utf-8"));
             log.info(result);
         } catch (IOException e) {
             e.printStackTrace();

@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "key",locations = "classpath:config/redis-key.yml")
+//@ConfigurationProperties(prefix = "key",locations = "classpath:config/redis-key.yml")
+//1.5.1版本没有locations
+@ConfigurationProperties(prefix = "key")
 public class RedisKeyConfiguration {
     //黑名单ip set类型
     private String blackip;

@@ -88,7 +88,7 @@ public class SeckillLock {
     /**
      * 这种方式会导致 Could not get a resource from the pool
      * 因为连接没有及时释放，导致连接池不够用，并发时候要特别注意
-     * @param b
+     * @param flag
      */
     private static void seckill(boolean flag) {
         Jedis jedis = jedisPool.getResource();

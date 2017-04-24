@@ -7,12 +7,12 @@ import com.ggj.encrypt.common.utils.MD5Util;
 import com.ggj.encrypt.modules.BaseTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.springframework.boot.test.TestRestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 
 /**
@@ -24,8 +24,9 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class OrderControllerTest extends BaseTest{
     private final String FINDUSERINFO_URL = "http://localhost/mobile/order/orderList/{currentPage}/{pageSize}";
-    RestTemplate restTemplate = new TestRestTemplate();
-
+//    RestTemplate restTemplate = new TestRestTemplate();
+    @Autowired
+    private TestRestTemplate restTemplate;
 
     //32 位
     private final String APPKEY="1234567890_1234567890_1234appkey";
