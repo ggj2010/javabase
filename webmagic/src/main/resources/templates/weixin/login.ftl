@@ -86,5 +86,5 @@
     }
 
 </script>
-<script src="http://ggjcdn.oss-cn-shanghai.aliyuncs.com/statistics.js"></script>
+<script src="https://ggjcdn.oss-cn-shanghai.aliyuncs.com/statistics.js"></script>
 </html>
