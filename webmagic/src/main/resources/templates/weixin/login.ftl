@@ -42,7 +42,7 @@
     $(function () {
         //判断当前浏览器是否支持WebSocket
         if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://${websocketUrl}/weixin/login/state");
+            websocket = new WebSocket("wss://${websocketUrl}/weixin/login/state");
         }
         else {
             alert('Not support websocket')
