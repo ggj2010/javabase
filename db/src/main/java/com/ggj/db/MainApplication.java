@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author:gaoguangjin
  * @date 2017/2/22 13:39
  */
-@EnableAutoConfiguration
 @SpringBootApplication
 //扫描mybatis接口
 @MapperScan("com.ggj")

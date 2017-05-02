@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ggj.db.sharding.spring.dao.ShardingOrderDao" >
+    <resultMap id="shardingOrderMap" type="ShardingOrder">
+        <result column="user_id" property="userId" javaType="INTEGER"/>
+        <result column="order_id" property="orderId" javaType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="order_cloumn">
+        user_id,order_id,status
+    </sql>
+    <select id="select" resultType="ShardingOrder" parameterType="shardingOrder">
+      SELECT <include refid="order_cloumn" />  FROM  t_order
+        WHERE user_id=#{userId} and order_id=#{orderId}
+    </select>
+    <delete id="delete" parameterType="shardingOrder" >
+        DELETE from t_order where user_id=#{userId} and order_id=#{orderId}
+    </delete>
+    <insert id="insert">
+        INSERT INTO t_order (<include refid="order_cloumn" />) VALUES
+        (#{userId},#{orderId},#{status} )
+    </insert>
+</mapper>

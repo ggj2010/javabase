@@ -35,7 +35,7 @@ spring:
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
 logging:
-  config: classpath:logback-spring.xml
+  config: classpath:logback.xml
   file: db.log
   path: /data/logs/db.log
 
