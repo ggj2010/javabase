@@ -12,16 +12,35 @@
     
 #### 分库分表 
         在同一数据库中，对多个表进行并发更新的效率要远远大于对一个表进行并发更新
-  可参考博客：
-              [http://www.jianshu.com/p/32b3e91aa22c?from=timeline](http://www.jianshu.com/p/32b3e91aa22c?from=timeline)      
-              [http://www.cnblogs.com/chy2055/p/5125245.html](http://www.cnblogs.com/chy2055/p/5125245.html)      
-              [每秒处理10万订单乐视集团支付架构](http://mp.weixin.qq.com/s?__biz=MjM5MjAwODM4MA==&mid=2650686445&idx=1&sn=9117ee33bff27b128a287a6c751d3e32&scene=0#rd)      
+  * 水平与垂直切分
+   * 水平切分：把表的数据按某种规则（比如按ID散列）切分到多张表或者多个数据库(server)上
+   * 垂直切分：把关系紧密（比如同一模块）的表切分出来放在一个server上（普遍的用法）
+  * 可参考博客
+    * [http://www.jianshu.com/p/32b3e91aa22c?from=timeline](http://www.jianshu.com/p/32b3e91aa22c?from=timeline)
+    * [http://www.cnblogs.com/chy2055/p/5125245.html](http://www.cnblogs.com/chy2055/p/5125245.html)
+    * [每秒处理10万订单乐视集团支付架构](http://mp.weixin.qq.com/s?__biz=MjM5MjAwODM4MA==&mid=2650686445&idx=1&sn=9117ee33bff27b128a287a6c751d3e32&scene=0#rd)
+    * [数据库分库分表(sharding)](http://blog.csdn.net/column/details/sharding.html)
  * 只分库，不分表
  * 不分库，只分表
  * 分库同时分表
  ![分库效果库](http://ocg3iebmc.bkt.clouddn.com/640.webp.jpg "分库效果库")
  * 分表规则
     * 根据指定id进行取模，比如 数据库编号 = (uid / 10) % 8 + 1   表编号 = uid % 10
-    
-       
+#### 分库分表需要考虑的问题
+   * 事务问题
+   * 跨节点Join count,order by,group by以及聚合函数的问题
+#### 分库分表实现
+* 组件
+    * sharding-jdbc
+       * wiki: [http://dangdangdotcom.github.io/sharding-jdbc/post/user_guide/](http://dangdangdotcom.github.io/sharding-jdbc/post/user_guide/)
+    * TSharding
+* 中间件
+    * mycat
+     
+#### 是否真的需要分库分表
+
+       如果单表的数量超过千万或者接下来的业务增长导致数据库数据暴增单机无法满足了，再考虑分片。
+       如果数据量少于千万，我们可以考虑使用数据库自带的表分区功能。
+       如果数据有明显冷热区别，可以进行冷热分离。冷的数据可以异步从热的数据里面同步到mongodb
+
 
