@@ -33,6 +33,7 @@ public class IdWorkerTest {
             new Thread(()->{
                 for(int j=0;j<10000;j++){
                     long id=iw.getId();
+                    log.info("{}",id);
                     if(!set.add(id)){
                         log.info("重复了：{}",id);
                     }

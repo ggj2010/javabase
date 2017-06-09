@@ -22,7 +22,7 @@ public class BlockingQueueReview {
     int number = 50;
     private BlockingQueue<Integer> arrayBlockingQueue = new ArrayBlockingQueue<Integer>(number);
     private BlockingQueue<Integer> testBlockingQueue = new ArrayBlockingQueue<Integer>(1);
-    //大量插入和删除效率高
+    //大量插入和删除效率高,ReentrantLock put的时候进行加锁的
     private BlockingQueue<Integer> linkedBlockingDeque = new LinkedBlockingDeque<Integer>(number);
 
         /* 放入数据：
@@ -43,10 +43,10 @@ public class BlockingQueueReview {
              　　　　通过该方法，可以提升获取数据效率；不需要多次分批加锁或释放锁。*/
     public static void main(String[] args) throws InterruptedException {
         BlockingQueueReview blockingQueueReview = new BlockingQueueReview();
-//        blockingQueueReview.linkedBlockingDeque();
+        blockingQueueReview.linkedBlockingDeque();
 //        blockingQueueReview.putLock();
         //执行这个注释其他的
-        blockingQueueReview.drainToLock();
+//        blockingQueueReview.drainToLock();
     }
 
     private void drainToLock() throws InterruptedException {
@@ -93,7 +93,7 @@ public class BlockingQueueReview {
         while (true){
             Integer number = linkedBlockingDeque.take();
             log.info("线程拿出元素" + number);
-           // Thread.sleep(1000);
+            Thread.sleep(1000);
         }
     }
 
