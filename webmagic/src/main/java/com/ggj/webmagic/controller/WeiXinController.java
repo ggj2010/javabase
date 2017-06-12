@@ -52,7 +52,7 @@ public class WeiXinController {
 		String url = String.format(weiXinConfig.getAuthorizeUrl(), weiXinConfig.getAppid(), targetUrl);
 		model.addAttribute("token", token);
 		model.addAttribute("url", url);
-		String websocketUrl = request.getServerName() + ":" + request.getServerPort() + request.getContextPath() ;
+		String websocketUrl = request.getServerName()  + request.getContextPath() ;
 		model.addAttribute("websocketUrl",websocketUrl);
 		return "weixin/login";
 	}
