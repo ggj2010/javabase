@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ggj.webmagic.autoconfiguration.TieBaConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,8 @@ public class WebmagicController {
 
     @Autowired
     private WebmagicService webmagicService;
-
+    @Autowired
+    private TieBaConfiguration tieBaConfiguration;
     @RequestMapping("/tiebatop/{tieBaName}/{size}")
     public String tieBaTop(@PathVariable("tieBaName") String tieBaName, @PathVariable("size") Integer size, Model model)
             throws Exception {
@@ -84,6 +86,7 @@ public class WebmagicController {
     @RequestMapping("/tieba/search")
     public String search(Model model, String keyWord, Integer from) throws Exception {
         log.info("ngingx搜索缓存:{},{}", keyWord, from);
+        model.addAttribute("pageUrlPrefix", tieBaConfiguration.getTiebaContentPageUrl());
         model.addAttribute("listContent", webmagicService.search(model, keyWord, from));
         model.addAttribute("keyWord", keyWord);
         return "search";
