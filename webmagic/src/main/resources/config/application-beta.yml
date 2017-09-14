@@ -14,7 +14,7 @@ tieba:
 spring:
   redis:
     database: 2
-    host: 123.56.118.135
+    host: 47.94.111.150
     password: gaoguangjin
     pool.max-active: 50000
     pool.max-idle: 500
