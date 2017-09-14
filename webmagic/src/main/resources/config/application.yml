@@ -33,4 +33,4 @@ weixin:
   authorizeUrl: https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
   accessTokenUrl: https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code
   userinfoUrl: https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN
-  authCallBackUrl: http://ggj2010.bid/weixin/auth?token=
+  authCallBackUrl: https://ggj2010.bid/weixin/auth?token=

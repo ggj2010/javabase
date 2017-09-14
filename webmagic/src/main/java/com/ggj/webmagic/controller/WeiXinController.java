@@ -78,7 +78,7 @@ public class WeiXinController {
 			}
 		}
 //		return "weixin/loginResult";
-		return "redirect:/tiebaimage";
+		return "redirect:https://ggj2010.bid/tiebaimage/tiebaimage";
 	}
 	
 	@RequestMapping("/weixin/center")
