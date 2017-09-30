@@ -5,7 +5,7 @@ tieba:
   tiebaContentUrl: http://tieba.baidu.com/f?ie=utf-8&kw=
   tiebaContentPageUrl: http://tieba.baidu.com/p/
   #1*50=50个帖子 每次只抓第一页帖子
-  tiebaContentPageEndNum: 10
+  tiebaContentPageEndNum: 2
   tiebaImageUrl: https://imgsa.baidu.com/forum/w%3D580/
   tiebaContentIdTopic: tieba_content_id_topic
   tiebaContentNoImageIdTopic: tieba_content_noimage_id_topic
