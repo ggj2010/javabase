@@ -96,7 +96,7 @@ public class ContentImageProcessor implements PageProcessor {
         this.url = tieBaConfiguration.getTiebaContentPageUrl();
         Spider.create(this).addUrl(url).addPipeline(new ConsolePipeline())
                 // 开启5个线程抓取
-                .thread(10)
+                .thread(30)
                 // 启动爬虫
                 .run();
         return  map;

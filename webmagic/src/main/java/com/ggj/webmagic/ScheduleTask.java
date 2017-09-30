@@ -44,7 +44,7 @@ public class ScheduleTask {
 	/**
 	 * 带宽不够，不能过多并发
 	 */
-	@Scheduled(initialDelay = 30, fixedDelay = 1000 * 60)
+	@Scheduled(initialDelay = 30, fixedDelay = 10)
 	public void scheduleTieBaImage() {
 		try {
 			// 删除历史图片时候不进行定时任务
