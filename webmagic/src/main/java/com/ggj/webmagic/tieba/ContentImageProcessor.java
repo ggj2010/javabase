@@ -76,7 +76,6 @@ public class ContentImageProcessor implements PageProcessor {
      */
     private String convertImageUrl(String imageUrl) {
         try {
-            log.info("上传图片"+imageUrl);
             return qiNiuUtil.upload(imageUrl.replace(tieBaConfiguration.getTiebaImageUrl(),""),imageUrl);
         } catch (IOException e) {
            log.error("百度图片转换失败："+e.getLocalizedMessage());
