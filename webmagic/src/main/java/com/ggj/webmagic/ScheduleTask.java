@@ -50,7 +50,7 @@ public class ScheduleTask {
 			log.error("贴吧同步Image失败！" + e.getLocalizedMessage());
 		}finally {
 			//阿里云服务器流量收费消耗太厉害，改成访问才出发定时任务
-			execute=false;
+			//execute=false;
 		}
 	}
 	
