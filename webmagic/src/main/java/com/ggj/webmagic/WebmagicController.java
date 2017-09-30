@@ -27,6 +27,7 @@ public class WebmagicController {
     private WebmagicService webmagicService;
     @Autowired
     private TieBaConfiguration tieBaConfiguration;
+
     @RequestMapping("/tiebatop/{tieBaName}/{size}")
     public String tieBaTop(@PathVariable("tieBaName") String tieBaName, @PathVariable("size") Integer size, Model model)
             throws Exception {
@@ -45,7 +46,8 @@ public class WebmagicController {
     @RequestMapping("/tieba/img/{tieBaName}/{begin}/{end}")
     public String tieBaTop(Model model, @PathVariable("tieBaName") String tieBaName,
                            @PathVariable("begin") Integer begin, @PathVariable("end") Integer end) throws Exception {
-        model.addAttribute("mapData", webmagicService.getTieBaImage(model, tieBaName, begin, end));
+        model.addAttribute("mapData", webmagicService.getTieBaImage(tieBaName, begin, end));
+        model.addAttribute("tieBaName", tieBaName);
         return "tiebaimage";
     }
 
@@ -56,13 +58,13 @@ public class WebmagicController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/tiebaimage")
+    @RequestMapping("/")
     public String index(Model model) throws Exception {
         log.info("访问主页");
-        //只有访问时候才执行定时任务。
-        ScheduleTask.execute=true;
         //取
-        model.addAttribute("mapData", webmagicService.getTieBaImage(model, null, 0, 2));
+        String tieBaName = tieBaConfiguration.getTiebaName()[0];
+        model.addAttribute("mapData", webmagicService.getTieBaImage(tieBaName, 0, 2));
+        model.addAttribute("tieBaName", tieBaName);
         return "tiebaimage";
     }
 
@@ -75,12 +77,12 @@ public class WebmagicController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("page/{begin}/{end}")
+    @RequestMapping("page/{tieBaName}/{begin}/{end}")
     @ResponseBody
-    public String page(Model model, @PathVariable("begin") Integer begin, @PathVariable("end") Integer end) throws Exception {
+    public String page(Model model, @PathVariable("tieBaName") String tieBaName, @PathVariable("begin") Integer begin, @PathVariable("end") Integer end) throws Exception {
         log.info("page:{}到{}", begin, end);
-        Map<String, List<String>> map = webmagicService.getTieBaImage(model, null, begin, end);
-        return  JSONObject.toJSON(map).toString();
+        Map<String, List<String>> map = webmagicService.getTieBaImage(tieBaName, begin, end);
+        return JSONObject.toJSON(map).toString();
     }
 
     @RequestMapping("/tieba/search")

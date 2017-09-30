@@ -40,7 +40,7 @@ public class ScheduleTask {
 		}
 	}
 	
-	@Scheduled(initialDelay = 1000 * 60, fixedDelay = 1000 * 60 * 1)
+	@Scheduled(initialDelay = 1000 * 60, fixedDelay = 1000 * 30)
 	public void scheduleTieBaImage() {
 		try {
 			// 删除历史图片时候不进行定时任务

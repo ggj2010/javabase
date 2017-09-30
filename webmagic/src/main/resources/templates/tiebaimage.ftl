@@ -33,6 +33,15 @@
 </style>
 <#assign base=request.contextPath />
 <body>
+<ol class="breadcrumb">
+    <div class="btn-group" role="group" aria-label="...">
+        <a type="button" href="${path}/tieba/img/李毅/1/2" class="btn btn-default">李毅</a>
+        <a type="button" href="${path}/tieba/img/wow/1/2" class="btn btn-default">wow</a>
+        <a type="button" href="${path}/tieba/img/图解电影/1/2" class="btn btn-default">图解电影</a>
+        <a type="button" href="${path}/tieba/img/腹肌/1/2" class="btn btn-default">腹肌</a>
+        <a type="button" href="${path}/tieba/img/摄影/1/2" class="btn btn-default">摄影</a>
+    </div>
+</ol>
 <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
 <div id="blueimp-gallery" class="blueimp-gallery">
     <div class="slides"></div>
@@ -117,7 +126,8 @@
                 var that = this;
                 var end = this.after + 3;
                 var begin = this.after + 1;
-                var url = "${path}/page/" + begin + "/" + end;
+                var tieBaName = "${tieBaName}";
+                var url = "${path}/page/"+tieBaName+"/" + begin + "/" + end;
                 $http.get(url).success(function (data) {
                     $.each(data, function (key, obj) {
                         var object = new Object();
