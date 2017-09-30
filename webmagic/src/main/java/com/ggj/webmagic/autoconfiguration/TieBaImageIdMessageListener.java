@@ -75,6 +75,7 @@ public class TieBaImageIdMessageListener implements MessageListener {
 					//保存所有帖子 tieba_content_image_4813146001
 					if(map.size()>0)
 					redisConnection.mSet(map);
+					log.info("{} 代缓存包含图片pageid size={}",tiebaName,map.size());
 					// 存储帖子最新更新时间
 					byte[] timeKey = getByte(TIEBA_CONTENT_UPDATE_TIME_KEY + tiebaName);
 					//可能包含图片的
