@@ -39,7 +39,7 @@
         <a type="button" href="${path}/tieba/img/wow/1/2" class="btn btn-default">wow</a>
         <a type="button" href="${path}/tieba/img/图解电影/1/2" class="btn btn-default">图解电影</a>
         <a type="button" href="${path}/tieba/img/腹肌/1/2" class="btn btn-default">腹肌</a>
-        <a type="button" href="${path}/tieba/img/腹肌/1/2" class="btn btn-default">健身</a>
+        <a type="button" href="${path}/tieba/img/健身/1/2" class="btn btn-default">健身</a>
         <a type="button" href="${path}/tieba/img/摄影/1/2" class="btn btn-default">摄影</a>
     </div>
 </ol>
