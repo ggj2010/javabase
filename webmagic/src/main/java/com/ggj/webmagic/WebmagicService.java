@@ -165,6 +165,15 @@ public class WebmagicService {
         for (byte[] bytes : setTieBaName) {
             String name = getString(bytes);
             contentIdProcessor.start(name);
+            ScheduleTask.run = false;
+            while (!ScheduleTask.run) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            log.info("exetue tieba={}",name);
         }
     }
 
@@ -194,11 +203,12 @@ public class WebmagicService {
      * 2017-03-09 19:45:26.124  INFO 31864 --- [p-nio-81-exec-2] com.ggj.webmagic.WebmagicService         : zRevRange:201条数据 耗时：90ms
      * 2017-03-09 19:45:26.474  INFO 31864 --- [p-nio-81-exec-2] com.ggj.webmagic.WebmagicService         : 循环:201条数据 耗时：349ms
      * redis批量数据用Pipeline
+     *
      * @param tieBaName
      * @param begin
      * @param end
      */
-    public Map<String, List<String>> getTieBaImage( String tieBaName, Integer begin, Integer end) {
+    public Map<String, List<String>> getTieBaImage(String tieBaName, Integer begin, Integer end) {
         long beginTime = System.currentTimeMillis();
         Set<String> sortPageIds = redisTemplate.opsForZSet().reverseRange(TieBaImageIdMessageListener.TIEBA_CONTENT_UPDATE_TIME_KEY + tieBaName, begin, end);
         //log.info("redis zRevRange:{}条数据 耗时：{}ms", sortPageIds.size(), (System.currentTimeMillis() - beginTime));

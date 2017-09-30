@@ -16,8 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class ScheduleTask {
-	
-	
+	public static volatile boolean run=true;
+
+
 	@Autowired
 	private WebmagicService webmagicService;
 	
@@ -39,7 +40,10 @@ public class ScheduleTask {
 			log.error("贴吧同步TOP失败！" + e.getLocalizedMessage());
 		}
 	}
-	
+
+	/**
+	 * 带宽不够，不能过多并发
+	 */
 	@Scheduled(initialDelay = 30, fixedDelay = 1000 * 60)
 	public void scheduleTieBaImage() {
 		try {

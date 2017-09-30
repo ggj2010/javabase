@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.ggj.webmagic.ScheduleTask;
 import com.ggj.webmagic.elasticsearch.ElasticSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -75,7 +76,6 @@ public class TieBaImageIdMessageListener implements MessageListener {
 					//保存所有帖子 tieba_content_image_4813146001
 					if(map.size()>0)
 					redisConnection.mSet(map);
-					log.info("{} 代缓存包含图片pageid size={}",tiebaName,map.size());
 					// 存储帖子最新更新时间
 					byte[] timeKey = getByte(TIEBA_CONTENT_UPDATE_TIME_KEY + tiebaName);
 					//可能包含图片的
@@ -83,13 +83,14 @@ public class TieBaImageIdMessageListener implements MessageListener {
 						Set<String> set = CollectionUtils.convertMapByteToSetString(map);
 						//没有被缓存的
 						if (set.contains(TIEBA_CONTENT_IMAGE_KEY+contentBean.getId())){
-						    log.info("{} sadd pageid={}",tiebaName,contentBean.getId());
 							//key=tieba_content_image_李毅
 							redisConnection.sAdd(imageKey,WebmagicService.getByte(contentBean.getId()));
 							//key=tieba_content_image_4813146001
 							redisConnection.zAdd(timeKey, Double.parseDouble(contentBean.getDate()), WebmagicService.getByte(contentBean.getId()));
 						}
 					}
+					log.info("ScheduleTask.run={}",true);
+					ScheduleTask.run = true;
 					return null;
 				}
 			});
