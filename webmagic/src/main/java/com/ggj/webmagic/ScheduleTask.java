@@ -40,7 +40,7 @@ public class ScheduleTask {
 		}
 	}
 	
-	@Scheduled(initialDelay = 1000 * 60, fixedDelay = 1000 * 30)
+	@Scheduled(initialDelay = 0, fixedDelay = 1000 * 60)
 	public void scheduleTieBaImage() {
 		try {
 			// 删除历史图片时候不进行定时任务
@@ -71,7 +71,7 @@ public class ScheduleTask {
 	 * 两种方式删除
 	 */
 	// @Scheduled(cron = "0 0 */3 * * ?")
-	@Scheduled(initialDelay = 0, fixedDelay = 1000 * 60 * 60 * 12 * 3)
+	@Scheduled(initialDelay = 0, fixedDelay = 1000 * 60 * 60 * 12 * 1)
 	public void deleteTieBaImage() {
 		try {
 			if (tieBaConfiguration.getExecuteDeleteTiebaImageTask().equals("true")) {

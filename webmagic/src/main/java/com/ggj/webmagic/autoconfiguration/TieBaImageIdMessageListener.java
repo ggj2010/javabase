@@ -60,13 +60,14 @@ public class TieBaImageIdMessageListener implements MessageListener {
 			byte[] imageKey = getByte(TIEBA_CONTENT_IMAGE_KEY + tiebaName);
 			//不包含图片的key
 			byte[] noImageKey = getByte(TieBaNoImageIdMessageListener.TIEBA_CONTENT_NO_IMAGE_KEY + tiebaName);
-			log.info("{}:待同步图片pageID数量：{}" ,tiebaName, pageList.size());
-			//包含图片的list
+			log.info("{}:待同步pageID数量：{}" ,tiebaName, pageList.size());
+			//可能包含图片的page
 			List<ContentBean> imagePageList = new ArrayList<>();
-			//包含图片没有被缓存的list
+			//没有被缓存的page
 			List<String> notCachePageImageList = new ArrayList<>();
 			removeExistId(pageList, imagePageList, notCachePageImageList, imageKey, noImageKey);
-			log.info("{}:去除已同步和不包含图片pageID后数量：{}",tiebaName ,notCachePageImageList.size());
+			log.info("{}:去除已同步pageID后数量：{}",tiebaName ,notCachePageImageList.size());
+			//包含图片的map
 			ConcurrentHashMap<byte[], byte[]> map = contentImageProcessor.start(notCachePageImageList,tiebaName);
 			redisTemplate.executePipelined(new RedisCallback<Object>() {
 				@Override
@@ -76,7 +77,7 @@ public class TieBaImageIdMessageListener implements MessageListener {
 					redisConnection.mSet(map);
 					// 存储帖子最新更新时间
 					byte[] timeKey = getByte(TIEBA_CONTENT_UPDATE_TIME_KEY + tiebaName);
-					//所有包含图片的
+					//可能包含图片的
 					for (ContentBean contentBean : imagePageList) {
 						Set<String> set = CollectionUtils.convertMapByteToSetString(map);
 						//没有被缓存的
@@ -97,8 +98,8 @@ public class TieBaImageIdMessageListener implements MessageListener {
 	/**
 	 * 优化去除已经爬过的和不存在图片的pageid
 	 * @param list
-	 * @param imagePageList  包含图片的帖子（用来更新时间）
-	 * @param notCachePageImageList 包含图片且没有被缓存进去的帖子
+	 * @param imagePageList  可能包含图片的帖子（用来更新时间）
+	 * @param notCachePageImageList 可能包含图片且没有被缓存进去的帖子
 	 * @param imageKey
      * @param noImageKey
      */
