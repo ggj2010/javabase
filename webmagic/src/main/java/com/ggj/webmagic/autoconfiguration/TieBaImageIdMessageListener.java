@@ -53,47 +53,52 @@ public class TieBaImageIdMessageListener implements MessageListener {
 	 * @param bytes
      */
 	public void onMessage(Message message, byte[] bytes) {
-		String jsonStr = WebmagicService.getString(message.getBody());
-		List<ContentBean> pageList = JSONObject.parseArray(jsonStr, ContentBean.class);
-		if (pageList != null && pageList.size() > 0) {
-			String tiebaName = pageList.get(0).getName();
-			//包含图片的key
-			byte[] imageKey = getByte(TIEBA_CONTENT_IMAGE_KEY + tiebaName);
-			//不包含图片的key
-			byte[] noImageKey = getByte(TieBaNoImageIdMessageListener.TIEBA_CONTENT_NO_IMAGE_KEY + tiebaName);
-			log.info("{}:待同步pageID数量：{}" ,tiebaName, pageList.size());
-			//可能包含图片的page
-			List<ContentBean> imagePageList = new ArrayList<>();
-			//没有被缓存的page
-			List<String> notCachePageImageList = new ArrayList<>();
-			removeExistId(pageList, imagePageList, notCachePageImageList, imageKey, noImageKey);
-			log.info("{}:去除已同步pageID后数量：{}",tiebaName ,notCachePageImageList.size());
-			//包含图片的map
-			ConcurrentHashMap<byte[], byte[]> map = contentImageProcessor.start(notCachePageImageList,tiebaName);
-			redisTemplate.executePipelined(new RedisCallback<Object>() {
-				@Override
-				public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
-					//保存所有帖子 tieba_content_image_4813146001
-					if(map.size()>0)
-					redisConnection.mSet(map);
-					// 存储帖子最新更新时间
-					byte[] timeKey = getByte(TIEBA_CONTENT_UPDATE_TIME_KEY + tiebaName);
-					//可能包含图片的
-					for (ContentBean contentBean : imagePageList) {
-						Set<String> set = CollectionUtils.convertMapByteToSetString(map);
-						//没有被缓存的
-						if (set.contains(TIEBA_CONTENT_IMAGE_KEY+contentBean.getId())){
-							//key=tieba_content_image_李毅
-							redisConnection.sAdd(imageKey,WebmagicService.getByte(contentBean.getId()));
-							//key=tieba_content_image_4813146001
-							redisConnection.zAdd(timeKey, Double.parseDouble(contentBean.getDate()), WebmagicService.getByte(contentBean.getId()));
+		try {
+			String jsonStr = WebmagicService.getString(message.getBody());
+			List<ContentBean> pageList = JSONObject.parseArray(jsonStr, ContentBean.class);
+			if (pageList != null && pageList.size() > 0) {
+				String tiebaName = pageList.get(0).getName();
+				//包含图片的key
+				byte[] imageKey = getByte(TIEBA_CONTENT_IMAGE_KEY + tiebaName);
+				//不包含图片的key
+				byte[] noImageKey = getByte(TieBaNoImageIdMessageListener.TIEBA_CONTENT_NO_IMAGE_KEY + tiebaName);
+				log.info("{}:待同步pageID数量：{}", tiebaName, pageList.size());
+				//可能包含图片的page
+				List<ContentBean> imagePageList = new ArrayList<>();
+				//没有被缓存的page
+				List<String> notCachePageImageList = new ArrayList<>();
+				removeExistId(pageList, imagePageList, notCachePageImageList, imageKey, noImageKey);
+				log.info("{}:去除已同步pageID后数量：{}", tiebaName, notCachePageImageList.size());
+				//包含图片的map
+				ConcurrentHashMap<byte[], byte[]> map = contentImageProcessor.start(notCachePageImageList, tiebaName);
+				redisTemplate.executePipelined(new RedisCallback<Object>() {
+					@Override
+					public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
+						//保存所有帖子 tieba_content_image_4813146001
+						if (map.size() > 0)
+							redisConnection.mSet(map);
+						// 存储帖子最新更新时间
+						byte[] timeKey = getByte(TIEBA_CONTENT_UPDATE_TIME_KEY + tiebaName);
+						//可能包含图片的
+						for (ContentBean contentBean : imagePageList) {
+							Set<String> set = CollectionUtils.convertMapByteToSetString(map);
+							//没有被缓存的
+							if (set.contains(TIEBA_CONTENT_IMAGE_KEY + contentBean.getId())) {
+								//key=tieba_content_image_李毅
+								redisConnection.sAdd(imageKey, WebmagicService.getByte(contentBean.getId()));
+								//key=tieba_content_image_4813146001
+								redisConnection.zAdd(timeKey, Double.parseDouble(contentBean.getDate()), WebmagicService.getByte(contentBean.getId()));
+							}
 						}
+						log.info("ScheduleTask.run={}", true);
+						return null;
 					}
-					log.info("ScheduleTask.run={}",true);
-					ScheduleTask.run = true;
-					return null;
-				}
-			});
+				});
+			}
+		}catch (Exception e){
+			log.error("onMessage error",e);
+		}finally {
+			ScheduleTask.run = true;
 		}
 	}
 

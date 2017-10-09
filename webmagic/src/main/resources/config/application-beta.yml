@@ -10,7 +10,7 @@ tieba:
   tiebaContentIdTopic: tieba_content_id_topic
   tiebaContentNoImageIdTopic: tieba_content_noimage_id_topic
   #我们可以通过java -DexecuteDeleteTiebaImageTask="fase" 修改启动参数
-  executeDeleteTiebaImageTask: false
+  executeDeleteTiebaImageTask: true
 spring:
   redis:
     database: 2
