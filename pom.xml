@@ -36,6 +36,7 @@
         <module>elasticsearch</module>
         <module>db</module>
         <module>netflix</module>
+        <module>dailycode</module>
     </modules>
 
     <properties>

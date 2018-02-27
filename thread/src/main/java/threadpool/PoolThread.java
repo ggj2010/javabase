@@ -22,9 +22,9 @@ public class PoolThread {
 
         PoolThread pt = new PoolThread();
 //        pt.cachedThreadPool();
-//        pt.fixedThread();
+        pt.fixedThread();
 //        pt.singleThread();
-        pt.schelThread();
+//        pt.schelThread();
 //        pt.await();
 
     }

@@ -18,17 +18,17 @@ public class MainConfig {
 
     public static void main(String[] args) {
         //默认超时时间是1000ms
-//        timeOutDefualtconfig();
+        timeOutDefualtconfig();
         //可以将CommandConfig的run()方法的sleep时间打开测试
 //        timeOutconfig();
         //策略模式
-        testSemaphore();
+//        testSemaphore();
 
 //        fallback();
         //没有重写fallback
 //        withoutFallBack();
         //闸路
-        circuitBreaker();
+//        circuitBreaker();
         //
 //        pool();
     }

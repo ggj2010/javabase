@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue study</title>
+</head>
+<script src="vue.js"></script>
+<!--<script src="https://unpkg.com/vue"></script>-->
+<body>
+
+<a href="https://cn.vuejs.org/v2/guide/" target="_blank">https://cn.vuejs.org/v2/guide/</a>
+<div id="app">
+    {{ message }}
+</div>
+
+
+<div id="app-2">
+    <span v-bind:title="message">
+        鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        指令带有前缀 v-，以表示它们是 Vue 提供的特殊属性.
+    </span>
+
+</div>
+
+
+<div id="app-3">
+    <p v-if="seen">现在你看到我了 v-if比较命令</p>
+</div>
+
+<div id="app-4">
+    <ol>
+        <li v-for="s in todos">
+            {{s.text}}
+        </li>
+    </ol>
+</div>
+<div id="app-5">
+    <p>{{message1}}</p>
+    <button v-on:click="reverseMessage">逆转消息</button>
+    <br>
+    <input type="text" v-model="inputMessage">写什么下面文本就输出什么,双向绑定v-model
+    <br>
+    <p>{{inputMessage}}</p>
+</div>
+
+<div style="margin-top: 40px" id="app-6">
+ <router-view>
+
+ </router-view>
+</div>
+
+<script>
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'hello vaue 双向绑定!!!!'
+        }
+    })
+
+    var app2 = new Vue({
+        el: "#app-2",
+        data: {
+            message: '页面加载于' + new Date().toLocaleTimeString()
+        }
+    })
+
+    var app3 = new Vue({
+        el: "#app-3",
+        data: {
+            seen: true
+        }
+    })
+
+    var app4 = new Vue({
+        el: "#app-4",
+        data: {
+            todos: [
+                {text: 'v-for 循环1'},
+                {text: 'v-for 循环2'},
+                {text: 'v-for 循环3'}
+            ]
+        }
+    })
+
+    var app5 = new Vue({
+        el: "#app-5",
+        data: {
+            message1: "Hello Vue.js!",
+            inputMessage: ""
+        },
+        //自定义的方法
+        methods: {
+            reverseMessage: function () {
+                this.message1 = this.message1.split('').reverse().join('')
+            }
+        }
+    })
+
+
+
+
+
+
+    Vue.component('router-view', {
+        template: '<li>这是个待办项</li>'
+    })
+
+
+    // 创建根实例
+    new Vue({
+        el: '#app-6'
+    })
+
+    import myconpent myconpent.vue;
+</script>
+
+</body>
+</html>

@@ -34,9 +34,9 @@ public class LeaderDemo {
      */
     public static void main(String[] args) throws IOException {
         //1、测试LeaderSelector 轮训
-//        testSelector();
+        testSelector();
         //1、测试LeaderLatch 有客户端退出再重新触发选举
-        testLeaderLatch();
+//        testLeaderLatch();
         System.in.read();
     }
 
@@ -73,8 +73,8 @@ public class LeaderDemo {
 
     private static void testSelector() {
         //第一启动 selector(1);方法，将selector（2）方法注释,第二次启动  elector(2)方法，将selector(1)注释
-//        selector(1,1);
-        selector(2,1);
+        selector(1,1);
+//        selector(2,1);
     }
 
     private static void selector(int number,int type) {

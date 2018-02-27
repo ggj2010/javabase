@@ -16,7 +16,12 @@ public class NormalThread extends  Thread implements  MainStartInterface{
         log.info("Thread调用线程");
     }
     public void mstart(){
+        new Thread();
         NormalThread nt=new NormalThread();
         nt.start();
+    }
+
+    public static void main(String[] args) {
+        new NormalThread().mstart();
     }
 }

@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ZookeeperLock {
 
-    private static final String PATH = "/root/lock";
+    private static final String PATH = "/root/lock2";
 
 
     public static void main(String[] args) throws Exception {
@@ -32,8 +32,9 @@ public class ZookeeperLock {
 
     private static void interProcessMutex(CuratorFramework client) throws Exception {
         InterProcessMutex interProcessMutex = new InterProcessMutex(client, PATH);
-        if (interProcessMutex.acquire(2, TimeUnit.SECONDS)) {
+        if (interProcessMutex.acquire(3, TimeUnit.SECONDS)) {
             doTask("interProcessMutex");
+            interProcessMutex.release();
         } else {
             log.info("获取不到interProcessMutex锁");
         }

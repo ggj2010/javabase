@@ -14,7 +14,7 @@ import static org.apache.zookeeper.ZooDefs.OpCode.create;
  */
 public class CuratorUtil {
 //    public static final String zookeeperConnectionString = "localhost:2180,localhost:2181,localhost:2182";
-    public static final String zookeeperConnectionString = "localhost:2185";
+    public static final String zookeeperConnectionString = "localhost:2181";
     /**
      * 初始化获取 CuratorFramework 正式项目里面应该单例
      *
@@ -26,6 +26,13 @@ public class CuratorUtil {
         CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperConnectionString, retryPolicy);
         //The client must be started (and closed when no longer needed).
         client.start();
+        return client;
+    }
+    public static CuratorFramework getNoStartClient() {
+        //ExponentialBackoffRetry基于"backoff"方式重连, 重连时间和重连次数
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperConnectionString, retryPolicy);
+        //The client must be started (and closed when no longer needed).
         return client;
     }
 

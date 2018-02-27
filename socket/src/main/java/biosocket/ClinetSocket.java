@@ -23,7 +23,7 @@ public class ClinetSocket {
      */
     public void normalClinet() {
         try {
-            Socket socket = new Socket("localhost", 80);
+            Socket socket = new Socket("localhost", 8081);
 
             InputStreamReader isr = new InputStreamReader(socket.getInputStream());
             BufferedReader br = new BufferedReader(isr);

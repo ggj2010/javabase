@@ -20,8 +20,8 @@ public class ServerSockets {
 
     //    socket通信最好使用DataInputStream和DataOutputStream去封装读写的操作，或者用ObjectInputStream和ObjectOutputStream
     public static void main(String[] args) {
-//        new ServerSockets().normalSocket();
-        new ServerSockets().threadSocket();
+        new ServerSockets().normalSocket();
+//        new ServerSockets().threadSocket();
     }
 
     /**
@@ -91,7 +91,7 @@ public class ServerSockets {
         PrintWriter pw = null;
         try {
             //创建socket服务端
-            ServerSocket server = new ServerSocket(80);
+            ServerSocket server = new ServerSocket(8081);
             //等待client请求
             client = server.accept();
             //bio阻塞流，只有客户端连接了才会继续执行下面

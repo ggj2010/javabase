@@ -40,7 +40,7 @@
 	
 	 <!-- 日志输出级别 DEBUG 和INFO  如果改成了INFO那么代码里面的log.debug()内容就打印不出来了，因为打印方法决定记录请求的级别-->  
      <!-- TRACE < DEBUG < INFO < WARN < ERROR。  -->
-    <root level="INFO">
+    <root level="ERROR">
         <appender-ref ref="logfile"/>
         <appender-ref ref="stdout"/>
     </root>

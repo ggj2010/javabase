@@ -45,7 +45,7 @@ public class ClientLeaderLatch implements Closeable {
         return new LeaderLatchListener() {
             @Override
             public void isLeader() {
-                log.info(name+" =>  isLeader() ");
+                log.info(name+" =>  isLeader ");
                 doJob();
             }
 

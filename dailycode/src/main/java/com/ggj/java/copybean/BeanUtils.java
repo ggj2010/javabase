@@ -16,9 +16,14 @@ public class BeanUtils {
         studentEntity.setType("类型1");
         studentEntity.setAge(10);
 
+       // StudentDTO studentDTO1 = (StudentDTO)org.springframework.beans.BeanUtils.copyProperties(studentEntity, StudentDTO.class);
+
         StudentDTO studentDTO = (StudentDTO) copy(studentEntity, StudentDTO.class);
         System.out.println(studentEntity.toString());
         System.out.println(studentDTO.toString());
+
+
+
     }
 
     private static Object copy(Object object, Class<?> target) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
