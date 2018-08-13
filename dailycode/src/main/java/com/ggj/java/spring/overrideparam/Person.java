@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * Email:335424093@qq.com
  * Date 2016/2/19 10:12
  */
-@Component
+//@Component
 public class Person implements BeanFactoryAware, BeanNameAware,
         InitializingBean, DisposableBean,ApplicationContextAware , BeanFactoryPostProcessor {
 

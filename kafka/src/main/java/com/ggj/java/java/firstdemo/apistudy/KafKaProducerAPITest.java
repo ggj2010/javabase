@@ -1,11 +1,13 @@
 package com.ggj.java.java.firstdemo.apistudy;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
+import java.net.InetAddress;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -15,23 +17,24 @@ import java.util.concurrent.ExecutionException;
  * Email:335424093@qq.com
  * Date 2016/2/15 9:46
  */
+@Slf4j
 public class KafKaProducerAPITest {
-    public final static String TOPIC_API = "topicapi";
+    public final static String TOPIC_API = "topic_pig";
+    public final static String PRODUCER_CLIENT_ID = "client_id_1";
 
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         KafkaProducer<Integer, String> producer = getProducer();
         //构造producerRecord
         ProducerRecord producerRecord=getProducerRecord();
-
         //普通send
         while (true) {
-            Thread.sleep(1000);
+            Thread.sleep(500);
             //producer.send(producerRecord);
             //带callback的send
               producer.send(producerRecord,new CallBackAPI("send message"));
+              log.info("----");
         }
-
 
         //send发送时候加锁，一个一个发送
         //producer.send(producerRecord).get();
@@ -77,9 +80,10 @@ public class KafKaProducerAPITest {
         Properties properties = new Properties();
         //bootstrap.servers
 //        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092,123.56.118.135:9093");
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092,123.56.118.135:9093");
+//        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "120.78.62.137:9093,120.78.62.137:9094");
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "120.78.62.137:9093,120.78.62.137:9094");
         //client.id
-        properties.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaProducerTest");
+        properties.put(ProducerConfig.CLIENT_ID_CONFIG, PRODUCER_CLIENT_ID);
         //batch.size 当同时有大量消息要向同一个分区发送时，Producer端会将消息打包后进行批量发送。如果设置为0，则每条消息都独立发送。默认为16384字节
         properties.put(ProducerConfig.BATCH_SIZE_CONFIG,16384);
       //发送消息前等待的毫秒数，与batch.size配合使用。在消息负载不高的情况下，配置linger.ms能够让Producer在发送消息前等待一定时间，以积累更多的消息打包发送，达到节省网络资源的目的。默认为0
@@ -93,5 +97,6 @@ public class KafKaProducerAPITest {
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         return new KafkaProducer(properties);
     }
+
 
 }

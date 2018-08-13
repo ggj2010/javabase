@@ -1,5 +1,6 @@
 package biosocket;
 
+import com.sun.deploy.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -10,6 +11,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * 通过socket类的方法isClosed()、isConnected()、isInputStreamShutdown()、isOutputStreamShutdown()等，
+ * 这些方法都是本地端的状态，无法判断远端是否已经断开连接
+ * 通过socket的InputStream.read返回-1/0表示 对方关闭连接，抛出异常表示对方异常终止连接
  * author:gaoguangjin
  * Description:
  * Email:335424093@qq.com
@@ -20,8 +24,8 @@ public class ServerSockets {
 
     //    socket通信最好使用DataInputStream和DataOutputStream去封装读写的操作，或者用ObjectInputStream和ObjectOutputStream
     public static void main(String[] args) {
-        new ServerSockets().normalSocket();
-//        new ServerSockets().threadSocket();
+//        new ServerSockets().normalSocket();
+        new ServerSockets().threadSocket();
     }
 
     /**
@@ -29,7 +33,7 @@ public class ServerSockets {
      */
     public void threadSocket() {
         try {
-            ServerSocket socket = new ServerSocket(80);
+            ServerSocket socket = new ServerSocket(8081);
             ExecutorService pool = Executors.newCachedThreadPool();
             //// 同步改成异步去处理。多个客户端连接同一个服务端
             while (true) {
@@ -55,8 +59,8 @@ public class ServerSockets {
         BufferedWriter bw = null;
         String message = null;
         try {
-            br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            bw = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+            br = new BufferedReader(new InputStreamReader(client.getInputStream(),"utf-8"));
+            bw = new BufferedWriter(new OutputStreamWriter(client.getOutputStream(),"utf-8"));
             while ((message = br.readLine()) != null) {
                 log.info("服务端接收到信息：" + message);
                 if ("quit".equals(message)) {
@@ -104,7 +108,7 @@ public class ServerSockets {
                 //输入流会堵塞，所以用循环会一直等待客户端的输入，客户端一旦有输出流，服务端就会有输入流，如果客户端的socket.close();那么br.readLine()就是null
                 String message = br.readLine();
                 log.info("服务端接收到信息：" + message);
-                if ("quit".equals(message)) {
+                if (null==message||"quit".equals(message)) {
                     break;
                 }
                 pw.println("你好，客户端");

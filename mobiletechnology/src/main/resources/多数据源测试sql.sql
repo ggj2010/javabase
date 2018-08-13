@@ -1,8 +1,8 @@
 USE master;
 
-CREATE TABLE city ( id INT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR (255), state VARCHAR (255), country VARCHAR (255));
+CREATE TABLE city ( id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR (255), state VARCHAR (255), country VARCHAR (255));
 
-INSERT INTO city (NAME, state, country) VALUES ( 'San Francisco-master', 'CA', 'US' );
+INSERT INTO city (name, state, country) VALUES ( 'San Francisco-master', 'CA', 'US' );
 
 CREATE TABLE `tb_user_info` (
 `id`  int(11) NOT NULL AUTO_INCREMENT ,
@@ -15,9 +15,9 @@ INSERT INTO tb_user_info (id, login_name, password) VALUES ( 1, 'gaoguangjin', '
 
 USE slave;
 
-CREATE TABLE city ( id INT AUTO_INCREMENT PRIMARY KEY, NAME VARCHAR (255), state VARCHAR (255), country VARCHAR (255));
+CREATE TABLE city ( id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR (255), state VARCHAR (255), country VARCHAR (255));
 
-INSERT INTO city (NAME, state, country) VALUES ( 'San Francisco-slave', 'CA', 'US' );
+INSERT INTO city (name, state, country) VALUES ( 'San Francisco-slave', 'CA', 'US' );
 
 CREATE TABLE `tb_user_info` (
 `id`  int(11) NOT NULL AUTO_INCREMENT ,

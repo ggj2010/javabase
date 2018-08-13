@@ -13,7 +13,7 @@
         <logger name="com.ggj.springboot.controller" level="INFO"/>
 
         <!--设置info级别，debug的日志就打印不出来了-->
-        <root level="INFO">
+        <root level="DEBUG">
             <appender-ref ref="FILE"/>
             <appender-ref ref="CONSOLE"/>
         </root>

@@ -18,7 +18,12 @@ public class MyBeanConfig {
 
     @Bean(initMethod = "myInit", destroyMethod = "myDestory")
     @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public Person getPerson(){
+    public Person person1(){
+     return new Person();
+    }
+    @Bean(initMethod = "myInit", destroyMethod = "myDestory")
+    @Scope(value = BeanDefinition.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    public Person person2(){
      return new Person();
     }
 }

@@ -34,7 +34,7 @@ public class CopyOnWriteArrayListTest {
         });
         //主线程结束后用户线程还会继续运行,JVM存活
         //如果没有用户线程，都是守护线程，那么JVM结束
-        //默认daemon 是用户线程，意思就是当主线程都打印完了 如果是守护线程就立即结束
+        //默认daemon fasle 是用户线程，意思就是当主线程都打印完了 如果是守护线程就立即结束
         t.setDaemon(true);
         t.start();
 

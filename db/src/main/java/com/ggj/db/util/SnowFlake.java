@@ -1,5 +1,7 @@
 package com.ggj.db.util;
 
+import java.util.UUID;
+
 /**
  * SnowFlake算法产生的ID是一个64位的整型，结构如下（每一部分用“-”符号分隔）：
 
@@ -17,7 +19,7 @@ public class SnowFlake {
 	/**
 	 * 起始的时间戳
 	 */
-	private final static long START_STMP = 1480166465631L;
+	private final static long START_STMP = 1533197872949L;
 	
 	/**
 	 * 每一部分占用的位数
@@ -68,7 +70,7 @@ public class SnowFlake {
 	public static void main(String[] args) {
 		SnowFlake snowFlake = new SnowFlake(0, 1);
 		for(int i = 0; i < (1 << 12); i++) {
-			System.out.println(snowFlake.nextId());
+			System.out.println(UUID.randomUUID());
 		}
 	}
 	

@@ -39,10 +39,10 @@
 
     </settings>
 
-    <plugins>
-    <!-- 自定义plugin 方便cat 用来监控sql -->
+  <!--  <plugins>
+    &lt;!&ndash; 自定义plugin 方便cat 用来监控sql &ndash;&gt;
     <plugin interceptor="com.ggj.encrypt.common.plugin.MyBatisCatPlugin"/>
-    </plugins>
+    </plugins>-->
 
 
 </configuration>

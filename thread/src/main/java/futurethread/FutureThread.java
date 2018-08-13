@@ -20,12 +20,12 @@ public class FutureThread {
     public void future(){
         ExecutorService executorService= Executors.newCachedThreadPool();
         Future<String> result = executorService.submit(new NameTask());
-          //shutdown不能少
-        executorService.shutdown();
         //得到结果之前做点别的事情
         doOtherThing();
         try {
             log.info("返回结果："+result.get());
+            //shutdown不能少
+            executorService.shutdown();
         } catch (InterruptedException e) {
             e.printStackTrace();e.printStackTrace();
         } catch (ExecutionException e) {

@@ -4,7 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.concurrent.Executors;
 
 @EnableScheduling
 @ServletComponentScan
@@ -13,6 +16,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Main {
     public static void main(String[] args) {
         // 三种启动方式
-        SpringApplication.run(Main.class);
+        ConfigurableApplicationContext dd = SpringApplication.run(Main.class);
     }
 }

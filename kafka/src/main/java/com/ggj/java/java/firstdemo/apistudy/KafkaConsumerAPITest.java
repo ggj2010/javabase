@@ -87,7 +87,7 @@ public class KafkaConsumerAPITest {
         //服务器开启两个server 一个端口号是9092 一个是9093
     //      props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092,123.56.118.135:9093");
         //bootstrap.servers
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "120.78.62.137:9092");
         //group.id
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "ggj");
         //enable.auto.commit 是否自动提交已拉取消息的offset。提交offset即视为该消息已经成功被消费，该组下的Consumer无法再拉取到该消息（除非手动修改offset）。默认为true

@@ -1,6 +1,6 @@
 #不使用spring的redis  调用自己封装的redis
 redis:
-  host: 123.56.118.135
+  host: 47.94.111.150
   passwords: kF9wjNBC0IsxYuHW/lXDIw==
   port: 6379
   timeout: 100000
@@ -35,7 +35,7 @@ thread:
 
 kafka:
     #可以是集群 其他的配置弄默认就好了
-    bootstrapServers: 123.56.118.135:9092
+    bootstrapServers: 47.94.111.150:9092
     topic:
           #访问日志的log
           requestlog: requestlog
@@ -49,7 +49,7 @@ datasource:
   type: com.alibaba.druid.pool.DruidDataSource
 #主库
   write:
-    url: jdbc:mysql://123.56.118.135:3306/master?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://47.94.111.150:3306/master?useUnicode=true&characterEncoding=utf-8
     username: mobile
     password: mobile
     driver-class-name: com.mysql.jdbc.Driver
@@ -68,7 +68,7 @@ datasource:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   read1:
-    url: jdbc:mysql://123.56.118.135:3306/slave?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://47.94.111.150:3306/slave?useUnicode=true&characterEncoding=utf-8
     username: mobile
     password: mobile
     driver-class-name: com.mysql.jdbc.Driver
@@ -87,7 +87,7 @@ datasource:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   read2:
-    url: jdbc:mysql://123.56.118.135:3306/slave?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://47.94.111.150:3306/slave?useUnicode=true&characterEncoding=utf-8
     username: mobile
     password: mobile
     driver-class-name: com.mysql.jdbc.Driver

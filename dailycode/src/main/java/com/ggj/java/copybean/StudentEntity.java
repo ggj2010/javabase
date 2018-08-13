@@ -8,6 +8,7 @@ public class StudentEntity {
     private String name;
     private int age;
     private String type;
+    private String orika;
 
 
     public String getName() {
@@ -58,6 +59,15 @@ public class StudentEntity {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", type='" + type + '\'' +
+                ", orika='" + orika + '\'' +
                 '}';
+    }
+
+    public String getOrika() {
+        return orika;
+    }
+
+    public void setOrika(String orika) {
+        this.orika = orika;
     }
 }

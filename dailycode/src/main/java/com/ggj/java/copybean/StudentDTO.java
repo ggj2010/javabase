@@ -8,8 +8,10 @@ public class StudentDTO {
     private String name;
 
     private int age;
-    //这个types 比较特殊
+    //这个types 比较特殊，把type的值拷贝给types
     private String types;
+
+    private String orika2;
 
     public String getName() {
         return name;
@@ -50,6 +52,15 @@ public class StudentDTO {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", types='" + types + '\'' +
+                ", orika2='" + orika2 + '\'' +
                 '}';
+    }
+
+    public String getOrika2() {
+        return orika2;
+    }
+
+    public void setOrika2(String orika2) {
+        this.orika2 = orika2;
     }
 }

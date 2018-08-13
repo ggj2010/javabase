@@ -21,8 +21,9 @@ public class ListFutureTaskThread {
         for (int i = 0; i < length; i++)
             list.add(new NameTask());
         try {
-            //当所有任务完成或超时期满时
-            List<Future<String>> a = pool.invokeAll(list,20000, TimeUnit.MILLISECONDS);
+            //当所有任务完成或超时期满时,会堵塞
+            List<Future<String>> a = pool.invokeAll(list);
+            //List<Future<String>> a = pool.invokeAll(list,20000, TimeUnit.MILLISECONDS);
 
             //得到结果之前做点别的事情
             doOtherThing();

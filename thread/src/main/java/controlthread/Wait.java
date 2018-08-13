@@ -24,9 +24,39 @@ public class Wait {
     public static void main(String[] args) {
         Wait  wait= new Wait();
 
-      wait.releaseLock(wait,true);
+//      wait.releaseLock(wait,true);
 //      wait.notReleaseLock(wait,false);
+        //Thead.wait()，如果Thread结束了，是可以自动唤醒的。这个会在join中被使用。
+        wait0(wait);
 
+    }
+
+    private static void wait0(Wait wait) {
+        Thread thead = new Thread() {
+            @Override
+            public void run() {
+
+            }
+        };
+        Thread theadTwo = new Thread() {
+            @Override
+            public void run() {
+                wait.waitZero(thead);
+            }
+        };
+        theadTwo.start();
+        thead.start();
+
+    }
+
+    private void waitZero(Thread thead) {
+        try {
+            synchronized (thead) {
+                thead.wait(0);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

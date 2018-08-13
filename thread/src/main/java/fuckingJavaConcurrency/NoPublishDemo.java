@@ -3,6 +3,8 @@ package fuckingJavaConcurrency;
 
 import fuckingJavaConcurrency.util.Utils;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * 无同步的修改在另一个线程中会读不到
  * 线程之间的数据同步 volatile
@@ -13,6 +15,7 @@ import fuckingJavaConcurrency.util.Utils;
  */
 public class NoPublishDemo {
     boolean stop = false;
+//    AtomicBoolean stop=new AtomicBoolean();
 
     public static void main(String[] args) {
         // LoadMaker.makeLoad();
@@ -25,6 +28,7 @@ public class NoPublishDemo {
         Utils.sleep(1000);
         System.out.println("Set stop to true in main!");
         demo.stop = true;
+//        demo.stop.set(true);
         System.out.println("Exit main.");
 
     }
@@ -40,6 +44,7 @@ public class NoPublishDemo {
             // 如果主线中stop的值可见，则循环会退出。
             // 在我的开发机上，几乎必现循环不退出！（简单安全的解法：在running属性上加上volatile）
             while (!stop) {
+//            while (!stop.get()) {
             }
             System.out.println("ConcurrencyCheckTask stopped!");
         }

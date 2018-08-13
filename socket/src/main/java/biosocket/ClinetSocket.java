@@ -25,7 +25,7 @@ public class ClinetSocket {
         try {
             Socket socket = new Socket("localhost", 8081);
 
-            InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+            InputStreamReader isr = new InputStreamReader(socket.getInputStream(),"utf-8");
             BufferedReader br = new BufferedReader(isr);
 
             OutputStream outPutStream = socket.getOutputStream();
