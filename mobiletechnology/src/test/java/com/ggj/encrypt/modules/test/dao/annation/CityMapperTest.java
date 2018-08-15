@@ -33,9 +33,10 @@ public class CityMapperTest extends BaseTest {
      * @throws Exception
      */
     @Test
-    @PerfTest(invocations = 6)
+    @PerfTest(invocations = 2)
     public void testFindByState() throws Exception {
         City city=cityDao.getCity(1);
+        City city2=cityDao.getCity(2);
         log.info(city.toString());
     }
 

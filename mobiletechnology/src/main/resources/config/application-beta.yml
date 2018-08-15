@@ -49,7 +49,7 @@ datasource:
   type: com.alibaba.druid.pool.DruidDataSource
 #主库
   write:
-    url: jdbc:mysql://47.94.111.150:3306/master?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/master?useUnicode=true&characterEncoding=utf-8
     username: mobile
     password: mobile
     driver-class-name: com.mysql.jdbc.Driver
@@ -68,7 +68,7 @@ datasource:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   read1:
-    url: jdbc:mysql://47.94.111.150:3306/slave?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/master?useUnicode=true&characterEncoding=utf-8
     username: mobile
     password: mobile
     driver-class-name: com.mysql.jdbc.Driver
@@ -87,7 +87,7 @@ datasource:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   read2:
-    url: jdbc:mysql://47.94.111.150:3306/slave?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/master?useUnicode=true&characterEncoding=utf-8
     username: mobile
     password: mobile
     driver-class-name: com.mysql.jdbc.Driver
