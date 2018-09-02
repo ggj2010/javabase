@@ -29,6 +29,7 @@ public class Consume extends Thread {
 	@Override
 	public void run() {
 		while (true) {
+			//log.info("消费者：" + threadName + "------");
 			try {
 				lock.lock();
 				if (list.size() == 0) {
@@ -38,7 +39,6 @@ public class Consume extends Thread {
 				} else {
 					list.remove(0);
 					log.info("消费者：" + threadName + "领取一只猫！剩余" + list.size());
-					Thread.sleep(1000);
 					// break;
 				}
 			} catch (Exception e) {
@@ -46,6 +46,11 @@ public class Consume extends Thread {
 			} finally {
 				log.info("消费者：" + threadName + "带猫咪回家【 关闭锁】");
 				lock.unlock();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
