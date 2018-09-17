@@ -25,7 +25,7 @@ public class JobManager {
     public static void initJob(JobConfig jobConfig) {
         try {
             JobDetail job = JobBuilder.newJob(ClientOneJob.class).withIdentity(jobConfig.getJobName(), jobConfig.getGroupName()).build();
-            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(jobConfig.getTriggerKey(), jobConfig.getGroupName()).withSchedule(CronScheduleBuilder.cronSchedule("0/10 * * * * ?"))
+            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(jobConfig.getTriggerKey(), jobConfig.getGroupName()).withSchedule(CronScheduleBuilder.cronSchedule(jobConfig.getJobCron()))
                     .build();
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
