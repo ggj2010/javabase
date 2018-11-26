@@ -59,7 +59,7 @@
                                 <div class="caption">
                                    <#-- <p><a class="btn btn-link" role="button" href="{{object.text}}" title="点击跳转到对应帖子">传送门</a>
                                     </p>-->
-                                       <p>{{object.text}}</p>
+                                       <p>{{object.title}}-{{object.text}}</p>
                                        <p><a class="btn btn-link" role="button"  ng-click="attention(object.email,object.userId)" >关注</a>
                                        </p>
                                 </div>
