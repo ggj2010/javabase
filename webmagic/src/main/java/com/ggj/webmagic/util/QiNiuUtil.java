@@ -8,6 +8,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.qiniu.processing.OperationManager;
+import com.qiniu.processing.OperationStatus;
+import com.qiniu.util.UrlSafeBase64;
 import org.apache.http.client.fluent.Request;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -111,7 +114,7 @@ public class QiNiuUtil implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         Configuration cfg = new Configuration(Zone.zone0());
         cfg.connectTimeout=5000;
-        cfg.responseTimeout=5000;
+        cfg.readTimeout=5000;
         cfg.writeTimeout=2000;
         auth = Auth.create(accessKey, secretKey);
         uploadManager = new UploadManager(cfg);
@@ -168,8 +171,8 @@ public class QiNiuUtil implements InitializingBean {
             for (int i = 0; i < list.size(); i++) {
                 keyList[i] = list.get(i).replace(domain, "");
             }
-            BucketManager.Batch batchOperations = new BucketManager.Batch();
-            batchOperations.delete(bucketName, keyList);
+            BucketManager.BatchOperations batchOperations = new BucketManager.BatchOperations();
+            batchOperations.addDeleteOp(bucketName, keyList);
             Response response = bucketManager.batch(batchOperations);
             BatchStatus[] batchStatusList = response.jsonToObject(BatchStatus[].class);
             /*for (int k = 0; k < keyList.length; k++) {
@@ -217,5 +220,35 @@ public class QiNiuUtil implements InitializingBean {
             }
            getDeleteBlockingDeque().put(list);
         }
+    }
+
+
+
+    public void test(){
+        String key="1539702607173729.mp4";
+        String saveJpgEntry = String.format("%s:test.jpg", bucketName);
+        String persistentOpfs = String.format("vframe/jpg/offset/1/w/500/h/500|saveas/%s", UrlSafeBase64.encodeToString(saveJpgEntry));
+
+        //数据处理队列名称，必须
+        String persistentPipeline = "mps-pipe1"+System.currentTimeMillis();
+//数据处理完成结果通知地址
+        String persistentNotifyUrl = "http://api.example.com/qiniu/pfop/notify";
+        //构造一个带指定Zone对象的配置类
+        Configuration cfg = new Configuration(Zone.zone0());
+//...其他参数参考类注释
+//构建持久化数据处理对象
+        OperationManager operationManager = new OperationManager(auth, cfg);
+        try {
+            String persistentId = operationManager.pfop(bucketName, key, persistentOpfs, persistentPipeline, persistentNotifyUrl, true);
+            //可以根据该 persistentId 查询任务处理进度
+            System.out.println(persistentId);
+            OperationStatus operationStatus = operationManager.prefop(persistentId);
+
+            System.out.println("operationStatus");
+            //解析 operationStatus 的结果
+        } catch (Exception e) {
+            log.error("",e);
+        }
+
     }
 }

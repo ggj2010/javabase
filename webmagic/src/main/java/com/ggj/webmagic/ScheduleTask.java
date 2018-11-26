@@ -44,7 +44,7 @@ public class ScheduleTask {
 	/**
 	 * 带宽不够，不能过多并发
 	 */
-	@Scheduled(initialDelay = 30, fixedDelay = 10)
+	//@Scheduled(initialDelay = 30, fixedDelay = 10)
 	public void scheduleTieBaImage() {
 		try {
 			// 删除历史图片时候不进行定时任务
@@ -61,7 +61,7 @@ public class ScheduleTask {
 	/**
 	 * 将贴吧信息放到elasticsearch
 	 */
-	@Scheduled(initialDelay = 1000 * 60, fixedDelay = 1000 * 60 * 1)
+	//@Scheduled(initialDelay = 1000 * 60, fixedDelay = 1000 * 60 * 1)
 	public void scheduleSearchIndex() {
 		try {
 			elasticSearch.addTieBaContentIndex();
@@ -75,7 +75,7 @@ public class ScheduleTask {
 	 * 两种方式删除
 	 */
 	// @Scheduled(cron = "0 0 */3 * * ?")
-	@Scheduled(initialDelay = 0, fixedDelay = 1000 * 60 * 60 * 12 * 1)
+	//@Scheduled(initialDelay = 0, fixedDelay = 1000 * 60 * 60 * 12 * 1)
 	public void deleteTieBaImage() {
 		try {
 			if (tieBaConfiguration.getExecuteDeleteTiebaImageTask().equals("true")) {

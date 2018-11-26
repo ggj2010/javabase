@@ -49,8 +49,8 @@ spring:
       maxOpenPreparedStatements: 20
 
 qiniu:
-  accessKey: aL-Y877Xpt0daNLqkule0TwNTsAFWR0aoYHUTRaA
-  secretKey: ngCEeu-AABo_d5GdGJ076bUNSBsntAyisPPeB9ed
+  accessKey: Bip6vCz50yIiMGjecwhvbRXluTP9XVWr8_NaA9Py
+  secretKey: f3KjUz5LUjbscU-FG-pyk_qkYTCyah25qS9WFmZW
   #ggj2010 ggjqn
-  bucketName: ggjqn
-  domain: http://o8c5x5dg6.bkt.clouddn.com/
+  bucketName: product
+  domain: http://ocg3iebmc.bkt.clouddn.com/

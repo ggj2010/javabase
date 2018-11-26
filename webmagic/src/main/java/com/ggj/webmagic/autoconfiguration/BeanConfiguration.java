@@ -39,17 +39,17 @@ public class BeanConfiguration {
         redisTemplate.setConnectionFactory(jedisConnectionFactory);
         return redisTemplate;
     }
-    @Bean
+   /* @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(JedisConnectionFactory jedisConnectionFactory){
         RedisMessageListenerContainer  redisMessageListenerContainer=new RedisMessageListenerContainer();
         redisMessageListenerContainer.setConnectionFactory(jedisConnectionFactory);
         redisMessageListenerContainer.addMessageListener(TieBaImageIdMessageListener,new ChannelTopic(tieBaConfiguration.getTiebaContentIdTopic()));
         redisMessageListenerContainer.addMessageListener(tieBaNoImageIdMessageListener,new ChannelTopic(tieBaConfiguration.getTiebaContentNoImageIdTopic()));
         return redisMessageListenerContainer;
-    }
+    }*/
 
-    @Bean
+   /* @Bean
     public ServerEndpointExporter serverEndpointExporter (){
         return new ServerEndpointExporter();
-    }
+    }*/
 }

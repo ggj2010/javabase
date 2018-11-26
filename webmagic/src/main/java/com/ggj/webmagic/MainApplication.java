@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @date 2016/8/19 10:52
  */
 // 发现注解@Scheduled的任务并后台执行
-@EnableScheduling
+//@EnableScheduling
 //搜索servlert
 @ServletComponentScan
 @SpringBootApplication
