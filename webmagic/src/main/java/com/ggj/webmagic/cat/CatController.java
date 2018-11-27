@@ -46,10 +46,18 @@ public class CatController {
     }
 
     @ResponseBody
+    @RequestMapping("/d")
+    public String decryptMain(String encrptStr) throws Exception {
+        return AesEncryptionUtil.decryptMain(encrptStr);
+    }
+
+
+    @ResponseBody
     @RequestMapping("/attention")
     public String pageIndex(String userId) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(EXTRA_KEY_UID, 24139206);
+//        jsonObject.put(EXTRA_KEY_UID, 24139206);
+        jsonObject.put(EXTRA_KEY_UID, 24253828);
         jsonObject.put("attentionId", userId);
         NameValuePair nameValuePair = new BasicNameValuePair("data",
                 AesEncryptionUtil.encryptMain(jsonObject.toJSONString()));
