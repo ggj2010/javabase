@@ -46,7 +46,6 @@
 <div class="container-fluid">
     <div id="links" class="lightBoxGallery">
         <div class="row" ng-controller='scrollController'>
-            <input type="hidden" id="text"/>
             <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy'
                  infinite-scroll-distance='0'>
                 <div ng-repeat='object in reddit.links track by $index'>
@@ -57,10 +56,10 @@
                                     <img ng-src="{{image}}">
                                 </a>
                                 <div class="caption">
-                                   <#-- <p><a class="btn btn-link" role="button" href="{{object.text}}" title="点击跳转到对应帖子">传送门</a>
-                                    </p>-->
                                        <p>{{object.title}}-{{object.text}}</p>
-                                       <p><a class="btn btn-link" role="button"  ng-click="attention(object.email,object.userId)" >关注</a>
+                                       <p>
+                                           <#--<a class="btn btn-link" role="button"  ng-click="attention(object.email,object.userId)" >关注</a>-->
+                                           <a class="btn btn-link" role="button"  ng-click="chart(object.userId)" >记录</a>
                                        </p>
                                 </div>
                             </div>
@@ -72,6 +71,7 @@
             </div>
         </div>
     </div>
+    <input type="text" id="text"/>
     <script>
         var iamge = angular.module('iamge', ['infinite-scroll']);
 
@@ -79,13 +79,17 @@
             $scope.reddit = new Reddit();
             $scope.attention=function (email,userId) {
                 var copy=document.getElementById("text");
-                copy.value=email;
+                copy.value=email.replace("@qq.com","");
                 copy.select(); //选择对象
                 var tag = document.execCommand("Copy");
-                alert("复制qq号"+email);
-                var url="${path}/cat/attention?userId="+userId;
-                $http.get(url).success(function (data) {
-                }.bind(this));
+                if(confirm("是否关注")){
+                    var url="${path}/cat/attention?userId="+userId;
+                    $http.get(url).success(function (data) {
+                    }.bind(this));
+                }
+            }
+            $scope.chart=function (userId) {
+                window.open("${path}/cat/chart?userId="+userId);
             }
         });
 
