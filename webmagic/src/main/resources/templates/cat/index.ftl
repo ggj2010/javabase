@@ -58,7 +58,7 @@
                                 <div class="caption">
                                        <p>{{object.title}}-{{object.text}}</p>
                                        <p>
-                                           <#--<a class="btn btn-link" role="button"  ng-click="attention(object.email,object.userId)" >关注</a>-->
+                                           <a class="btn btn-link" role="button"  ng-click="attention(object.email,object.userId)" >关注</a>
                                            <a class="btn btn-link" role="button"  ng-click="chart(object.userId)" >记录</a>
                                        </p>
                                 </div>
