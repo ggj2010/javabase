@@ -82,7 +82,7 @@
                 copy.value=email.replace("@qq.com","");
                 copy.select(); //选择对象
                 var tag = document.execCommand("Copy");
-                if(confirm("是否关注")){
+                if(confirm("是否关注"+value)){
                     var url="${path}/cat/attention?userId="+userId;
                     $http.get(url).success(function (data) {
                     }.bind(this));
