@@ -137,7 +137,8 @@ public class CatController {
     public String pageIndex(String userId) throws Exception {
         JSONObject jsonObject = new JSONObject();
         // jsonObject.put(EXTRA_KEY_UID, 24139206);
-        jsonObject.put(EXTRA_KEY_UID, 24253828);
+//        jsonObject.put(EXTRA_KEY_UID, 24253828);
+        jsonObject.put(EXTRA_KEY_UID, 24405493);
         jsonObject.put("attentionId", userId);
         NameValuePair nameValuePair = new BasicNameValuePair("data",
                 AesEncryptionUtil.encryptMain(jsonObject.toJSONString()));
