@@ -33,11 +33,21 @@ import java.util.UUID;
 public class CatController {
     public static final String EXTRA_KEY_UID = "uId";
     public static final String URL_SIG_KEY = "maomi_pass_xyz";
+    private static String DOMAIN="";
+    static {
+        DOMAIN = System.getProperty("domain");
+    }
 
     @RequestMapping("")
     public String index(Model model) throws Exception {
         model.addAttribute("data", listArticle(0));
         return "cat/index";
+    }
+
+    @RequestMapping("g")
+    public String girl(Model model) throws Exception {
+        model.addAttribute("data", listArticle(0));
+        return "cat/qq";
     }
 
     @ResponseBody
@@ -56,7 +66,7 @@ public class CatController {
     @ResponseBody
     @RequestMapping("/chart")
     public List<CharLog> chart(String userId) throws Exception {
-        return getChartUrl("http://119.28.9.213:8089/api/chats/getChatUsers", userId);
+        return getChartUrl(DOMAIN+"/api/chats/getChatUsers", userId);
     }
 
     private List<CharLog> getChartUrl(String url, String uId) throws Exception {
@@ -116,7 +126,7 @@ public class CatController {
         NameValuePair nameValuePair6 = new BasicNameValuePair("_sdk_version", "2");
         NameValuePair nameValuePair7 = new BasicNameValuePair("_app_version", "1.0.2");
         try {
-            String result = Request.Post("http://119.28.9.213:8089/api/chats/listOneChats")
+            String result = Request.Post(DOMAIN+"/api/chats/listOneChats")
                     .bodyForm(nameValuePair, nameValuePair2, nameValuePair3, nameValuePair4,
                             nameValuePair5, nameValuePair6, nameValuePair7)
                     .execute().returnContent().asString();
@@ -152,7 +162,7 @@ public class CatController {
         NameValuePair nameValuePair6 = new BasicNameValuePair("_sdk_version", "2");
         NameValuePair nameValuePair7 = new BasicNameValuePair("_app_version", "1.0.2");
         try {
-            String result = Request.Post("http://119.28.59.47:8089/api/community/attentionUser")
+            String result = Request.Post(DOMAIN+"/api/community/attentionUser")
                     .bodyForm(nameValuePair, nameValuePair2, nameValuePair3, nameValuePair4,
                             nameValuePair5, nameValuePair6, nameValuePair7)
                     .execute().returnContent().asString();
@@ -184,7 +194,7 @@ public class CatController {
         NameValuePair nameValuePair6 = new BasicNameValuePair("_sdk_version", "2");
         NameValuePair nameValuePair7 = new BasicNameValuePair("_app_version", "1.0.2");
         try {
-            String result = Request.Post("http://119.28.59.47:8089/api/community/listArticles")
+            String result = Request.Post(DOMAIN+"/api/community/listArticles")
                     .bodyForm(nameValuePair, nameValuePair2, nameValuePair3, nameValuePair4,
                             nameValuePair5, nameValuePair6, nameValuePair7)
                     .execute().returnContent().asString();
