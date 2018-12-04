@@ -1,4 +1,4 @@
-package com.ggj.webmagic.cat.util;
+package com.ggj.java.qiniu.speciall;
 
 import java.io.Closeable;
 import java.io.IOException;
