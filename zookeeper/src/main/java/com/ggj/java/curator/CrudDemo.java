@@ -54,7 +54,8 @@ public class CrudDemo {
 
     /**
      * withMode(CreateMode.EPHEMERAL) 可以设置节点的类型
-     *如果主节点是临时的话，就不能构建其子节点 NoChildrenForEphemeralsException
+     * 如果主节点是临时的话，就不能构建其子节点 NoChildrenForEphemeralsException
+     * 临时节点在会话结束30s会删除
      * @param client
      */
     private static void crud(CuratorFramework client) {

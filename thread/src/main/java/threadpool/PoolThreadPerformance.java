@@ -40,6 +40,7 @@ public class PoolThreadPerformance {
                 pool.execute(getThread(i + ""));
             }
             pool.shutdown();
+            pool.shutdownNow();
             try {
                 pool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
             } catch (InterruptedException e) {

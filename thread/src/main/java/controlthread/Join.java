@@ -5,7 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * author:gaoguangjin Description:jion 会让线程的执行按照一定顺序，jion的位置很重要，jion（）方法下面的代码总是会等这个线程执行完之后再执行
- * thread.join()应该是让当前线程block住，等thread执行完之后，再继续执行 join是利用wait的特性,当线程执行结束自动唤醒 Email:335424093@qq.com
+ * thread.join()应该是让当前线程block住，等thread执行完之后，再继续执行 join是利用wait的特性,当线程执行结束自动唤醒
+ * Email:335424093@qq.com
  * Date 2016/1/6 16:21 https://www.cnblogs.com/xudilei/p/6867045.html
  */
 @Slf4j
@@ -22,7 +23,7 @@ public class Join {
      * {@code this.isAlive}. As a thread terminates the {@code this.notifyAll} method is invoked. It
      * is recommended that applications not use {@code wait}, {@code notify}, or {@code notifyAll}
      * on {@code Thread} instances.
-     * 
+     *
      * @throws InterruptedException
      */
     public void userJion() throws InterruptedException {
@@ -37,7 +38,8 @@ public class Join {
          * 程序在main线程中调用t1线程的join方法，则main线程放弃cpu控制权，并返回t1线程继续执行直到线程t1执行完毕 所以结果
          */
         // join会让主线程被堵塞，直到子线程执行完。
-        thread1.join();
+        thread1.join();//当thread1执行完后，会主动调用thread1.notify()
+
         thread2.start();
         thread2.join();
 

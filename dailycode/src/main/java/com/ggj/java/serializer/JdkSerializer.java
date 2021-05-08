@@ -9,7 +9,7 @@ import java.io.*;
 
 /**
  * java序列化
- * 
+ *
  * @author:gaoguangjin
  * @date:2018/4/21
  */
@@ -19,8 +19,28 @@ public class JdkSerializer {
     private final static File file = new File(PATH);
 
     public static void main(String[] args) {
-        serialize();
-        deserialize();
+       /* serialize();
+        deserialize();*/
+
+        byteArrayObject();
+    }
+
+    private static void byteArrayObject() {
+        SerializerBean serializerBean = new SerializerBean();
+        serializerBean.setName("高广金");
+        serializerBean.setAge(18);
+
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream= null;
+        try {
+            objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(serializerBean);
+            System.out.println(new String(byteArrayOutputStream.toByteArray()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private static void serialize() {

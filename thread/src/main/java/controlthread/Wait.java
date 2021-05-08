@@ -3,6 +3,7 @@ package controlthread;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.stream.IntStream;
 
 /**
  * author:gaoguangjin
@@ -35,7 +36,7 @@ public class Wait {
         Thread thead = new Thread() {
             @Override
             public void run() {
-
+                IntStream.range(1,100).forEach(s-> System.out.println("s"));
             }
         };
         Thread theadTwo = new Thread() {
@@ -45,14 +46,34 @@ public class Wait {
             }
         };
         theadTwo.start();
+        //注释这行就可以看到效果了，当thead执行结束会调用，会调用this.notifyAll()方法
         thead.start();
 
     }
 
     private void waitZero(Thread thead) {
         try {
+
+            //错误的用法，因为synchronized代码块获取到到是对象锁，
+            //所以也必须要是对象锁.wait()
+            /*synchronized (this) {
+                System.out.println("wait以前");
+
+                // 不会被自动唤醒，因为thead1执行结束后，只会调用thread1.notify(),
+                //因为目前调用的是theadTwo,获取到到是this的对象锁
+                wait(0);
+                //thead.wait(0);//直接报错，因为获取到到对象是this,但是wait的确实thread
+                System.out.println("wait执行结束");
+            }*/
+
+            //获取到到是thead对象锁
             synchronized (thead) {
+                log.info(Thread.currentThread().getName()+"线程 wait");
+                System.out.println("wait以前");
+                //因为目前调用的是theadTwo,获取到到是thread的对象锁
+                //当因为thead执行结束后，只会调用thread.notifyAll(),
                 thead.wait(0);
+                System.out.println("wait执行结束");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

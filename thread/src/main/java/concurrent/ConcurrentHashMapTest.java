@@ -46,6 +46,8 @@ public class ConcurrentHashMapTest {
 
     private static void demo1() {
         Map<String, String> cmap = new ConcurrentHashMap<String, String>();
+        cmap.put("","");
         HashMap<String, String> map = new HashMap<String, String>();
+        map.put("","");
     }
 }

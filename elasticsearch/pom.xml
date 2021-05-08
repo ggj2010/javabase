@@ -16,6 +16,11 @@
              <groupId>org.elasticsearch</groupId>
              <artifactId>elasticsearch</artifactId>
          </dependency>
+         <dependency>
+             <groupId>com.alibaba</groupId>
+             <artifactId>easyexcel</artifactId>
+             <version>2.2.3</version>
+         </dependency>
 
          <dependency>
              <groupId>org.projectlombok</groupId>

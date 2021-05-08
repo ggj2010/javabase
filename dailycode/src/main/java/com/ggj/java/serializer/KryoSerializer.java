@@ -16,7 +16,10 @@ import java.io.FileOutputStream;
  */
 @Slf4j
 public class KryoSerializer {
+
+
     public static void main(String[] args) throws Exception {
+        //非线程安全的
         Kryo kryo = new Kryo();
         SerializerBean serializerBean = new SerializerBean();
         serializerBean.setName("高广金");

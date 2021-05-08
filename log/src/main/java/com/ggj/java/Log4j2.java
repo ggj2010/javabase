@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
  <artifactId>log4j-core</artifactId>
  <version>2.5</version>
  </dependency>
+ https://logging.apache.org/log4j/2.x/manual/configuration.html
+ http://logging.apache.org/log4j/2.x/performance.html
  * @author:gaoguangjin
  * @date:2018/5/25
  */
@@ -27,6 +29,8 @@ public class Log4j2 {
         log.debug("b");
         log.info("c");
         log.error("e");
+
+        System.out.println("args = [" + args + "]");
     }
 
 

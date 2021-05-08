@@ -56,7 +56,7 @@ public class OldHttpClientApi {
 
 
 
-    public void  get() throws UnsupportedEncodingException {
+    public void   get() throws UnsupportedEncodingException {
         HttpClient client = new HttpClient();
         String APIKEY = "4b441cb500f431adc6cc0cb650b4a5d0";
         String INFO =new URLCodec().encode("who are you","utf-8");

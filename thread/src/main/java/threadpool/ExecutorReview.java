@@ -23,11 +23,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ExecutorReview {
-	
+
 	public static void main(String[] args) throws InterruptedException {
 		MyThreadPoolExecutor();
 	}
-	
+
 	private static void MyThreadPoolExecutor() throws InterruptedException {
 		ThreadPoolExecutor defaultThreadPool = new ThreadPoolExecutor(256, 256, 0L, TimeUnit.MILLISECONDS,
 				new SynchronousQueue<Runnable>(), new NamedThreadFactory("async", true));
@@ -38,10 +38,10 @@ public class ExecutorReview {
 			Thread.sleep(1000);
 		}
 	}
-	
+
 	public static Runnable getThread() {
 		return new Thread() {
-			
+
 			@Override
 			public void run() {
 				while(true) {
@@ -55,26 +55,26 @@ public class ExecutorReview {
 			}
 		};
 	}
-	
-	private static class NamedThreadFactory implements ThreadFactory {
-		
+
+	public static class NamedThreadFactory implements ThreadFactory {
+
 		private static final AtomicInteger poolNumber = new AtomicInteger(1);
-		
+
 		private final ThreadGroup group;
-		
+
 		private final AtomicInteger threadNumber = new AtomicInteger(1);
-		
+
 		private final String namePrefix;
-		
+
 		private boolean mDaemo = false;
-		
-		NamedThreadFactory(String name, boolean mDaemo) {
+
+		public NamedThreadFactory(String name, boolean mDaemo) {
 			SecurityManager s = System.getSecurityManager();
 			group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
 			namePrefix = name + "pool-" + poolNumber.getAndIncrement() + "-thread-";
 			this.mDaemo = mDaemo;
 		}
-		
+
 		public Thread newThread(Runnable r) {
 			Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
 			t.setDaemon(mDaemo);

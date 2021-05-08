@@ -56,7 +56,7 @@ public class CrudDemo {
         try {
             Map<String, String> map = new HashMap();
             // 基础名称
-            map.put("cluster.name", "my-application-A");
+            map.put("cluster.name", "my-application");
             Settings.Builder settings = Settings.builder().put(map);
             client = TransportClient.builder().settings(settings).build()
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
@@ -350,6 +350,11 @@ public class CrudDemo {
      * }
      * }
      * }'
+     *
+     * ik_max_word: 会将文本做最细粒度的拆分，比如会将“中华人民共和国国歌”拆分为“中华人民共和国,中华人民,中华,华人,人民共和国,人民,人,民,共和国,共和,和,国国,国歌”，会穷尽各种可能的组合，适合 Term Query；
+     *
+     * ik_smart: 会做最粗粒度的拆分，比如会将“中华人民共和国国歌”拆分为“中华人民共和国,国歌”，适合 Phrase 查询。
+     *
      *
      * @param typeName
      * @return

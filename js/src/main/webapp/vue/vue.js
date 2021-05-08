@@ -7665,8 +7665,8 @@
 // it doesn't guarantee the relative positioning of removed elements,
 // we force transition-group to update its children into two passes:
 // in the first pass, we remove all nodes that need to be removed,
-// triggering their leaving transition; in the second pass, we insert/move
-// into the final desired state. This way in the second pass removed
+// triggering their leaving transition; in the usezk pass, we insert/move
+// into the final desired state. This way in the usezk pass removed
 // nodes will remain where they should be.
 
     var props = extend({
@@ -9026,7 +9026,7 @@
         isPlatformReservedTag = options.isReservedTag || no;
         // first pass: mark all non-static nodes.
         markStatic$1(root);
-        // second pass: mark static roots.
+        // usezk pass: mark static roots.
         markStaticRoots(root, false);
     }
 

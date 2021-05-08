@@ -1,7 +1,9 @@
 package com.ggj.java.spring.overrideparam;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,11 +15,12 @@ import org.springframework.stereotype.Component;
  * Date 2016/2/19 10:15
  */
 @Component
-public class MyBeanPostProcessor implements BeanPostProcessor {
+public class MyBeanPostProcessor implements BeanFactoryPostProcessor,BeanPostProcessor {
 
 
 //   在任何初始化代码（比如配置文件中的init-method）调用之前调用
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        System.out.println("bean = [" + bean + "], beanName = [" + beanName + "]");
         if(bean instanceof Person)
         System.out.println("BeanPostProcessor接口方法postProcessBeforeInitialization对属性进行更改！");
         return bean;
@@ -37,4 +40,8 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
     }
 
 
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        System.out.println("beanFactory");
+    }
 }

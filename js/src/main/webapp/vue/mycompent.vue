@@ -9,3 +9,11 @@
     </ol>
 </div>
 </template>
+
+<script>
+    export default {
+        components: {
+            myFirstTemplate
+        },
+    }
+</script>

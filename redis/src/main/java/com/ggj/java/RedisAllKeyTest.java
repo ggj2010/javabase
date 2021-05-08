@@ -3,7 +3,9 @@ package com.ggj.java;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,23 +18,26 @@ import java.util.Set;
 public class RedisAllKeyTest {
 
     static Jedis jedis;
-   static  {
-        jedis = new Jedis("123.56.118.135", 6379);
-       jedis.auth("gaoguangjin");
-    }
-    public static void main(String[] args) {
-        RedisAllKeyTest redisAllKeyTest=new RedisAllKeyTest();
-       // redisAllKeyTest. persistence();
 
-        log.info(jedis.sismember("dd","cc")+"");
+    static {
+        jedis = new Jedis("localhost", 6379);
+        //jedis.auth("gaoguangjin");
+    }
+
+    public static void main(String[] args) {
+        RedisAllKeyTest redisAllKeyTest = new RedisAllKeyTest();
+        // redisAllKeyTest. persistence();
+
+        log.info(jedis.sismember("dd", "cc") + "");
         log.info(jedis.get("dd"));
+        jedis.close();
     }
 
     // quit：关闭连接（connection）
     // auth：简单密码认证
     // help cmd： 查看cmd帮助，例如：help quit
     //连接操作命令
-    public void connectCommand(){
+    public void connectCommand() {
         jedis.quit();
         jedis.auth("gaoguangjin");
     }
@@ -43,12 +48,12 @@ public class RedisAllKeyTest {
     // lastsave：返回上次成功将数据保存到磁盘的Unix时戳
     // shundown：将数据同步保存到磁盘，然后关闭服务
 
-    public void persistence(){
+    public void persistence() {
 //        jedis.save();
 //        jedis.bgsave();
 //        jedis.shutdown();
         Long time = jedis.lastsave();
-        log.info("time="+time);
+        log.info("time=" + time);
     }
 
     // 4）对value操作的命令
@@ -66,11 +71,11 @@ public class RedisAllKeyTest {
     // flushdb：删除当前选择数据库中的所有key
     // flushall：删除所有数据库中的所有key
     //
-    public void dealValue(){
-        String key="gao";
-        String newKey="gaogao";
-        String expirewKey="gaogao";
-        boolean isExists=jedis.exists(key);
+    public void dealValue() {
+        String key = "gao";
+        String newKey = "gaogao";
+        String expirewKey = "gaogao";
+        boolean isExists = jedis.exists(key);
         //1为删除成功 0为删除失败证明没有这个key 了
         Long number = jedis.del(key);
         //返回值的类型
@@ -79,24 +84,24 @@ public class RedisAllKeyTest {
         //返回满足给定pattern的所有key,可以用来查询key
         Set<String> keysSet = jedis.keys("*");
         //随机返回key空间的一个
-        String randomKey=jedis.randomKey();
+        String randomKey = jedis.randomKey();
         //重命名key
-        jedis.rename(key,newKey);
+        jedis.rename(key, newKey);
 
         //返回当前数据库中key的数目
-        long keySize=jedis.dbSize();
+        long keySize = jedis.dbSize();
 
 
-       //设定一个key的活动时间（s）
-        jedis.set(expirewKey,"expireexpire");
-        jedis.expire(expirewKey,100);
+        //设定一个key的活动时间（s）
+        jedis.set(expirewKey, "expireexpire");
+        jedis.expire(expirewKey, 100);
         //获得一个key的剩余活动时间
-        long expireTime=jedis.ttl(expirewKey);
+        long expireTime = jedis.ttl(expirewKey);
 
         //切换不同的库,切换当前操作命令对应的库 默认是0库
         jedis.select(1);
         //移动当前数据库中的key到dbindex数据库
-        jedis.move(key,1);
+        jedis.move(key, 1);
 
         //清空当前库 与清空所有库
         jedis.flushDB();
@@ -118,32 +123,32 @@ public class RedisAllKeyTest {
     // decrby(key, integer)：名称为key的string减少integer
     // append(key, value)：名称为key的string的值附加value
     // substr(key, start, end)：返回名称为key的string的value的子串
-    public void stringKey(){
-        String key="stringKey";
-        String key2="stringKey2";
-        jedis.mset(key,"value1",key2,"value3");
+    public void stringKey() {
+        String key = "stringKey";
+        String key2 = "stringKey2";
+        jedis.mset(key, "value1", key2, "value3");
 
         //返回的是修改前的值,先get  然后再set
-        String oldValue=jedis.getSet(key,"value3");
+        String oldValue = jedis.getSet(key, "value3");
 
         List<String> String = jedis.mget(key, key2);
         //Redis实现分布式锁，SETNX命令（SET if Not eXists）,如果不存在，才赋值。实现分布式锁的时候 最好加个 expire
-         jedis.setnx(key,"SET if Not eXists");
+        jedis.setnx(key, "SET if Not eXists");
 
         //设置key的值 同事设置expire时间，作用等于jedis.set(key,value) jedis.expire(key);
-        jedis.setex(key,10,"gaogao");
+        jedis.setex(key, 10, "gaogao");
         //value 自动递增
         jedis.incr("incrkey");
         //按照指定的递增因子递增
-        jedis.incrBy("incrkey",2);
+        jedis.incrBy("incrkey", 2);
         //递减
         jedis.decr("dekey");
-        jedis.decrBy("dekey",2);
+        jedis.decrBy("dekey", 2);
 
         //追加
-        jedis.append(key,"在原来基础上追加");
+        jedis.append(key, "在原来基础上追加");
         //切割字符串
-        jedis.substr(key,0,-1);
+        jedis.substr(key, 0, -1);
     }
 
     // 6）List
@@ -163,33 +168,33 @@ public class RedisAllKeyTest {
     // rpoplpush(srckey, dstkey)：返回并删除名称为srckey的list的尾元素，
     // 　　　　　　　　　　　　　　并将该元素添加到名称为dstkey的list的头部
 
-    public void list(){
-        String key="list";
+    public void list() {
+        String key = "list";
         //在list 头添加元素
-        jedis.lpush(key,"1","2","3","4");
+        jedis.lpush(key, "1", "2", "3", "4");
         //在list 尾部添加元素
-        jedis.rpush(key,"0");
+        jedis.rpush(key, "0");
         //返回list长度
         jedis.llen(key);
         //返回list  从头部到尾部
-        jedis.lrange(key,0,-1);
+        jedis.lrange(key, 0, -1);
         //将list 截取下
-        jedis.ltrim(key,0,2);
+        jedis.ltrim(key, 0, 2);
         //返回指定index的值
-        jedis.lindex(key,0);
+        jedis.lindex(key, 0);
 
         //给指定的index的重新赋值  这个可以常用
-        jedis.lset(key,0,"4");
+        jedis.lset(key, 0, "4");
 
         //删除count个key的list中值为value的元素,删除list里面值2个值为0
-        jedis.lrem(key,2,"0");
+        jedis.lrem(key, 2, "0");
 
         jedis.llen(key);
 
         //返回并删除名称为key的list中的首元素
-        String topValue=jedis.lpop(key);
+        String topValue = jedis.lpop(key);
         //返回并删除名称为key的list中的尾元素
-        String endCalue=jedis.rpop(key);
+        String endCalue = jedis.rpop(key);
 
     }
 
@@ -208,33 +213,90 @@ public class RedisAllKeyTest {
     // sdiffstore(dstkey, (keys)) ：求差集并将差集保存到dstkey的集合
     // smembers(key) ：返回名称为key的set的所有元素
     // srandmember(key) ：随机返回名称为key的set的一个元素
-    public void set(){
-        String key="setKey";
-        String key2="setKey2";
+    public void set() {
+        String key = "setKey";
+        String key2 = "setKey2";
 
         /*比较常用的两个 sadd srem smembers*/
         //向名称为key的set中添加元素value1,value2
-        jedis.sadd(key,"value1","value2");
+        jedis.sadd(key, "value1", "value2");
         //删除名称为key的set中的元素member
-        jedis.srem(key,"value1");
+        jedis.srem(key, "value1");
         //返回名称为key的set的所有元素
-        Set<String> set=jedis.smembers(key);
-        
-       boolean flag=jedis.sismember(key,"value2");
+        Set<String> set = jedis.smembers(key);
+
+        boolean flag = jedis.sismember(key, "value2");
 
         /*随机返回指定set的中的一个值，一个进行删除 一个不进行删除*/
         //随机返回并删除名称为key的set中一个元素
         String randomDelValue = jedis.spop(key);
         //随机返回名称为key的set的一个元素
-        String randomValue =jedis.srandmember(key);
+        String randomValue = jedis.srandmember(key);
 
         /**这个方法比较好，就是将seta 里面的某个值 转移到setb.  如果seta 里面有这个值 就会删除seta 里面这个值，如果setb里面没有这个值，就会新增一个值，如果有就不会发生变动**/
-        jedis.smove(key,key2,"value1");
+        jedis.smove(key, key2, "value1");
 
         //求并集
         Set<String> sets = jedis.sunion(key, key2);
         //交集
-        Set<String> setss=jedis.sinter(key,key2);
+        Set<String> setss = jedis.sinter(key, key2);
     }
+
+    //8、map
+//    7、对Hash操作的命令
+//    hset(key, field, value)：向名称为key的hash中添加元素field<—>value
+//    hget(key, field)：返回名称为key的hash中field对应的value
+//    hmget(key, field1, …,field N)：返回名称为key的hash中field i对应的value
+//    hmset(key, field1, value1,…,field N, value N)：向名称为key的hash中添加元素field i<—>value i
+//    hincrby(key, field, integer)：将名称为key的hash中field的value增加integer
+//    hexists(key, field)：名称为key的hash中是否存在键为field的域
+//    hdel(key, field)：删除名称为key的hash中键为field的域
+//    hlen(key)：返回名称为key的hash中元素个数
+//    hkeys(key)：返回名称为key的hash中所有键
+//    hvals(key)：返回名称为key的hash中所有键对应的value
+//    hgetall(key)：返回名称为key的hash中所有的键（field）及其对应的value
+
+    public void mapTest() {
+        String keyName = "maptest";
+        jedis.hset(keyName, "name", "gao");
+        Map<String, String> map = new HashMap<>();
+        map.put("age", "20");
+        jedis.hmset(keyName, map);
+        Map<String, String> cacheMap = jedis.hgetAll(keyName);
+    }
+
+
+    //sorted set
+
+    //    6、对zset（sorted set）操作的命令
+//    zadd(key, score, member)：向名称为key的zset中添加元素member，score用于排序。如果该元素已经存在，则根据score更新该元素的顺序。
+//    zrem(key, member) ：删除名称为key的zset中的元素member
+//    zincrby(key, increment, member) ：如果在名称为key的zset中已经存在元素member，则该元素的score增加increment；
+//    否则向集合中添加该元素，其score的值为increment
+//    zrank(key, member) ：返回名称为key的zset（元素已按score从小到大排序）中member元素的rank（即index，从0开始），
+//    若没有member元素，返回“nil”
+//    zrevrank(key, member) ：返回名称为key的zset（元素已按score从大到小排序）中member元素的rank（即index，从0开始），
+//    若没有member元素，返回“nil”
+//    zrange(key, start, end)：返回名称为key的zset（元素已按score从小到大排序）中的index从start到end的所有元素
+//    zrevrange(key, start, end)：返回名称为key的zset（元素已按score从大到小排序）中的index从start到end的所有元素
+//    zrangebyscore(key, min, max)：返回名称为key的zset中score >= min且score <= max的所有元素
+//    zcard(key)：返回名称为key的zset的基数 zscore(key, element)：返回名称为key的zset中元素element的
+//    score zremrangebyrank(key, min, max)：删除名称为key的zset中rank >= min且rank <= max的所有元素
+//    zremrangebyscore(key, min, max) ：删除名称为key的zset中score >= min且score <= max的所有元素
+//    zunionstore / zinterstore(dstkeyN, key1,…,keyN, WEIGHTS w1,…wN, AGGREGATE SUM|MIN|MAX)：对N个zset求并集和交集，
+//    并将最后的集合保存在dstkeyN中。对于集合中每一个元素的score，在进行AGGREGATE运算前，都要乘以对于的WEIGHT参数。
+//    如果没有提供WEIGHT，默认为1。默认的AGGREGATE是SUM，即结果集合中元素的score是所有集合对应元素进行SUM运算的值，而MIN和MAX是指，
+//    结果集合中元素的score是所有集合对应元素中最小值和最大值。
+    public void score() {
+        String keyName = "scoreTest";
+        jedis.zadd(keyName,4,"语文");
+        jedis.zadd(keyName,2,"数学");
+        jedis.zadd(keyName,8,"英语");
+        jedis.zrange(keyName,0,-1);
+        jedis.zrevrange(keyName,0,-1);
+        jedis.zrangeByScore(keyName,0,1);
+
+    }
+
 
 }

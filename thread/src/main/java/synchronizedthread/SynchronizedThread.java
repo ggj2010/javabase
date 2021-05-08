@@ -2,6 +2,13 @@ package synchronizedthread;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 /**
  * synchronized 关键字，它包括两种用法：synchronized 方法和 synchronized 块。
  * <p>
@@ -16,18 +23,107 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class SynchronizedThread {
+    private List<String> lockListOne = new ArrayList<>();
+    private List<String> lockListTwo = new ArrayList<>();
+
     public static void main(String[] args) {
         SynchronizedThread st = new SynchronizedThread();
         SynchronizedThread st2 = new SynchronizedThread();
-//        lockMethodTest(st);
+        lockMethodTest(st);
         //类的两个不同实例
 //        lockMethodWithDifferentClassTest(st,st2);
-
+        //减少锁的持有时间
 //        lockObjectTest(st,null);
         //类的两个不同实例
-        lockObjectWithDifferentClassTest(st, st2);
+//        lockObjectWithDifferentClassTest(st, st2);
+        //static是对当前类加锁的
 //        lockStaticMethodTest(st,st2);
+
+        //降低锁的粒度
+//        reduceLockScope(st);
     }
+
+    /**
+     * 2019-09-05 17:14:44.405 [main] INFO  synchronizedthread.SynchronizedThread 64 reduceLockScope- cost time,2536
+     * 2019-09-05 17:15:23.280 [main] INFO  synchronizedthread.SynchronizedThread 74 reduceLockScope- cost time,1248
+     * @param st
+     */
+    private static void reduceLockScope(SynchronizedThread st) {
+        long beginTime=System.currentTimeMillis();
+        ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(10);
+        threadPoolExecutor.execute(new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 1000; i++) {
+                    st.addListOne("1");
+
+                    // 注释打开对比
+//                    st.reduceLockScopeOne("1");
+                }
+            }
+        });
+
+        threadPoolExecutor.execute(new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 1000; i++) {
+                    st.addListOne("1");
+                    // 注释打开对比
+//                    st.reduceLockScopeOne("1");
+                }
+            }
+        });
+
+        try {
+            //如果不调用shutdown直接调用awaitTermination 会造成死锁
+            threadPoolExecutor.shutdown();
+            threadPoolExecutor.awaitTermination(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            log.error("",e);
+        }
+        log.info("cost time,{}",(System.currentTimeMillis()-beginTime));
+    }
+
+    private synchronized void addListOne(String code) {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        lockListOne.add(code);
+    }
+
+    private synchronized void addListTwo(String code) {
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        lockListOne.add(code);
+    }
+
+    private  void reduceLockScopeOne(String code) {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        synchronized (lockListOne) {
+            lockListOne.add(code);
+        }
+    }
+
+    private  void reduceLockScopeTwo(String code) {
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        synchronized (lockListTwo) {
+            lockListOne.add(code);
+        }
+    }
+
 
     /**
      * 2017-02-28 09:55:00.617 [Thread-2] INFO  synchronizedthread.SynchronizedThread 117 lockObject- out name:B
@@ -79,6 +175,53 @@ public class SynchronizedThread {
 
     }
 
+    /**
+     * 2019-09-05 14:45:51.369 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.369 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.372 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.372 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.372 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.372 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.372 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.372 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.373 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.373 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.373 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.373 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.373 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.373 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.373 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.373 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.373 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.373 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:A
+     * 2019-09-05 14:45:51.374 [Thread-1] INFO  synchronizedthread.SynchronizedThread 133 lockObject- name:B
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 135 lockObject- synchronized void lockObject:A
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.374 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.375 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.375 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.375 [Thread-0] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:A
+     * 2019-09-05 14:45:51.375 [Thread-1] INFO  synchronizedthread.SynchronizedThread 135 lockObject- synchronized void lockObject:B
+     * 2019-09-05 14:45:51.375 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.375 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.375 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.375 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.375 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.376 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.376 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.376 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.376 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     * 2019-09-05 14:45:51.376 [Thread-1] INFO  synchronizedthread.SynchronizedThread 136 lockObject- out name:B
+     *
+     * @param st
+     * @param st2
+     */
     private static void lockObjectTest(SynchronizedThread st, SynchronizedThread st2) {
         new Thread() {
             public void run() {

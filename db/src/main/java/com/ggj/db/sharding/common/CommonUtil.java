@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class CommonUtil {
-	
+
 	public static void crud(ShardingDataSource shardingDataSource) throws SQLException{
         delete(shardingDataSource);
         //增删查改
@@ -35,7 +35,7 @@ public class CommonUtil {
 //        //暗示(Hint)的分片键值
         selectWithHint(shardingDataSource);
     }
-	
+
 	public static void display(ResultSet resultSet) throws SQLException {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(resultSet.getInt(1) + ":");
@@ -43,7 +43,7 @@ public class CommonUtil {
 		stringBuilder.append(resultSet.getString(3));
 		log.info("查询结果集：{}", stringBuilder.toString());
 	}
-	
+
 	/**
 	 * 如果WHERE中没有user_id和order_id的条件，那么是否可以进行分片计算呢？
 	 * 可以使用dangdang自带的hitmanager暗示
@@ -71,7 +71,7 @@ public class CommonUtil {
 			}
 		}
 	}
-	
+
 	/**
 	 * 在编写分片算法的时候，传入的分片键值是来自SQL语句中WHERE条件的。
 	 * 例如逻辑表t_order如果其数据源分片键为user_id， 分片算法是奇数值路由到db1偶数值路由到db2；
@@ -111,7 +111,7 @@ public class CommonUtil {
 			log.info("删除{}", number);
 		}
 	}
-	
+
 	/**
 	 * 插入
 	 * 因为order_id和user_id都是1，根据分库分表规则 1%2
@@ -145,7 +145,7 @@ public class CommonUtil {
 				conn.close();*/
 		}
 	}
-	
+
 	public static ShardingDataSource getShardingDataSource(DataSourceRule dataSourceRule) {
 		// 表规则可以指定每张表在数据源中的分布情况
 		TableRule orderTableRule = TableRule.builder("t_order").actualTables(Arrays.asList("t_order_0", "t_order_1"))
@@ -170,9 +170,9 @@ public class CommonUtil {
 	public static DataSource createDataSource(final String dataSourceName) {
 		DruidDataSource dataSource = new DruidDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl(String.format("jdbc:mysql://123.56.118.135:3306/%s", dataSourceName));
-		dataSource.setUsername("mobile");
-		dataSource.setPassword("mobile");
+		dataSource.setUrl(String.format("jdbc:mysql://127.0.0.1:6657/%s", dataSourceName));
+		dataSource.setUsername("root");
+		dataSource.setPassword("kIo9u7Oi0eg");
 		return dataSource;
 	}
 }

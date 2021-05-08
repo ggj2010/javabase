@@ -13,6 +13,12 @@ public class SymmetricLockDeadlockDemo {
         thread1.start();
         Thread thread2 = new Thread(new ConcurrencyCheckTask2());
         thread2.start();
+
+
+        while (true){
+            System.out.println(thread1.getState());
+            System.out.println(thread2.getState());
+        }
     }
 
     private static class ConcurrencyCheckTask1 implements Runnable {

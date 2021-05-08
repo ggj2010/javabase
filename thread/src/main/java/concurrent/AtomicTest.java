@@ -23,6 +23,12 @@ public class AtomicTest {
         AtomicTest atomicTest = new AtomicTest();
 
         AtomicInteger atomicInteger = new AtomicInteger();
+        atomicInteger.set(10);
+
+        atomicInteger.getAndIncrement();
+
+
+
         AtomicLong atomicLong = new AtomicLong();
         AtomicBoolean atomicBoolean = new AtomicBoolean();
 

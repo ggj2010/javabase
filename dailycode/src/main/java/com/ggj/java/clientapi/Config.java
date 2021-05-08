@@ -4,6 +4,7 @@ package com.ggj.java.clientapi;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 假如有这样一个业务场景，从数据库里面查询某个key的值，并将查询到的值缓存到本地。
@@ -18,6 +19,8 @@ public class Config {
     private ConcurrentMap<String, ConfigValue> cacheConfigValue = new ConcurrentHashMap<String, ConfigValue>();
     private Object object = new Object();
 
+    private ReentrantLock lock = new ReentrantLock();
+
     public static void main(String[] args) throws InterruptedException {
         long beginTime = System.currentTimeMillis();
         int maxThreadSize = 10;
@@ -27,8 +30,10 @@ public class Config {
             executors.execute(new Runnable() {
                 @Override
                 public void run() {
-                    config.get("test", "");
-//                    config.get2("test", "");
+//                    log.info("get:{}", config.get("test", ""));
+//                    config.getWithLock("test", "");
+//                    config.getWithLockTwo("test", "");
+                    config.getWithLockThree("test", "");
                 }
             });
         }
@@ -40,6 +45,7 @@ public class Config {
 
     /**
      * 18:37:30.128 [main] INFO  com.ggj.java.clientapi.Config - 耗时，16ms
+     *
      * @param key
      * @param defaultValue
      * @return
@@ -48,6 +54,7 @@ public class Config {
         ConfigValue configValue = readCache(key);
         if (configValue == null) {
             ConfigFuture existingFuture = null;
+            //无锁版本1
             ConfigFuture future = new ConfigFuture(key);
             existingFuture = configFutures.putIfAbsent(key, future);
             if (existingFuture != null) {
@@ -69,17 +76,37 @@ public class Config {
                     configFutures.remove(key);
                 }
             }
+
+
+            //无锁版本2 多次穿透数据库,多线程可能会生成多个，new ConfigFuture
+            /*ConfigFuture future2 = configFutures.get(key);
+            if(future2==null){
+                future2 = configFutures.get(key);
+                if(future2==null){
+                    log.info("future2 is null");
+                    configFutures.put(key, new ConfigFuture(key));
+                    configValue = get(key);
+                    writeCache(key, configValue);
+                }
+                //dd
+            }else{
+                try {
+                    configValue = future2.get();
+                } catch (Exception e) {
+               }
+            }*/
         }
         return configValue.getValue() == null ? defaultValue : configValue.getValue();
     }
 
     /**
      * 18:36:44.685 [main] INFO  com.ggj.java.clientapi.Config - 耗时，8ms
+     *
      * @param key
      * @param defaultValue
      * @return
      */
-    protected String get2(String key, String defaultValue) {
+    protected String getWithLock(String key, String defaultValue) {
         ConfigValue configValue = readCache(key);
         if (configValue == null) {
             synchronized (object) {
@@ -88,6 +115,58 @@ public class Config {
                     configValue = get(key);
                     writeCache(key, configValue);
                 }
+            }
+        }
+        return configValue.getValue() == null ? defaultValue : configValue.getValue();
+    }
+
+    /**
+     * 19:19:41.451 [main] INFO  com.ggj.java.clientapi.Config - 耗时，10ms
+     *
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    protected String getWithLockTwo(String key, String defaultValue) {
+        ConfigValue configValue = readCache(key);
+        if (configValue == null) {
+            try {
+                if (lock.tryLock(100, TimeUnit.SECONDS)) {
+                    configValue = readCache(key);
+                    if (configValue == null) {
+                        configValue = get(key);
+                        writeCache(key, configValue);
+                    }
+                }
+            } catch (Exception e) {
+                //
+            } finally {
+                lock.unlock();
+            }
+        }
+        return configValue.getValue() == null ? defaultValue : configValue.getValue();
+    }
+
+    /**
+     * 19:20:30.630 [main] INFO  com.ggj.java.clientapi.Config - 耗时，8ms
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    protected String getWithLockThree(String key, String defaultValue) {
+        ConfigValue configValue = readCache(key);
+        if (configValue == null) {
+            try {
+                lock.lock();
+                configValue = readCache(key);
+                if (configValue == null) {
+                    configValue = get(key);
+                    writeCache(key, configValue);
+                }
+            } catch (Exception e) {
+                //
+            } finally {
+                lock.unlock();
             }
         }
         return configValue.getValue() == null ? defaultValue : configValue.getValue();

@@ -28,7 +28,7 @@
             </exclusions>
         </dependency>
         <!--9.0以后版本建议用这个-->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <exclusions>
@@ -38,6 +38,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
+-->
+
 
         <dependency>
             <groupId>org.apache.avro</groupId>

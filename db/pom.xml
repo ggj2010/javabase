@@ -90,5 +90,11 @@
             <artifactId>scala-library</artifactId>
             <version>2.11.7</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc-core</artifactId>
+            <version>${latest.release.version}</version>
+        </dependency>
     </dependencies>
 </project>

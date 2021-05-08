@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class AtomicBooleanTest {
     private static AtomicBoolean flag = new AtomicBoolean();
+    //只能保证 可见性与有序性 不能保证原子性
     private static volatile boolean  notSafeflag ;
 
     public static void main(String[] args) {
@@ -44,22 +45,27 @@ public class AtomicBooleanTest {
             }
         };
     }
-    public static Thread getNotSafeThread() {
+    public static  Thread getNotSafeThread() {
         return new Thread() {
             @Override
             public void run() {
-                if (!notSafeflag) {
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    notSafeflag=true;
-                    System.out.println("do notSafeflag job");
-                }else{
-                    System.out.println("not do job");
-                }
+                dogetNotSafeThread();
             }
         };
+    }
+
+    private static  void dogetNotSafeThread() {
+        if (!notSafeflag) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("before do notSafeflag job");
+            notSafeflag=true;
+            System.out.println("after do notSafeflag job");
+        }else{
+            System.out.println("not do job");
+        }
     }
 }

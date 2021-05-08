@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
  * Email:335424093@qq.com
  * Date 2016/2/19 9:47
  */
-@Configuration
+//@Configuration
 public class MyBeanConfig {
 
     @Bean(initMethod = "myInit", destroyMethod = "myDestory")

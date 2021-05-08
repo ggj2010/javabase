@@ -37,13 +37,13 @@ public class CuratorListener {
     public static void main(String[] args) throws Exception {
         CuratorFramework client = CuratorUtil.getClient();
 
-//        demo1(client);
+       demo1(client);
 //        demo2(client);
 
         //测试事件 CHILD_REMOVED,先用demo4  再用demo5 再用demo6
 //		demo3(client);
         //如果不是显示的去删除这个临时节点，那么主动退出程序默认是三十秒 这个节点才会被删除
-		demo4(client);
+//		demo4(client);
         //显示删除临时节点
         //demo5(client);
         System.in.read();
@@ -58,6 +58,9 @@ public class CuratorListener {
     }
 
     private static void demo4(CuratorFramework client) throws Exception {
+        if (!CuratorUtil.checkExists(client, LISTERNER_DISCONNECT_PATH))
+            client.create().creatingParentsIfNeeded().forPath(LISTERNER_DISCONNECT_PATH, "hello".getBytes());
+
         if (!CuratorUtil.checkExists(client, LISTERNER_DISCONNECT_PATH + LISTERNER_CHILD_PATH))
             client.create().withMode(CreateMode.EPHEMERAL).forPath(LISTERNER_DISCONNECT_PATH + LISTERNER_CHILD_PATH, "child2".getBytes());
     }
@@ -130,16 +133,20 @@ public class CuratorListener {
             public void nodeChanged() throws Exception {
                 log.info("Node data is changed, new data: " + new String(nodeCache.getCurrentData().getData()));
             }
-        }, pool);
+        });
 
 
         /**
          * 监听子节点的变化情况
+         * 无法监听二级子节点
+         * 如果设置了hildrenCache.start（）无论是true还是false,
          * 如果监听的节点里面有永久子节点，那么初始化的时候也会调用这些
+         * cacheData 是用来缓存节点内容的
          */
         final PathChildrenCache childrenCache = new PathChildrenCache(client, LISTERNER_PATH, true);
-//		childrenCache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
-        childrenCache.start();
+//        childrenCache.start(true);
+        //childrenCache.start(PathChildrenCache.StartMode.BUILD_INITIAL_CACHE);
+//        childrenCache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
         childrenCache.getListenable().addListener(new PathChildrenCacheListener() {
             @Override
             public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
@@ -159,14 +166,16 @@ public class CuratorListener {
             }
         }, pool);
 
-
         client.setData().forPath(LISTERNER_PATH, "world".getBytes());
         if (!CuratorUtil.checkExists(client, LISTERNER_PATH + LISTERNER_CHILD_PATH)) {
             client.create().forPath(LISTERNER_PATH + LISTERNER_CHILD_PATH, "child".getBytes());
+            client.create().forPath(LISTERNER_PATH + LISTERNER_CHILD_PATH+"2", "child".getBytes());
+            client.create().forPath(LISTERNER_PATH + LISTERNER_CHILD_PATH+"3", "child".getBytes());
         } else {
             log.info(LISTERNER_PATH + LISTERNER_CHILD_PATH + "节点已经存在");
+            //client.delete().forPath(LISTERNER_PATH + LISTERNER_CHILD_PATH);
         }
-
+        //如果start模式 是NORMAL 才会有返回值
         for (ChildData data : childrenCache.getCurrentData()) {
             log.info("getCurrentData:" + data.getPath() + " = " + new String(data.getData()));
         }

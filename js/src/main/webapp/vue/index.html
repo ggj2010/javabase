@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>vue study</title>
 </head>
-<script src="vue.js"></script>
+<script src="vue.js">
+</script>
 <!--<script src="https://unpkg.com/vue"></script>-->
 <body>
 
@@ -24,8 +25,10 @@
 
 
 <div id="app-3">
-    <p v-if="seen">现在你看到我了 v-if比较命令</p>
+    <p v-if="seen">现在你看到我了 v-if seen 比较命令, 继续在控制台输入 app3.seen = false，你会发现之前显示的消息消失了</p>
 </div>
+
+
 
 <div id="app-4">
     <ol>
@@ -34,6 +37,7 @@
         </li>
     </ol>
 </div>
+
 <div id="app-5">
     <p>{{message1}}</p>
     <button v-on:click="reverseMessage">逆转消息</button>
@@ -43,14 +47,52 @@
     <p>{{inputMessage}}</p>
 </div>
 
-<div style="margin-top: 40px" id="app-6">
- <router-view>
 
+<div id="app-6">
+    <todo-item></todo-item>
+</div>
+<div id="app-7">
+    <myFirstTemplate></myFirstTemplate>
+</div>
+
+<div style="margin-top: 40px" id="app-8">
+
+
+ <router-view>
  </router-view>
+</div>
+<template id="mytemp">
+    <div>
+        <ol>
+            <li>自定义的组件，component</li>
+            <li>自定义的组件component</li>
+            <li>自定义的组件component</li>
+            <li>自定义的组件component</li>
+            <li>自定义的组件component</li>
+        </ol>
+    </div>
+</template>
+
+<template id="cc">
+    <div >
+        <h1>{{message}}</h1>
+    </div>
+
+</template>
+<script>
+    Vue.component('templatec',{
+        props:["message"],
+        template:"#cc"
+    })
+    new Vue({
+        el:"#MyTemp"
+    })
+</script>
+<div id="MyTemp">
+    <templatec message ="template组件之Template标签"></templatec>
 </div>
 
 <script>
-
     var app = new Vue({
         el: '#app',
         data: {
@@ -97,22 +139,30 @@
         }
     })
 
-
-
-
-
-
-    Vue.component('router-view', {
+    // Vue 中注册z组件
+    Vue.component('todo-item', {
+        //"prop"，类似于一个自定义特性,这个 prop 名为 todo。
+        props: ['todo'],
         template: '<li>这是个待办项</li>'
     })
 
+    //自定义模版
+    Vue.component('myFirstTemplate',{
+        props: ['todo2'],
+        template:'#mytemp'
+    })
+    // 创建根实例
+    new Vue({
+        el: '#app-7',
+    })
 
     // 创建根实例
     new Vue({
-        el: '#app-6'
+
+        el: '#app-6',
     })
 
-    import myconpent myconpent.vue;
+
 </script>
 
 </body>

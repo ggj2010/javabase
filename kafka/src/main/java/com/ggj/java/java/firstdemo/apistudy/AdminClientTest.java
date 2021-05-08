@@ -22,11 +22,11 @@ public class AdminClientTest {
             throws ExecutionException, InterruptedException, TimeoutException {
         Properties props = new Properties();
         props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG,
-                "120.78.62.137:9093,120.78.62.137:9094");
+                "localhost:9092");
         try (AdminClient client = AdminClient.create(props)) {
 //           deleteTopics(client);
-            createTopics(client);
-//            listAllTopics(client);
+//            createTopics(client);
+            listAllTopics(client);
 //            describeCluster(client);
 //            createTopics(client);
 //            listAllTopics(client);
@@ -40,7 +40,7 @@ public class AdminClientTest {
 
     /**
      * describe the cluster
-     * 
+     *
      * @param client
      * @throws ExecutionException
      * @throws InterruptedException
@@ -58,7 +58,7 @@ public class AdminClientTest {
 
     /**
      * describe topic‘s config
-     * 
+     *
      * @param client
      */
     public static void describeConfig(AdminClient client)
@@ -81,7 +81,7 @@ public class AdminClientTest {
 
     /**
      * alter config for topics
-     * 
+     *
      * @param client
      */
     public static void alterConfigs(AdminClient client)
@@ -95,7 +95,7 @@ public class AdminClientTest {
 
     /**
      * delete the given topics
-     * 
+     *
      * @param client
      */
     public static void deleteTopics(AdminClient client)
@@ -106,7 +106,7 @@ public class AdminClientTest {
 
     /**
      * describe the given topics
-     * 
+     *
      * @param client
      * @throws ExecutionException
      * @throws InterruptedException
@@ -123,7 +123,7 @@ public class AdminClientTest {
 
     /**
      * create multiple sample topics
-     * 
+     *
      * @param client
      */
     public static void createTopics(AdminClient client)
@@ -135,7 +135,7 @@ public class AdminClientTest {
 
     /**
      * print all topics in the cluster
-     * 
+     *
      * @param client
      * @throws ExecutionException
      * @throws InterruptedException

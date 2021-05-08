@@ -24,31 +24,40 @@ public class ReentrantLockTest {
         new Thread(){
             @Override
             public void run() {
-                reentrantLockTest.stepOne();
+                reentrantLockTest.stepOne("1");
             }
         }.start();
+
+        new Thread(){
+            @Override
+            public void run() {
+                reentrantLockTest.stepOne("2");
+            }
+        }.start();
+
     }
 
 
-    public  void stepOne(){
+    public  void stepOne(String name){
         try{
+            log.info("stepOne：尝试获取锁 {}",name);
             lock.lock();
-            log.info("stepOne：得到锁");
-            stepTwo();
+            log.info("stepOne：得到锁 {}",name);
+            stepTwo(name);
         }catch (Exception e){
         }finally {
-            log.info("stepOne：释放锁");
+            log.info("stepOne：释放锁 {}",name);
             lock.unlock();
         }
     }
-    public  void stepTwo(){
+    public  void stepTwo(String name){
         try{
             lock.lock();
-            log.info("stepTwo：得到锁");
+            log.info("stepTwo：得到锁 {}",name);
         }catch (Exception e){
 
         }finally {
-            log.info("stepTwo：释放锁");
+            log.info("stepTwo：释放锁 {}",name);
             lock.unlock();
         }
     }

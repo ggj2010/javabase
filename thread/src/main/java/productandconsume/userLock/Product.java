@@ -39,6 +39,7 @@ public class Product extends Thread {
                         }
                         log.info("生产者：宠物救助中心接收到" + maxProductListSize + "只猫！");
                         condition.signalAll();
+                        lock.unlock();
                     } else {
                         condition.await();
                     }

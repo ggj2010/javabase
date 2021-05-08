@@ -3,6 +3,8 @@ package controlthread;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * join的底层其实就用利用wait的特性，join同步方法获取到的主线程对象的内置锁，只有当该thread执行结束后会
+ *  自动唤醒当前wait的主线程,从而实现当某个线程执行join的时候，会等待这个线程完全执行完后再执行别的线程。
  * join的原理
  * @author:gaoguangjin
  * @date:2018/4/3

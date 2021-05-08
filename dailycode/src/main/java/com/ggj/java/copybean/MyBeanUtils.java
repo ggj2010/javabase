@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Java bean 拷贝 和效率对比
+ * Java vo 拷贝 和效率对比
  */
 @Slf4j
 public class MyBeanUtils {
@@ -46,7 +46,7 @@ public class MyBeanUtils {
         }
         long endTime = System.currentTimeMillis();
 
-        log.info("spring bean copy 耗时：{}", endTime - beginTime);
+        log.info("spring vo copy 耗时：{}", endTime - beginTime);
 
         beginTime = System.currentTimeMillis();
         for (StudentEntity studentEntity : list) {
@@ -63,7 +63,7 @@ public class MyBeanUtils {
             StudentDTO studentDTO = (StudentDTO) MyBeanUtils.copy(studentEntity, StudentDTO.class);
         }
         endTime = System.currentTimeMillis();
-        log.info("my bean copy 耗时：{}", endTime - beginTime);
+        log.info("my vo copy 耗时：{}", endTime - beginTime);
     }
 
     private static void beanCopy() throws InstantiationException, IllegalAccessException,

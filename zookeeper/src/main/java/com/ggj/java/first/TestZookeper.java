@@ -19,18 +19,18 @@ public class TestZookeper {
 	public static String URL = "localhost";
 	// 测试集群
 	public static String CLIENT_POORT = "2181";
-	
+
 	// public static String CLIENT_POORT = "2182";
-	
+
 	public static void main(String[] args) {
 		try {
 			demo1();
 		} catch (Exception e) {
 			log.info("zookeper测试失败！:" + e.getLocalizedMessage());
 		}
-		
+
 	}
-	
+
 	/**
 	 * @Description:用来测试zookeper
 	 * @return: void
@@ -44,50 +44,50 @@ public class TestZookeper {
 				System.out.println("监控:" + event.getType());
 			}
 		});
-		
-		// test(zk);
+
+		// test(zookeeper);
 		test1(zk);
-		// jiqun(zk);
-		
+		// jiqun(zookeeper);
+
 	}
-	
+
 	private static void jiqun(ZooKeeper zk) {
 		// 测试集群
 		// 1、 赋值2181zookeper
-		// testjiqun(zk);
-		
+		// testjiqun(zookeeper);
+
 		// 2、 获取2182端口zookeper值
-		// getjiqun(zk);
-		
+		// getjiqun(zookeeper);
+
 	}
-	
+
 	private static void getjiqun(ZooKeeper zk) throws KeeperException, InterruptedException {
 		log.info(new String(zk.getData("/testRootPath", false, null)));
 	}
-	
+
 	private static void testjiqun(ZooKeeper zk) throws KeeperException, InterruptedException {
 		// 创建一个目录节点
 		zk.create("/testRootPath", "testRootData".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 		log.info(new String(zk.getData("/testRootPath", false, null)));
 	}
-	
+
 	private static void test(ZooKeeper zk) throws KeeperException, InterruptedException {
 		// 创建一个节点root，数据是mydata,不进行ACL权限控制，节点为永久性的(即客户端shutdown了也不会消失)
 		zk.create("/root", "mydata".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 		// /在root下面创建一个childone znode,数据为childone,不进行ACL权限控制，节点为永久性的
 		zk.create("/root/childone", "childone".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-		
+
 		// 取得/root节点下的子节点名称,返回List<String>
 		List<String> listStr = zk.getChildren("/root", true);
 		for (String string : listStr)
 			log.info(string);
-		
+
 		// 删除创建过的
 		zk.delete("/root/childone", -1);
 		zk.delete("/root", -1);
-		
+
 	}
-	
+
 	private static void test1(ZooKeeper zk) throws KeeperException, InterruptedException {
 		// 创建一个目录节点
 		zk.create("/testRootPath", "testRootData".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
@@ -109,6 +109,6 @@ public class TestZookeper {
 		zk.delete("/testRootPath", -1);
 		// 关闭连接
 		zk.close();
-		
+
 	}
 }

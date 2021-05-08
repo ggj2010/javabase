@@ -1,12 +1,10 @@
 package com.ggj.java.java.firstdemo.jiqun.partion;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.internals.DefaultPartitioner;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 /**
@@ -16,25 +14,26 @@ import org.apache.kafka.common.serialization.StringSerializer;
  */
 public class ProducerOne {
     //partion 每个broker 都有设置partion的数量
-    static Integer PARTION=0;
+    static Integer PARTION=4;
 //    static Integer PARTION=1;
-    static String TOPIC="topic1";
+    static String TOPIC="ggj2";
     public static void main(String[] args) {
         test(getProducer());
     }
 
     private static void test(KafkaProducer producer) {
-        int i=0;
+        int i=100;
         while(true){
-             ProducerRecord record = new ProducerRecord<String, String>(TOPIC,PARTION, i+"", "单个消息"+i);
+//             ProducerRecord record = new ProducerRecord<String, String>(TOPIC, i+"", "单个消息"+i);
+             ProducerRecord record = new ProducerRecord<String, String>(TOPIC,i+"", "message"+i);
              producer.send(record);
              System.out.println("send message:"+i);
             i++;
-            try {
-                Thread.sleep(1000);
+           /* try {
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
 
     }
@@ -48,7 +47,7 @@ public class ProducerOne {
         //集群
 //        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092,123.56.118.135:9093,123.56.118.135:9094");
 //        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9093,123.56.118.135:9094");
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "123.56.118.135:9092");
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         //key 和 value serializer的类
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());

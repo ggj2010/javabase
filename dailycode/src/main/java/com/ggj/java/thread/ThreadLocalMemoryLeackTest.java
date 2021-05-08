@@ -6,8 +6,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * ThreadLocalMap是跟着Thread走的，如果使用线程池或者线程一直存在，那么threadLocalMap就会一直存在，如果这时候ThreadLocalMap的key为强引用
- * 那么ThreadLocal肯定是不会被回收的。
+ *
+ *  ThreadLocalMap里面Entry key就是threadLocal对象本身，value就是放进threadLocal里面的值
+ *     假设ThreadLocalMap的Entry key threadLocal是强引用，当线程创建一个threadLocalA，将threadLocalA置为null，
+ *     ThreadLocalMap里面的Entry key 还是会持有threadLocalA的强引用,这时候threadLocalA是始终无法被回收的
  * 因为ThreadLocalMap 的key 是弱引用，当GC的时候key值Threadlocal会被回收，导致key未null，这样value值就一直无法被释放，导致内存泄漏。
  * 但是Threadlocal设计的时候有兜底方案，就是在get和set时候回主动将key值为null的值，去掉他的value值。
  *

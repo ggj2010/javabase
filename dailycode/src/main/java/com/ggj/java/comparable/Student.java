@@ -1,7 +1,7 @@
 package com.ggj.java.comparable;
 
 
-public class Student {
+public class Student implements Comparable<Student> {
     public Student(int age, String name) {
         this.name = name;
         this.age = age;
@@ -25,4 +25,15 @@ public class Student {
 
     private String name;
     private int age;
+
+
+    @Override
+    public int compareTo(Student o) {
+        if (this.age > o.age) {
+            return 1;
+        } else if (this.age < o.age) {
+            return -1;
+        }
+        return 0;
+    }
 }

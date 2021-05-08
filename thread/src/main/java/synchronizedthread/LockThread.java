@@ -25,7 +25,7 @@ public class LockThread {
 
     public static void main(String[] args) {
         final LockThread t = new LockThread();
-        /**  1、正确使用lock,不可以讲lock弄成局部变量，不然起不到同步的作用**/
+        /**  1、正确使用lock,不可以将lock弄成局部变量，不然起不到同步的作用**/
 //        t.useGlobalLock();
         /*会出现两个线程同事得到锁*/
 //        t.useLocallLock();
@@ -35,16 +35,29 @@ public class LockThread {
       //打印结果应该是单个线程从开始读到读完毕和单个从开始写到写完毕  读写穿插
 //          t.userSynchronizedLock();
         //打印机结果是多个线程可以同时进行读，但是写单个线程从开始写到结束
-        t.userReetrantReadWriterLock();
+//        t.userReetrantReadWriterLock();
 
         //trylock()功能提供两种，一种是不带参数的，如果当前线程获取不到锁就直接退出，一种是lock.tryLock(1000, TimeUnit.DAYS）等待n秒后如果拿不到锁再退出
-//        t.tryLcok(false);
+       // t.tryLcok(false);
         //等待
 //        t.tryLcok(true);
+
+        //可重入测试
+        testReetry();
+    }
+
+    private static void testReetry() {
+        LockThread lockThread=new LockThread();
+        new Thread(()->{
+            lockThread.lock.lock();
+            lockThread.lock.lock();
+            System.out.println("");
+        }).start();
+
     }
 
     public void tryLcok(final boolean isWait) {
-        for (int i = 0; i <2 ; i++) {
+        for (int i = 0; i <10 ; i++) {
             new Thread(){
                 public void run(){
                     tryLock(Thread.currentThread().getName(),isWait);
@@ -55,19 +68,22 @@ public class LockThread {
 
     private void tryLock(String name,boolean isWait)  {
         if(!isWait) {
-            if (lock.tryLock()) {
-                try {
-                    log.info("名称:"+name + ":线程【得到】了锁");
-                } catch (Exception e) {
-                    log.error("" + e.getLocalizedMessage());
-                } finally {
-                    log.info("名称:"+name + ":线程关闭了锁");
-                    lock.unlock();
+            while(true) {
+                if (lock.tryLock()) {
+                    try {
+                        log.info("名称:" + name + ":线程【得到】了锁");
+                    } catch (Exception e) {
+                        log.error("" + e.getLocalizedMessage());
+                    } finally {
+                        log.info("名称:" + name + ":线程关闭了锁");
+                        //如果不释放锁就会出现其他线程执行这个方法就会出现死循环
+                        lock.unlock();
+                    }
+                    break;
+                } else {
+                    log.info("名称:" + name + ":线程trylock得不到锁，直接退出");
                 }
-            } else {
-                log.info("名称:"+name + ":线程trylock得不到锁，直接退出");
             }
-
         }else{
             try {
                 //如果拿不到锁 就等待10秒

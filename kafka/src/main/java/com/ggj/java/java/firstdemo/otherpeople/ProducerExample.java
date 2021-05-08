@@ -11,28 +11,28 @@ import org.apache.kafka.clients.producer.ProducerRecord;
  * A sample client to produce a bunch of messages.
  */
 public class ProducerExample {
-	
+
 	public static void main(String[] str) throws InterruptedException, IOException {
-		
+
 		System.out.println("Starting ProducerExample ...");
-		
+
 		sendMessages();
 
 		//System.in.read();
-		
+
 	}
-	
+
 	private static void sendMessages() throws InterruptedException, IOException {
-		
+
 		Producer<String, String> producer = createProducer();
-		
+
 		sendMessages(producer);
-		
+
 		// Allow the producer to complete the sending of the records before existing the program.
 		Thread.sleep(1000);
-		
+
 	}
-	
+
 	private static Producer<String, String> createProducer() {
 		Properties props = new Properties();
 		props.put("bootstrap.servers", "123.56.118.135:9092");
@@ -44,10 +44,9 @@ public class ProducerExample {
 		props.put("linger.ms", 1);
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-		
 		return new KafkaProducer(props);
 	}
-	
+
 	private static void sendMessages(Producer<String, String> producer) {
 		String topic = Topic.TOPIC;
 		int partition = 0;
@@ -56,5 +55,5 @@ public class ProducerExample {
 			producer.send(new ProducerRecord<String, String>(topic, partition, Long.toString(record), Long.toString(record++)));
 		}
 	}
-	
+
 }

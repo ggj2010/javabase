@@ -29,12 +29,13 @@ public class CopyOnWriteArrayListTest {
 
     private static void exceptionTest(List<String> list) {
         Thread t=new Thread(()->{
-            while (true)
-                    list.add("1");
+            while (true) {
+                list.add("1");
+                System.out.println("1");
+            }
         });
-        //主线程结束后用户线程还会继续运行,JVM存活
-        //如果没有用户线程，都是守护线程，那么JVM结束
-        //默认daemon fasle 是用户线程，意思就是当主线程都打印完了 如果是守护线程就立即结束
+        //etDaemon(true)设置为守护线程，主线程结束后 守护线程也会推出
+        //默认daemon fasle 是用户线程，意思就是当主线程都打印完了 守护线程也会继续执行
         t.setDaemon(true);
         t.start();
 

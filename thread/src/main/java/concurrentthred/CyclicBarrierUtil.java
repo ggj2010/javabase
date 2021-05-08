@@ -21,8 +21,8 @@ import java.util.concurrent.CyclicBarrier;
 public class CyclicBarrierUtil {
 
     public static void main(String[] args) {
-//        new CyclicBarrierUtil().useCyclicBarrier();
-        new CyclicBarrierUtil().userCyclicBarrierThread();
+        new CyclicBarrierUtil().useCyclicBarrier();
+//        new CyclicBarrierUtil().userCyclicBarrierThread();
     }
 
     /**

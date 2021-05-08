@@ -16,19 +16,18 @@ public class TestTransation {
         //开启事物
         reviewTransation(true);
         //不开启事物
-        //reviewTransation(false);
+//        reviewTransation(false);
     }
 
     private static void reviewTransation(boolean useTransation) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/article2?useUnicode=true&characterEncoding=utf-8",
-                    "", "");
+                    "jdbc:mysql://localhost:6657/demo?useUnicode=true&characterEncoding=utf-8",
+                    "root", "kIo9u7Oi0eg");
             // 开启事物
             connection.setAutoCommit(!useTransation);
             insert(connection);
-            connection.rollback();
         } catch (SQLException e) {
             if (useTransation) {
                 try {

@@ -18,9 +18,12 @@ public class MyListener {
     }
 
     private static void test() throws Exception {
-        CuratorFramework client = CuratorUtil.getNoStartClient();
+        CuratorFramework client = CuratorUtil.getClient();
         String path = "/a";
-
+        if (!CuratorUtil.checkExists(client, path)) {
+            client.create().forPath(path, "init".getBytes());
+        }
+        client.getData().watched().forPath(path);
         CuratorListener listener = new CuratorListener() {
             public void eventReceived(CuratorFramework client, CuratorEvent event) throws Exception {
                 log.info("监听事件触发，event内容为：" + event);
@@ -28,8 +31,8 @@ public class MyListener {
             }
         };
         client.getCuratorListenable().addListener(listener);
-        client.start();
-        new Thread() {
+
+        /*new Thread() {
             @Override
             public void run() {
                 while (true) {
@@ -37,7 +40,7 @@ public class MyListener {
                         if (!CuratorUtil.checkExists(client, path)) {
                             client.create().forPath(path, "value".getBytes());
                         } else {
-                            String value=new Date().getTime() + "";
+                            String value=String.valueOf(System.currentTimeMillis());
                             log.info("设置值{}",value);
                             client.setData().forPath(path, value.getBytes());
                         }
@@ -49,7 +52,7 @@ public class MyListener {
                     }
                 }
             }
-        }.start();
+        }.start();*/
         System.in.read();
     }
 }

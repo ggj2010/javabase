@@ -1540,7 +1540,7 @@ var requirejs, require, define;
 
             /**
              * Called to enable a module if it is still in the registry
-             * awaiting enablement. A second arg, parent, the parent module,
+             * awaiting enablement. A usezk arg, parent, the parent module,
              * is passed in for context, when this method is overridden by
              * the optimizer. Not shown here to keep code compact.
              */

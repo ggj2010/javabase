@@ -100,9 +100,11 @@ public class SeckillLock {
                 while (!isGetLock(value, jedis)) {
                 }
             }
-            //2、先检查库存
-            String number = jedis.get(ITEM_NUMBER_KEY);
-            if (Integer.parseInt(number) > 0) {
+            //2、先检查库存（库存检验非原子操作），
+            //String number = jedis.get(ITEM_NUMBER_KEY);
+            //redis会返回操作之后的结果，这个过程是原子性的
+            Long number = jedis.incrBy(ITEM_NUMBER_KEY, -1);
+            if (number > 0) {
                 doTask(jedis, value);
             } else {
                 log.info("{} 库存为零：秒杀失败", value);
@@ -123,7 +125,14 @@ public class SeckillLock {
 
     }
 
-
+    /**
+     * 如果处理时间大于10s 锁就失效了
+     * @param value
+     * @param jedis
+     * @return
+     * @throws InterruptedException
+     * @throws BizException
+     */
     private static boolean isGetLock(String value, Jedis jedis) throws InterruptedException, BizException {
         /*检查库存这段代码可以大大优化性能*/
         String number = jedis.get(ITEM_NUMBER_KEY);

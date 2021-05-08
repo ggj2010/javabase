@@ -33,7 +33,7 @@ public class ServerSockets {
      */
     public void threadSocket() {
         try {
-            ServerSocket socket = new ServerSocket(8081);
+            ServerSocket socket = new ServerSocket(8082);
             ExecutorService pool = Executors.newCachedThreadPool();
             //// 同步改成异步去处理。多个客户端连接同一个服务端
             while (true) {
