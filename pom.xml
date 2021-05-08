@@ -59,7 +59,7 @@
         <avro.version>1.7.7</avro.version>
 
         <!-- jdbc driver setting -->
-        <mysql.driver.version>5.1.30</mysql.driver.version>
+        <mysql.driver.version>8.0.16</mysql.driver.version>
         <sharding.jdbc.version>1.4.1</sharding.jdbc.version>
         <druid.version>1.0.15</druid.version>
         <mybatis-spring-boot-starter.version>1.1.1</mybatis-spring-boot-starter.version>
