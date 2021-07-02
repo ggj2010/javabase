@@ -91,7 +91,7 @@
         <cat.version>1.4.0</cat.version>
         <springfox.version>2.4.0</springfox.version>
         <ganymed.ssh.version>build210</ganymed.ssh.version>
-        <elasticsearch.version>2.4.0</elasticsearch.version>
+        <elasticsearch.version>6.8.15</elasticsearch.version>
         <cache.version>1.0.0</cache.version>
         <!-- environment character -->
         <jdk.version>1.8</jdk.version>
