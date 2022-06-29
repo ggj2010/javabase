@@ -64,7 +64,7 @@
         <druid.version>1.0.15</druid.version>
         <mybatis-spring-boot-starter.version>1.1.1</mybatis-spring-boot-starter.version>
         <!--zookeeper-->
-        <zookeeper.version>3.4.7</zookeeper.version>
+        <zookeeper.version>3.4.14</zookeeper.version>
         <zkclient.version>0.5</zkclient.version>
         <quartz.version>2.2.2</quartz.version>
         <curator.version>2.9.0</curator.version>
